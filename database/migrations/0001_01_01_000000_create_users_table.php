@@ -17,6 +17,10 @@ return new class extends Migration
             $table->string('email')->unique();
             $table->timestamp('email_verified_at')->nullable();
             $table->string('password');
+            $table->string('phone')->nullable();
+            $table->string('address')->nullable();
+            $table->enum('company', ['TechPoint', 'TikTech', 'Restaurant'])->nullable();
+            $table->enum('branch', ['TikTech-Hornchurch', 'TikTech-Upminister', 'TikTech-Billericay'])->nullable();
             $table->rememberToken();
             $table->timestamps();
         });

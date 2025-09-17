@@ -73,9 +73,11 @@
                     <p class="text-sm text-gray-400 mt-1">Record products bought from customers.</p>
                 </a>
             </div>
-            <button onclick="showPage('page-select-company')"
-                class="mt-8 text-sm text-gray-400 hover:text-white transition">&larr; Logout and select another
-                company</button>
+            <form action="logout" method="Post">
+                @csrf
+                <button type="submit" class="mt-8 text-sm text-gray-400 hover:text-white transition">&larr;
+                    Logout</button>
+            </form>
         </div>
     </div>
 

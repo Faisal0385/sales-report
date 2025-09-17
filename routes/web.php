@@ -17,15 +17,14 @@ Route::middleware('auth')->group(function () {
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 });
 
-require __DIR__.'/auth.php';
+require __DIR__ . '/auth.php';
 
 
 
 Route::get('/', function () {
-    return view('client.company-page.company-page');
+    return view('auth.login');
 });
 
 Route::get('/dashboard', function () {
     return view('client.dashboard.dashboard');
-});
-
+})->middleware(['auth', 'verified'])->name('dashboard');

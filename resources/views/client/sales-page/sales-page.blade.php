@@ -39,45 +39,363 @@
 <body class="bg-gray-900 text-white flex items-center justify-center min-h-screen">
 
     <div class="w-full max-w-5xl p-4">
+
         <!-- =================================== -->
-        <!--  4. Dashboard Page                  -->
+        <!--  5. Sales Report Page              -->
         <!-- =================================== -->
-        <div id="page-dashboard" class="page text-center max-w-md mx-auto">
-            <div>
-                <h1 class="text-3xl font-bold">Dashboard</h1>
-                <p class="text-gray-400 mt-2">Select an option to get started.</p>
+        <div id="page-sales-report" class="page text-left">
+            <!-- Page Header -->
+            <div class="bg-gray-800 border-b border-gray-700 rounded-t-lg p-4 flex justify-between items-center">
+                <div class="flex items-center">
+                    <button onclick="showPage('page-dashboard')"
+                        class="text-gray-400 hover:text-white transition mr-4 p-1 rounded-full hover:bg-gray-700">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24"
+                            stroke="currentColor" stroke-width="2">
+                            <path stroke-linecap="round" stroke-linejoin="round" d="M10 19l-7-7m0 0l7-7m-7 7h18" />
+                        </svg>
+                    </button>
+                    <div class="bg-purple-600 p-2 rounded-lg mr-3">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
+                            <path
+                                d="M3.5 2.5a.5.5 0 00-1 0V4a.5.5 0 00.5.5H4v10.5a.5.5 0 00.5.5h10.5V16a.5.5 0 00.5.5h1.5a.5.5 0 000-1H16v-1.5a.5.5 0 00-.5-.5H4V4h1.5a.5.5 0 000-1H4a.5.5 0 00-.5-.5V2.5z" />
+                            <path
+                                d="M15 3a.5.5 0 01.5.5v1.5a.5.5 0 01-1 0V4a.5.5 0 01.5-.5zM6 3a.5.5 0 01.5.5v1.5a.5.5 0 01-1 0V4a.5.5 0 01.5-.5zm3.5 11.5a.5.5 0 00-1 0V16a.5.5 0 00.5.5h1.5a.5.5 0 000-1H10v-1.5a.5.5 0 00-.5-.5z" />
+                        </svg>
+                    </div>
+                    <h1 class="text-xl font-bold">{{ Auth::user()->company ?? '' }} - Sales Report</h1>
+                </div>
+                <div class="flex items-center space-x-4">
+                    <button class="text-gray-400 hover:text-white transition">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24"
+                            stroke="currentColor" stroke-width="2">
+                            <path stroke-linecap="round" stroke-linejoin="round"
+                                d="M15.75 6a3.75 3.75 0 11-7.5 0 3.75 3.75 0 017.5 0zM4.501 20.118a7.5 7.5 0 0114.998 0A17.933 17.933 0 0112 21.75c-2.676 0-5.216-.584-7.499-1.632z" />
+                        </svg>
+                    </button>
+                </div>
             </div>
-            <div class="mt-8 grid grid-cols-1 sm:grid-cols-2 gap-4">
-                <!-- Sales Report Card -->
-                <a href="{{ route('sales.page') }}"
-                    class="bg-gray-800 p-6 rounded-lg border border-gray-700 hover:bg-gray-700 hover:border-purple-500 cursor-pointer transition-all duration-300">
-                    <!-- Icon: Chart -->
-                    <svg xmlns="http://www.w3.org/2000/svg" class="h-12 w-12 text-purple-400 mx-auto" fill="none"
-                        viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.5">
-                        <path stroke-linecap="round" stroke-linejoin="round"
-                            d="M3 13.125C3 12.504 3.504 12 4.125 12h2.25c.621 0 1.125.504 1.125 1.125v6.75C7.5 20.496 6.996 21 6.375 21h-2.25A1.125 1.125 0 013 19.875v-6.75zM9.75 8.625c0-.621.504-1.125 1.125-1.125h2.25c.621 0 1.125.504 1.125 1.125v11.25c0 .621-.504 1.125-1.125 1.125h-2.25a1.125 1.125 0 01-1.125-1.125V8.625zM16.5 4.125c0-.621.504-1.125 1.125-1.125h2.25C20.496 3 21 3.504 21 4.125v15.75c0 .621-.504 1.125-1.125 1.125h-2.25a1.125 1.125 0 01-1.125-1.125V4.125z" />
-                    </svg>
-                    <h3 class="font-semibold mt-4 text-lg">Sales Report</h3>
-                    <p class="text-sm text-gray-400 mt-1">View and manage your sales data.</p>
-                </a>
-                <!-- Buy Products Card -->
-                <a href="../06-buy-products-page.html"
-                    class="bg-gray-800 p-6 rounded-lg border border-gray-700 hover:bg-gray-700 hover:border-purple-500 cursor-pointer transition-all duration-300">
-                    <!-- Icon: Cart -->
-                    <svg xmlns="http://www.w3.org/2000/svg" class="h-12 w-12 text-purple-400 mx-auto" fill="none"
-                        viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.5">
-                        <path stroke-linecap="round" stroke-linejoin="round"
-                            d="M2.25 3h1.386c.51 0 .955.343 1.087.835l.383 1.437M7.5 14.25a3 3 0 00-3 3h15.75m-12.75-3h11.218c.51 0 .962-.343 1.087-.835l1.823-6.836a.75.75 0 00-.54-.92l-14.25-3.562a.75.75 0 00-.91.54l-1.823 6.836A1.125 1.125 0 004.875 11.25H7.5M7.5 14.25c0-1.657 1.343-3 3-3h4.5c1.657 0 3 1.343 3 3M7.5 14.25v3h4.5v-3m4.5 0v3h-4.5v-3" />
-                    </svg>
-                    <h3 class="font-semibold mt-4 text-lg">Buy Products</h3>
-                    <p class="text-sm text-gray-400 mt-1">Record products bought from customers.</p>
-                </a>
+
+            @if ($errors->any())
+                <div class="mb-4 p-4 rounded-lg bg-red-800 text-red-200 m-4">
+                    <strong>Whoops! Something went wrong:</strong>
+                    <ul class="mt-2 list-disc list-inside">
+                        @foreach ($errors->all() as $error)
+                            <li>{{ $error }}</li>
+                        @endforeach
+                    </ul>
+                </div>
+            @endif
+
+            <!-- Main Content Area -->
+            <div class="p-6 bg-gray-800 rounded-b-lg">
+                <div class="grid grid-cols-1 lg:grid-cols-5 gap-6">
+                    <!-- Left Column -->
+                    <div class="lg:col-span-3 space-y-6">
+                        <!-- New Sales Entry Form -->
+                        <div class="bg-gray-900 p-6 rounded-lg border border-gray-700">
+                            <h2 class="text-lg font-semibold flex items-center">
+                                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor"
+                                    class="w-5 h-5 mr-2 text-purple-400">
+                                    <path
+                                        d="M10.75 4.75a.75.75 0 00-1.5 0v4.5h-4.5a.75.75 0 000 1.5h4.5v4.5a.75.75 0 001.5 0v-4.5h4.5a.75.75 0 000-1.5h-4.5v-4.5z" />
+                                </svg>
+                                New Sales Entry
+                            </h2>
+                            <p class="text-sm text-gray-400 mt-1 mb-4">Fill in the sales figures for today. The daily
+                                total will be calculated automatically.</p>
+
+
+
+                            <form id="sales-entry-form" method="POST" action="{{ route('sales.store') }}">
+                                @csrf
+                                <div class="mb-4 relative">
+                                    <label for="sales-date" class="text-sm font-medium text-gray-300">Date</label>
+                                    <span class="absolute left-3 top-9 text-gray-400 pointer-events-none">
+                                        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20"
+                                            fill="currentColor">
+                                            <path fill-rule="evenodd"
+                                                d="M6 2a1 1 0 00-1 1v1H4a2 2 0 00-2 2v10a2 2 0 002 2h12a2 2 0 002-2V6a2 2 0 00-2-2h-1V3a1 1 0 10-2 0v1H7V3a1 1 0 00-1-1zm0 5a1 1 0 000 2h8a1 1 0 100-2H6z"
+                                                clip-rule="evenodd" />
+                                        </svg>
+                                    </span>
+                                    <input type="date" id="sales-date" name="sales_date"
+                                        value="{{ old('sales_date', \Carbon\Carbon::today()->toDateString()) }}"
+                                        class="pl-10 mt-1 block w-full bg-gray-800 border-gray-700 rounded-md shadow-sm py-2 px-3 text-base appearance-none focus:outline-none focus:ring-purple-500 focus:border-purple-500">
+                                </div>
+                                <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
+                                    <div>
+                                        <label for="cash-sales" class="text-sm font-medium text-gray-300">Cash
+                                            Sales</label>
+                                        <input type="number" id="cash-sales" name="cash_sales" min="0"
+                                            oninput="updateDailyTotal()" value="0" step="any"
+                                            class="mt-1 block w-full bg-gray-700 border-gray-600 rounded-md shadow-sm py-2 px-3 text-base">
+                                    </div>
+                                    <div>
+                                        <label for="techpoint-sales" class="text-sm font-medium text-gray-300">TechPoint
+                                            Sales</label>
+                                        <input type="number" id="techpoint-sales" name="techpoint_sales"
+                                            oninput="updateDailyTotal()" value="0" step="any" min="0"
+                                            class="mt-1 block w-full bg-gray-700 border-gray-600 rounded-md shadow-sm py-2 px-3 text-base">
+                                    </div>
+                                </div>
+                                <div class="bg-gray-800 rounded-lg p-4 flex justify-between items-center mb-4">
+                                    <span class="font-semibold">Daily Total:</span>
+                                    <span id="daily-total" class="text-2xl font-bold text-purple-400">£0.00</span>
+                                </div>
+                                <button type="submit"
+                                    class="w-full flex justify-center py-3 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-purple-600 hover:bg-purple-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-purple-500 focus:ring-offset-gray-900 transition-colors">
+                                    Add Daily Entry
+                                </button>
+                            </form>
+
+                        </div>
+
+                        <!-- Monthly Total -->
+                        <div
+                            class="bg-gray-900 p-6 rounded-lg border border-gray-700 flex justify-between items-center">
+                            <div>
+
+                                @php
+                                    $months = [
+                                        '01' => 'January',
+                                        '02' => 'February',
+                                        '03' => 'March',
+                                        '04' => 'April',
+                                        '05' => 'May',
+                                        '06' => 'June',
+                                        '07' => 'July',
+                                        '08' => 'August',
+                                        '09' => 'September',
+                                        '10' => 'October',
+                                        '11' => 'November',
+                                        '12' => 'December',
+                                    ];
+                                @endphp
+
+                                <h3 class="font-semibold text-gray-300">Monthly Total</h3>
+                                <p class="text-sm text-gray-400">Total sales for {{ $months[date('m')] }}</p>
+                            </div>
+                            <div class="text-right">
+                                <p class="text-3xl font-bold">£ {{ $daily_total }}</p>
+                            </div>
+                        </div>
+
+                        <!-- Recent Sales Entries Table -->
+                        <div class="bg-gray-900 p-6 rounded-lg border border-gray-700">
+                            <h2 class="text-lg font-semibold">Recent Sales Entries</h2>
+                            <p class="text-sm text-gray-400 mt-1 mb-4">A list of sales records for the current month.
+                            </p>
+                            <div class="overflow-x-auto">
+                                <table class="min-w-full text-sm text-left">
+                                    <thead class="border-b border-gray-700 text-gray-400">
+                                        <tr>
+                                            <th class="py-2 px-3 font-medium">SL</th>
+                                            <th class="py-2 px-3 font-medium">Date</th>
+                                            <th class="py-2 px-3 font-medium">Cash</th>
+                                            <th class="py-2 px-3 font-medium">TechPoint</th>
+                                            <th class="py-2 px-3 font-medium">Daily Total</th>
+                                            <th class="py-2 px-3 font-medium text-right">Actions</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody id="sales-entries-tbody">
+
+                                        @foreach ($sales as $key => $sale)
+                                            <tr>
+                                                <td class="py-3 px-3">{{ $key + 1 }}</td>
+                                                <td class="py-3 px-3">{{ $sale->sales_date }}</td>
+                                                <td class="py-3 px-3">{{ $sale->cash_sales }}</td>
+                                                <td class="py-3 px-3">{{ $sale->techpoint_sales }}</td>
+                                                <td class="py-3 px-3 font-semibold">
+                                                    £{{ number_format($sale->daily_total, 2) }}</td>
+                                                <td class="py-3 px-3 text-right">
+                                                    <form action="{{ route('sales.destroy', $sale->id) }}"
+                                                        method="POST"
+                                                        onsubmit="return confirm('Are you sure you want to delete this entry?');">
+                                                        @csrf
+                                                        <button type="submit"
+                                                            class="text-gray-500 hover:text-red-400 p-1 rounded-full transition-colors"
+                                                            title="Delete Sale">
+                                                            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5"
+                                                                fill="none" viewBox="0 0 24 24"
+                                                                stroke="currentColor" stroke-width="2">
+                                                                <path stroke-linecap="round" stroke-linejoin="round"
+                                                                    d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
+                                                            </svg>
+                                                        </button>
+                                                    </form>
+                                                </td>
+                                            </tr>
+                                        @endforeach
+
+
+                                    </tbody>
+                                </table>
+                                <p id="no-sales-message" class="text-center text-gray-500 py-8">No sales entries for
+                                    this month yet.</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Right Column -->
+                    <div class="lg:col-span-2 space-y-6">
+                        <!-- Monthly Target Card -->
+                        <div class="bg-gray-900 p-6 rounded-lg border border-gray-700">
+                            <h2 class="text-lg font-semibold flex items-center justify-between">
+                                Monthly Target
+                                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
+                                    stroke-width="1.5" stroke="currentColor" class="w-5 h-5 text-gray-400">
+                                    <path stroke-linecap="round" stroke-linejoin="round"
+                                        d="M11.25 11.25l.041-.02a.75.75 0 011.063.852l-.708 2.836a.75.75 0 001.063.853l.041-.021M21 12a9 9 0 11-18 0 9 9 0 0118 0zm-9-3.75h.008v.008H12V8.25z" />
+                                </svg>
+                            </h2>
+                            <p class="text-gray-400 text-3xl font-bold mt-4">£1.00</p>
+                            <p class="text-sm text-gray-500">No data from last year to set a target.</p>
+                            <div class="relative w-48 h-48 mx-auto my-6">
+                                <svg class="w-full h-full" viewBox="0 0 100 100">
+                                    <!-- Background circle -->
+                                    <circle class="text-gray-700" stroke-width="10" cx="50" cy="50"
+                                        r="40" fill="transparent" stroke="currentColor"></circle>
+                                    <!-- Progress circle -->
+                                    <circle id="target-progress-circle" class="text-purple-500" stroke-width="10"
+                                        cx="50" cy="50" r="40" fill="transparent"
+                                        stroke="currentColor" stroke-linecap="round"
+                                        style="transform: rotate(-90deg); transform-origin: 50% 50%;"
+                                        stroke-dasharray="251.2" stroke-dashoffset="251.2"></circle>
+                                </svg>
+                            </div>
+                            <div class="text-center">
+                                <p class="text-green-400 font-semibold flex items-center justify-center">
+                                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
+                                        stroke-width="2" stroke="currentColor" class="w-5 h-5 mr-1">
+                                        <path stroke-linecap="round" stroke-linejoin="round"
+                                            d="M2.25 18L9 11.25l4.306 4.307a11.95 11.95 0 015.814-5.519l2.74-1.22m0 0l-5.94-2.28m5.94 2.28l-2.28 5.941" />
+                                    </svg>
+                                    Target is looking good!
+                                </p>
+                                <p class="text-sm text-gray-400">You are £848567.00 over the target.</p>
+                            </div>
+                        </div>
+
+                        <!-- Add Monthly Total Sale -->
+                        {{-- <div class="bg-gray-900 p-6 rounded-lg border border-gray-700">
+                            <h2 class="text-lg font-semibold flex items-center">
+                                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
+                                    stroke-width="1.5" stroke="currentColor" class="w-5 h-5 mr-2 text-purple-400">
+                                    <path stroke-linecap="round" stroke-linejoin="round"
+                                        d="M12 6v6h4.5m4.5 0a9 9 0 11-18 0 9 9 0 0118 0z" />
+                                </svg>
+                                Add Monthly Total Sale
+                            </h2>
+                            <p class="text-sm text-gray-400 mt-1 mb-4">Manually enter a total sales amount for a past
+                                month or year for historical tracking.</p>
+                            <form onsubmit="handleAddMonthlyTotal(event)">
+                                <div class="grid grid-cols-2 gap-4 mb-4">
+                                    <div>
+                                        <label for="monthly-total-year"
+                                            class="text-sm font-medium text-gray-300">Year</label>
+                                        <select id="monthly-total-year"
+                                            class="mt-1 block w-full bg-gray-800 border-gray-700 rounded-md shadow-sm py-2 px-3 text-base focus:outline-none focus:ring-purple-500 focus:border-purple-500"></select>
+                                    </div>
+                                    <div>
+                                        <label for="monthly-total-month"
+                                            class="text-sm font-medium text-gray-300">Month</label>
+                                        <select id="monthly-total-month"
+                                            class="mt-1 block w-full bg-gray-800 border-gray-700 rounded-md shadow-sm py-2 px-3 text-base focus:outline-none focus:ring-purple-500 focus:border-purple-500"></select>
+                                    </div>
+                                </div>
+                                <div class="mb-4">
+                                    <label for="monthly-total-amount" class="text-sm font-medium text-gray-300">Total
+                                        Sale Amount (£)</label>
+                                    <input type="number" id="monthly-total-amount" value="0" step="any"
+                                        class="mt-1 block w-full bg-gray-700 border-gray-600 rounded-md shadow-sm py-2 px-3 text-base">
+                                </div>
+                                <button type="submit"
+                                    class="w-full flex justify-center py-3 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-purple-600 hover:bg-purple-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-purple-500 focus:ring-offset-gray-900 transition-colors">
+                                    Add Monthly Total
+                                </button>
+                            </form>
+                        </div> --}}
+
+                        <!-- Download Monthly Report -->
+                        <div class="bg-gray-900 p-6 rounded-lg border border-gray-700">
+                            <h2 class="text-lg font-semibold">Download Monthly Report</h2>
+                            <p class="text-sm text-gray-400 mt-1 mb-4">Select a year and month to export sales data to
+                                a CSV file.</p>
+                            <form onsubmit="handleDownloadMonthlyReport(event)">
+                                <div class="grid grid-cols-2 gap-4 mb-4">
+                                    <div>
+                                        <label for="download-monthly-year"
+                                            class="text-sm font-medium text-gray-300">Year</label>
+                                        <select id="download-monthly-year"
+                                            class="mt-1 block w-full bg-gray-800 border-gray-700 rounded-md shadow-sm py-2 px-3 text-base focus:outline-none focus:ring-purple-500 focus:border-purple-500">
+
+
+                                            @php
+
+                                                $years = ['2024', '2025', '2026', '2027', '2028', '2029', '2030'];
+
+                                            @endphp
+
+                                            @foreach ($years as $key => $year)
+                                                <option value="{{ $year }}"
+                                                    {{ $year == date('Y') ? 'selected' : '' }}>
+                                                    {{ $year }}
+                                                </option>
+                                            @endforeach
+
+                                        </select>
+                                    </div>
+                                    <div>
+                                        <label for="download-monthly-month"
+                                            class="text-sm font-medium text-gray-300">Month</label>
+                                        <select id="download-monthly-month"
+                                            class="mt-1 block w-full bg-gray-800 border-gray-700 rounded-md shadow-sm py-2 px-3 text-base focus:outline-none focus:ring-purple-500 focus:border-purple-500">
+
+                                            @foreach ($months as $key => $month)
+                                                <option value="{{ $key }}">{{ $month }}</option>
+                                            @endforeach
+
+                                        </select>
+                                    </div>
+                                </div>
+                                <button type="submit"
+                                    class="w-full flex items-center justify-center py-3 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-purple-600 hover:bg-purple-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-purple-500 focus:ring-offset-gray-900 transition-colors">
+                                    <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-2" fill="none"
+                                        viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                                        <path stroke-linecap="round" stroke-linejoin="round"
+                                            d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4" />
+                                    </svg>
+                                    Download Monthly Report (CSV)
+                                </button>
+                            </form>
+                        </div>
+
+                        <!-- Download Yearly Report -->
+                        <div class="bg-gray-900 p-6 rounded-lg border border-gray-700">
+                            <h2 class="text-lg font-semibold">Download Yearly Report</h2>
+                            <p class="text-sm text-gray-400 mt-1 mb-4">Select a year to export all its sales data to a
+                                CSV file.</p>
+                            <form onsubmit="handleDownloadYearlyReport(event)">
+                                <div class="mb-4">
+                                    <label for="download-yearly-year"
+                                        class="text-sm font-medium text-gray-300">Year</label>
+                                    <select id="download-yearly-year"
+                                        class="mt-1 block w-full bg-gray-800 border-gray-700 rounded-md shadow-sm py-2 px-3 text-base focus:outline-none focus:ring-purple-500 focus:border-purple-500"></select>
+                                </div>
+                                <button type="submit"
+                                    class="w-full flex items-center justify-center py-3 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-purple-600 hover:bg-purple-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-purple-500 focus:ring-offset-gray-900 transition-colors">
+                                    <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-2" fill="none"
+                                        viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                                        <path stroke-linecap="round" stroke-linejoin="round"
+                                            d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4" />
+                                    </svg>
+                                    Download Yearly Report (CSV)
+                                </button>
+                            </form>
+                        </div>
+                    </div>
+                </div>
             </div>
-            <form action="logout" method="Post">
-                @csrf
-                <button type="submit" class="mt-8 text-sm text-gray-400 hover:text-white transition">&larr;
-                    Logout</button>
-            </form>
         </div>
     </div>
 

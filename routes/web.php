@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\SalesController;
 use Illuminate\Support\Facades\Route;
 
 // Route::get('/', function () {
@@ -28,3 +29,13 @@ Route::get('/', function () {
 Route::get('/dashboard', function () {
     return view('client.dashboard.dashboard');
 })->middleware(['auth', 'verified'])->name('dashboard');
+
+// Route::get('/sales', function () {
+//     return view('client.sales-page.sales-page');
+// })->middleware(['auth', 'verified'])->name('sales.page');
+
+
+## Sales
+Route::get('/sales/page', [SalesController::class, 'index'])->middleware(['auth', 'verified'])->name('sales.page');
+Route::post('/sales/store', [SalesController::class, 'store'])->middleware(['auth', 'verified'])->name('sales.store');
+Route::post('/sales/destroy/{id}', [SalesController::class, 'destroy'])->middleware(['auth', 'verified'])->name('sales.destroy');

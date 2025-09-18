@@ -269,19 +269,17 @@
                         <h3 class="font-semibold text-gray-300">Download Report</h3>
                         <p class="text-sm text-gray-400 mt-1 mb-4">Select a month and year to download the purchase
                             report.</p>
-                        <form>
+                        <form action="{{ route('purchase.download') }}" method="GET">
                             <div class="grid grid-cols-2 gap-4 mb-4">
                                 <div>
                                     <label for="purchase-download-year"
                                         class="text-sm font-medium text-gray-300">Year</label>
-                                    <select id="purchase-download-year"
-                                        class="mt-1 block w-full bg-gray-700 border-gray-600 rounded-md shadow-sm py-2 px-3 text-base">
-
+                                    <select name="year" id="purchase-download-year"
+                                        class="mt-1 block w-full bg-gray-700 border-gray-600 rounded-md shadow-sm py-2 px-1 text-base">
                                         @php
                                             $years = ['2024', '2025', '2026', '2027', '2028', '2029', '2030'];
                                         @endphp
-
-                                        @foreach ($years as $key => $year)
+                                        @foreach ($years as $year)
                                             <option value="{{ $year }}"
                                                 {{ $year == date('Y') ? 'selected' : '' }}>
                                                 {{ $year }}
@@ -292,9 +290,8 @@
                                 <div>
                                     <label for="purchase-download-month"
                                         class="text-sm font-medium text-gray-300">Month</label>
-                                    <select id="purchase-download-month"
-                                        class="mt-1 block w-full bg-gray-700 border-gray-600 rounded-md shadow-sm py-2 px-3 text-base">
-
+                                    <select name="month" id="purchase-download-month"
+                                        class="mt-1 block w-full bg-gray-700 border-gray-600 rounded-md shadow-sm py-2 px-1 text-base">
                                         @php
                                             $months = [
                                                 '01' => 'January',
@@ -311,12 +308,9 @@
                                                 '12' => 'December',
                                             ];
                                         @endphp
-
                                         @foreach ($months as $key => $month)
                                             <option value="{{ $key }}">{{ $month }}</option>
                                         @endforeach
-
-
                                     </select>
                                 </div>
                             </div>
@@ -330,6 +324,7 @@
                                 Download Report
                             </button>
                         </form>
+
                     </div>
                 </div>
             </div>

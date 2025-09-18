@@ -68,4 +68,99 @@ class SalesController extends Controller
 
         return redirect()->back()->with('success', 'Sale entry deleted successfully!');
     }
+
+
+    public function downloadCsv(Request $request)
+    {
+        $company = Auth::user()->company ?? null;
+        $branch = Auth::user()->branch ?? null;
+
+        $year = $request->input('year');
+        $month = $request->input('month');
+
+        // ✅ Filter sales by year and month
+        $sales = Sales::whereYear('sales_date', $year)
+            ->whereMonth('sales_date', $month)
+            ->where('company', '=', $company)
+            ->where('branch', '=', $branch)
+            ->get();
+
+        // ✅ CSV file name
+        $fileName = "sales_{$year}_{$month}.csv";
+
+        // ✅ Create CSV headers
+        $headers = [
+            'Content-Type' => 'text/csv',
+            'Content-Disposition' => "attachment; filename=\"$fileName\"",
+        ];
+
+        // ✅ Stream CSV response
+        $callback = function () use ($sales) {
+            $handle = fopen('php://output', 'w');
+
+            // Add header row
+            fputcsv($handle, ['Sales Date', 'Cash Sales', 'Techpoint Sales', 'Daily Total']);
+
+            // Add data rows
+            foreach ($sales as $purchase) {
+                fputcsv($handle, [
+                    $purchase->sales_date,
+                    $purchase->cash_sales,
+                    $purchase->techpoint_sales,
+                    $purchase->daily_total,
+                ]);
+            }
+
+            fclose($handle);
+        };
+
+        return response()->stream($callback, 200, $headers);
+    }
+
+
+    // 
+    public function downloadYearCsv(Request $request)
+    {
+        $company = Auth::user()->company ?? null;
+        $branch = Auth::user()->branch ?? null;
+
+        $year = $request->input('year');
+
+        // ✅ Filter sales by year and month
+        $sales = Sales::whereYear('sales_date', $year)
+            ->where('company', '=', $company)
+            ->where('branch', '=', $branch)
+            ->get();
+
+        // ✅ CSV file name
+        $fileName = "sales_{$year}.csv";
+
+        // ✅ Create CSV headers
+        $headers = [
+            'Content-Type' => 'text/csv',
+            'Content-Disposition' => "attachment; filename=\"$fileName\"",
+        ];
+
+        // ✅ Stream CSV response
+        $callback = function () use ($sales) {
+            $handle = fopen('php://output', 'w');
+
+            // Add header row
+            fputcsv($handle, ['Sales Date', 'Cash Sales', 'Techpoint Sales', 'Daily Total']);
+
+            // Add data rows
+            foreach ($sales as $purchase) {
+                fputcsv($handle, [
+                    $purchase->sales_date,
+                    $purchase->cash_sales,
+                    $purchase->techpoint_sales,
+                    $purchase->daily_total,
+                ]);
+            }
+
+            fclose($handle);
+        };
+
+        return response()->stream($callback, 200, $headers);
+    }
 }

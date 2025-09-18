@@ -321,14 +321,15 @@
                             <h2 class="text-lg font-semibold">Download Monthly Report</h2>
                             <p class="text-sm text-gray-400 mt-1 mb-4">Select a year and month to export sales data to
                                 a CSV file.</p>
-                            <form onsubmit="handleDownloadMonthlyReport(event)">
+
+
+                            <form action="{{ route('sales.download') }}" method="GET">
                                 <div class="grid grid-cols-2 gap-4 mb-4">
                                     <div>
                                         <label for="download-monthly-year"
                                             class="text-sm font-medium text-gray-300">Year</label>
-                                        <select id="download-monthly-year"
+                                        <select id="download-monthly-year" name="year"
                                             class="mt-1 block w-full bg-gray-800 border-gray-700 rounded-md shadow-sm py-2 px-3 text-base focus:outline-none focus:ring-purple-500 focus:border-purple-500">
-
 
                                             @php
 
@@ -348,7 +349,7 @@
                                     <div>
                                         <label for="download-monthly-month"
                                             class="text-sm font-medium text-gray-300">Month</label>
-                                        <select id="download-monthly-month"
+                                        <select id="download-monthly-month" name="month"
                                             class="mt-1 block w-full bg-gray-800 border-gray-700 rounded-md shadow-sm py-2 px-3 text-base focus:outline-none focus:ring-purple-500 focus:border-purple-500">
 
                                             @foreach ($months as $key => $month)
@@ -368,6 +369,8 @@
                                     Download Monthly Report (CSV)
                                 </button>
                             </form>
+
+
                         </div>
 
                         <!-- Download Yearly Report -->
@@ -375,11 +378,12 @@
                             <h2 class="text-lg font-semibold">Download Yearly Report</h2>
                             <p class="text-sm text-gray-400 mt-1 mb-4">Select a year to export all its sales data to a
                                 CSV file.</p>
-                            <form onsubmit="handleDownloadYearlyReport(event)">
+
+                            <form action="{{ route('sales.year.download') }}" method="GET">
                                 <div class="mb-4">
                                     <label for="download-yearly-year"
                                         class="text-sm font-medium text-gray-300">Year</label>
-                                    <select id="download-yearly-year"
+                                    <select id="download-yearly-year" name="year"
                                         class="mt-1 block w-full bg-gray-800 border-gray-700 rounded-md shadow-sm py-2 px-3 text-base focus:outline-none focus:ring-purple-500 focus:border-purple-500">
 
                                         @php
@@ -405,6 +409,7 @@
                                     Download Yearly Report (CSV)
                                 </button>
                             </form>
+
                         </div>
                     </div>
                 </div>

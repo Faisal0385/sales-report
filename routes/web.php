@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\PurchaseController;
 use App\Http\Controllers\SalesController;
 use Illuminate\Support\Facades\Route;
 
@@ -39,3 +40,9 @@ Route::get('/dashboard', function () {
 Route::get('/sales/page', [SalesController::class, 'index'])->middleware(['auth', 'verified'])->name('sales.page');
 Route::post('/sales/store', [SalesController::class, 'store'])->middleware(['auth', 'verified'])->name('sales.store');
 Route::post('/sales/destroy/{id}', [SalesController::class, 'destroy'])->middleware(['auth', 'verified'])->name('sales.destroy');
+
+
+## Purchase
+Route::get('/purchase/page', [PurchaseController::class, 'index'])->middleware(['auth', 'verified'])->name('purchase.page');
+Route::post('/purchase/store', [PurchaseController::class, 'store'])->middleware(['auth', 'verified'])->name('purchase.store');
+Route::post('/purchase/destroy/{id}', [PurchaseController::class, 'destroy'])->middleware(['auth', 'verified'])->name('purchase.destroy');

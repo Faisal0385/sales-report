@@ -61,7 +61,7 @@
                     <p class="text-sm text-gray-400 mt-1">View and manage your sales data.</p>
                 </a>
                 <!-- Buy Products Card -->
-                <a href="../06-buy-products-page.html"
+                <a href="{{ route('purchase.page') }}"
                     class="bg-gray-800 p-6 rounded-lg border border-gray-700 hover:bg-gray-700 hover:border-purple-500 cursor-pointer transition-all duration-300">
                     <!-- Icon: Cart -->
                     <svg xmlns="http://www.w3.org/2000/svg" class="h-12 w-12 text-purple-400 mx-auto" fill="none"

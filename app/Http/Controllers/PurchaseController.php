@@ -1,0 +1,75 @@
+<?php
+
+namespace App\Http\Controllers;
+
+use App\Models\Purchase;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
+
+class PurchaseController extends Controller
+{
+    public function index()
+    {
+        $company = Auth::user()->company;
+        $branch = Auth::user()->branch;
+
+        $purchases = Purchase::where('company', '=', $company)->where('branch', '=', $branch)->orderBy('id', 'desc')->get();
+        $purchase_amount = Purchase::where('month', '=', date('m'))->where('company', '=', $company)->where('branch', '=', $branch)->sum('purchase_amount');
+
+        return view('client.purchase-entry.purchase-entry', compact('purchases', 'purchase_amount'));
+    }
+
+    public function store(Request $request)
+    {
+        // ✅ Validate incoming request
+        $validated = $request->validate([
+            'purchase_date'     => 'required|date',
+            'customer_name'     => 'required|string|max:255',
+            'phone_number'      => 'required|string|max:20',
+            'email'             => 'nullable|email|max:255',
+            'customer_address'  => 'nullable|string',
+            'product_details'   => 'required|string',
+            'imei_number'       => 'required|string|unique:purchases,imei_number',
+            'customer_id_proof' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
+            'payment_method'    => 'required|in:cash,card,bank_transfer,other',
+            'purchase_amount'   => 'required|numeric|min:1',
+            'category'          => 'required|string|max:255',
+            'sub_category'      => 'required|string|max:255',
+        ]);
+
+        // ✅ Handle file upload if exists
+        if ($request->hasFile('customer_id_proof')) {
+            $validated['customer_id_proof'] = $request->file('customer_id_proof')
+                ->store('id_proofs', 'public');
+        }
+
+        list($year, $month, $day) = explode('-', $validated['purchase_date']);
+
+        // ✅ Add company & branch from logged in user
+        $validated['year'] = $year;
+        $validated['month'] = $month;
+        $validated['day'] = $day;
+
+        $validated['company'] = Auth::user()->company ?? null;
+        $validated['branch']  = Auth::user()->branch ?? null;
+
+        // ✅ Save purchase
+        Purchase::create($validated);
+
+        return redirect()
+            ->back()
+            ->with('success', 'Purchase added successfully!');
+    }
+
+    public function destroy($id)
+    {
+        // ✅ Find the purchase by ID
+        $purchase = Purchase::findOrFail($id);
+
+        // ✅ Delete the purchase
+        $purchase->delete();
+
+        // ✅ Redirect back with success message
+        return redirect()->back()->with('success', 'Purchase deleted successfully.');
+    }
+}

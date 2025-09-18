@@ -47,13 +47,13 @@
             <!-- Page Header -->
             <div class="bg-gray-800 border-b border-gray-700 rounded-t-lg p-4 flex justify-between items-center">
                 <div class="flex items-center">
-                    <button onclick="showPage('page-dashboard')"
+                    <a href="{{ route('dashboard') }}"
                         class="text-gray-400 hover:text-white transition mr-4 p-1 rounded-full hover:bg-gray-700">
                         <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24"
                             stroke="currentColor" stroke-width="2">
                             <path stroke-linecap="round" stroke-linejoin="round" d="M10 19l-7-7m0 0l7-7m-7 7h18" />
                         </svg>
-                    </button>
+                    </a>
                     <div class="bg-purple-600 p-2 rounded-lg mr-3">
                         <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
                             <path
@@ -380,7 +380,20 @@
                                     <label for="download-yearly-year"
                                         class="text-sm font-medium text-gray-300">Year</label>
                                     <select id="download-yearly-year"
-                                        class="mt-1 block w-full bg-gray-800 border-gray-700 rounded-md shadow-sm py-2 px-3 text-base focus:outline-none focus:ring-purple-500 focus:border-purple-500"></select>
+                                        class="mt-1 block w-full bg-gray-800 border-gray-700 rounded-md shadow-sm py-2 px-3 text-base focus:outline-none focus:ring-purple-500 focus:border-purple-500">
+
+                                        @php
+                                            $years = ['2024', '2025', '2026', '2027', '2028', '2029', '2030'];
+                                        @endphp
+
+                                        @foreach ($years as $key => $year)
+                                            <option value="{{ $year }}"
+                                                {{ $year == date('Y') ? 'selected' : '' }}>
+                                                {{ $year }}
+                                            </option>
+                                        @endforeach
+
+                                    </select>
                                 </div>
                                 <button type="submit"
                                     class="w-full flex items-center justify-center py-3 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-purple-600 hover:bg-purple-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-purple-500 focus:ring-offset-gray-900 transition-colors">

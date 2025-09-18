@@ -76,13 +76,27 @@
             </div>
 
             @if ($errors->any())
-                <div class="mb-4 p-4 rounded-lg bg-red-800 text-red-200 m-4">
+                <div class="p-4 rounded-lg bg-red-800 text-red-200 m-4">
                     <strong>Whoops! Something went wrong:</strong>
                     <ul class="mt-2 list-disc list-inside">
                         @foreach ($errors->all() as $error)
                             <li>{{ $error }}</li>
                         @endforeach
                     </ul>
+                </div>
+            @endif
+
+            <!-- ✅ Success Message -->
+            @if (session('success'))
+                <div class="m-4 p-3 rounded-md bg-green-600 text-white">
+                    {{ session('success') }}
+                </div>
+            @endif
+
+            <!-- ❌ Error Message -->
+            @if (session('error'))
+                <div class="mb-4 p-3 rounded-md bg-red-600 text-white">
+                    {{ session('error') }}
                 </div>
             @endif
 
@@ -199,7 +213,7 @@
                                     </thead>
                                     <tbody id="sales-entries-tbody">
 
-                                        @foreach ($sales as $key => $sale)
+                                        @forelse($sales as $key => $sale)
                                             <tr>
                                                 <td class="py-3 px-3">{{ $key + 1 }}</td>
                                                 <td class="py-3 px-3">{{ $sale->sales_date }}</td>
@@ -225,13 +239,25 @@
                                                     </form>
                                                 </td>
                                             </tr>
-                                        @endforeach
+                                        @empty
+                                            <tr>
+                                                <td colspan="7" class="py-4 text-center text-gray-400">
+                                                    <p id="no-sales-message" class="text-center text-gray-500 py-8">No
+                                                        sales entries for
+                                                        this month yet.</p>
+                                                </td>
+                                            </tr>
+                                        @endforelse
 
 
                                     </tbody>
                                 </table>
-                                <p id="no-sales-message" class="text-center text-gray-500 py-8">No sales entries for
-                                    this month yet.</p>
+
+
+                                <!-- Pagination -->
+                                <div class="mt-4">
+                                    {{ $sales->links() }}
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -241,38 +267,40 @@
                         <!-- Monthly Target Card -->
                         <div class="bg-gray-900 p-6 rounded-lg border border-gray-700">
                             <h2 class="text-lg font-semibold flex items-center justify-between">
-                                Monthly Target
+                                Last Month Sale
                                 <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
                                     stroke-width="1.5" stroke="currentColor" class="w-5 h-5 text-gray-400">
                                     <path stroke-linecap="round" stroke-linejoin="round"
                                         d="M11.25 11.25l.041-.02a.75.75 0 011.063.852l-.708 2.836a.75.75 0 001.063.853l.041-.021M21 12a9 9 0 11-18 0 9 9 0 0118 0zm-9-3.75h.008v.008H12V8.25z" />
                                 </svg>
                             </h2>
-                            <p class="text-gray-400 text-3xl font-bold mt-4">£1.00</p>
-                            <p class="text-sm text-gray-500">No data from last year to set a target.</p>
+                            <p class="text-gray-400 text-3xl font-bold mt-4">£ {{ $last_month }}</p>
+                            {{-- <p class="text-sm text-gray-500">No data from last year to set a target.</p> --}}
                             <div class="relative w-48 h-48 mx-auto my-6">
                                 <svg class="w-full h-full" viewBox="0 0 100 100">
                                     <!-- Background circle -->
                                     <circle class="text-gray-700" stroke-width="10" cx="50" cy="50"
                                         r="40" fill="transparent" stroke="currentColor"></circle>
                                     <!-- Progress circle -->
-                                    <circle id="target-progress-circle" class="text-purple-500" stroke-width="10"
-                                        cx="50" cy="50" r="40" fill="transparent"
+                                    <circle id="target-progress-circle"
+                                        class="{{ $daily_total - $last_month > 0 ? 'text-purple-500' : 'text-red-500' }}"
+                                        stroke-width="10" cx="50" cy="50" r="40" fill="transparent"
                                         stroke="currentColor" stroke-linecap="round"
                                         style="transform: rotate(-90deg); transform-origin: 50% 50%;"
                                         stroke-dasharray="251.2" stroke-dashoffset="251.2"></circle>
                                 </svg>
                             </div>
                             <div class="text-center">
-                                <p class="text-green-400 font-semibold flex items-center justify-center">
+                                <p
+                                    class="{{ $daily_total - $last_month > 0 ? 'text-green-400' : 'text-red-400' }} font-semibold flex items-center justify-center">
                                     <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
                                         stroke-width="2" stroke="currentColor" class="w-5 h-5 mr-1">
                                         <path stroke-linecap="round" stroke-linejoin="round"
                                             d="M2.25 18L9 11.25l4.306 4.307a11.95 11.95 0 015.814-5.519l2.74-1.22m0 0l-5.94-2.28m5.94 2.28l-2.28 5.941" />
                                     </svg>
-                                    Target is looking good!
+                                    You are £ {{ $daily_total - $last_month }}
+                                    {{ $daily_total - $last_month > 0 ? 'over' : 'under' }} the target.
                                 </p>
-                                <p class="text-sm text-gray-400">You are £848567.00 over the target.</p>
                             </div>
                         </div>
 
@@ -419,6 +447,21 @@
 
 
     <script>
+        // target-progress-circle
+        renderMonthlyTargetChart({{ ($daily_total - $last_month) / 100 }});
+
+        function renderMonthlyTargetChart(percentage) {
+            const circle = document.getElementById('target-progress-circle');
+            if (!circle) return; // Safety check
+            const radius = circle.r.baseVal.value;
+            const circumference = 2 * Math.PI * radius;
+
+            const offset = circumference - (percentage / 100) * circumference;
+
+            circle.style.strokeDasharray = `${circumference} ${circumference}`;
+            circle.style.strokeDashoffset = offset;
+        }
+
         // Store references to the page elements
         const pages = {
             'page-select-company': document.getElementById('page-select-company'),
@@ -769,7 +812,7 @@
             populateDateDropdowns('download-yearly-year', null);
 
             // Render the progress chart with dummy data
-            renderMonthlyTargetChart(75);
+
             // Render the sales table from our array
             renderSalesTable();
             // Ensure total is correct on page load
@@ -892,18 +935,6 @@
                 });
             }
             monthSelect.value = '9'; // September
-        }
-
-        function renderMonthlyTargetChart(percentage) {
-            const circle = document.getElementById('target-progress-circle');
-            if (!circle) return; // Safety check
-            const radius = circle.r.baseVal.value;
-            const circumference = 2 * Math.PI * radius;
-
-            const offset = circumference - (percentage / 100) * circumference;
-
-            circle.style.strokeDasharray = `${circumference} ${circumference}`;
-            circle.style.strokeDashoffset = offset;
         }
 
         function handleAddMonthlyTotal(event) {

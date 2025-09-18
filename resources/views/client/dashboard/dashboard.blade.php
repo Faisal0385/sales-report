@@ -42,12 +42,12 @@
         <!-- =================================== -->
         <!--  4. Dashboard Page                  -->
         <!-- =================================== -->
-        <div id="page-dashboard" class="page text-center max-w-md mx-auto">
+        <div id="page-dashboard" class="page text-center mx-auto">
             <div>
                 <h1 class="text-3xl font-bold">Dashboard</h1>
                 <p class="text-gray-400 mt-2">Select an option to get started.</p>
             </div>
-            <div class="mt-8 grid grid-cols-1 sm:grid-cols-2 gap-4">
+            <div class="mt-8 grid grid-cols-1 sm:grid-cols-3 gap-4">
                 <!-- Sales Report Card -->
                 <a href="{{ route('sales.page') }}"
                     class="bg-gray-800 p-6 rounded-lg border border-gray-700 hover:bg-gray-700 hover:border-purple-500 cursor-pointer transition-all duration-300">
@@ -70,6 +70,18 @@
                             d="M2.25 3h1.386c.51 0 .955.343 1.087.835l.383 1.437M7.5 14.25a3 3 0 00-3 3h15.75m-12.75-3h11.218c.51 0 .962-.343 1.087-.835l1.823-6.836a.75.75 0 00-.54-.92l-14.25-3.562a.75.75 0 00-.91.54l-1.823 6.836A1.125 1.125 0 004.875 11.25H7.5M7.5 14.25c0-1.657 1.343-3 3-3h4.5c1.657 0 3 1.343 3 3M7.5 14.25v3h4.5v-3m4.5 0v3h-4.5v-3" />
                     </svg>
                     <h3 class="font-semibold mt-4 text-lg">Buy Products</h3>
+                    <p class="text-sm text-gray-400 mt-1">Record products bought from customers.</p>
+                </a>
+                <a href="{{ route('settings.page') }}"
+                    class="bg-gray-800 p-6 rounded-lg border border-gray-700 hover:bg-gray-700 hover:border-purple-500 cursor-pointer transition-all duration-300">
+                    <!-- Icon: Cart -->
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-12 w-12 text-purple-400 mx-auto" fill="none"
+                        viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.5">
+                        <path stroke-linecap="round" stroke-linejoin="round"
+                            d="M15.75 6a3.75 3.75 0 11-7.5 0 3.75 3.75 0 017.5 0zM4.5 20.25a8.25 8.25 0 0115 0v.75H4.5v-.75z" />
+                    </svg>
+
+                    <h3 class="font-semibold mt-4 text-lg">Settings</h3>
                     <p class="text-sm text-gray-400 mt-1">Record products bought from customers.</p>
                 </a>
             </div>

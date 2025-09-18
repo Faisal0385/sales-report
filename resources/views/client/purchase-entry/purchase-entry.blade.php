@@ -69,13 +69,27 @@
             </div>
 
             @if ($errors->any())
-                <div class="mb-4 p-4 rounded-lg bg-red-800 text-red-200 m-4">
+                <div class="p-4 rounded-lg bg-red-800 text-red-200 m-4">
                     <strong>Whoops! Something went wrong:</strong>
                     <ul class="mt-2 list-disc list-inside">
                         @foreach ($errors->all() as $error)
                             <li>{{ $error }}</li>
                         @endforeach
                     </ul>
+                </div>
+            @endif
+
+            <!-- ✅ Success Message -->
+            @if (session('success'))
+                <div class="m-4 p-3 rounded-md bg-green-600 text-white">
+                    {{ session('success') }}
+                </div>
+            @endif
+
+            <!-- ❌ Error Message -->
+            @if (session('error'))
+                <div class="mb-4 p-3 rounded-md bg-red-600 text-white">
+                    {{ session('error') }}
                 </div>
             @endif
 
@@ -348,7 +362,7 @@
                             </tr>
                         </thead>
                         <tbody id="recent-purchases-tbody">
-                            @foreach ($purchases as $key => $purchase)
+                            @forelse($purchases as $key => $purchase)
                                 <tr>
                                     <td class="py-3 px-3">{{ $key + 1 }}</td>
                                     <td class="py-3 px-3">{{ $purchase->purchase_date }}</td>
@@ -376,11 +390,22 @@
                                         </form>
                                     </td>
                                 </tr>
-                            @endforeach
+                            @empty
+                                <tr>
+                                    <td colspan="7" class="py-4 text-center text-gray-400">
+                                        <p id="no-purchases-message" class="text-center text-gray-500 py-8">No
+                                            purchases yet.</p>
+                                    </td>
+                                </tr>
+                            @endforelse
 
                         </tbody>
                     </table>
-                    {{-- <p id="no-purchases-message" class="text-center text-gray-500 py-8">No purchases yet.</p> --}}
+
+                    <!-- Pagination -->
+                    <div class="mt-4">
+                        {{ $purchases->links() }}
+                    </div>
                 </div>
             </div>
         </div>

@@ -22,7 +22,6 @@ return new class extends Migration
             $table->decimal('daily_total', 10, 2)->default(0);
             $table->string('company')->nullable();
             $table->string('branch')->nullable();
-            $table->rememberToken();
             $table->timestamps();
         });
     }

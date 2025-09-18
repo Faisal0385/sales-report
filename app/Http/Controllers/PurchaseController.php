@@ -13,7 +13,7 @@ class PurchaseController extends Controller
         $company = Auth::user()->company;
         $branch = Auth::user()->branch;
 
-        $purchases = Purchase::where('company', '=', $company)->where('branch', '=', $branch)->orderBy('id', 'desc')->get();
+        $purchases = Purchase::where('company', '=', $company)->where('branch', '=', $branch)->orderBy('id', 'desc')->paginate(10);
         $purchase_amount = Purchase::where('month', '=', date('m'))->where('company', '=', $company)->where('branch', '=', $branch)->sum('purchase_amount');
 
         return view('client.purchase-entry.purchase-entry', compact('purchases', 'purchase_amount'));

@@ -12,11 +12,13 @@ class SalesController extends Controller
     {
         $company = Auth::user()->company;
         $branch = Auth::user()->branch;
+        $last_month = (int) date('m') - 1;
 
-        $sales = Sales::where('company', '=', $company)->where('branch', '=', $branch)->orderBy('id', 'desc')->get();
+        $sales = Sales::where('company', '=', $company)->where('branch', '=', $branch)->orderBy('id', 'desc')->paginate(10);
         $daily_total = Sales::where('month', '=', date('m'))->where('company', '=', $company)->where('branch', '=', $branch)->sum('daily_total');
+        $last_month = Sales::where('month', '=', $last_month)->where('company', '=', $company)->where('branch', '=', $branch)->sum('daily_total');
 
-        return view('client.sales-page.sales-page', compact('sales', 'daily_total'));
+        return view('client.sales-page.sales-page', compact('sales', 'daily_total', 'last_month'));
     }
 
     public function store(Request $request)

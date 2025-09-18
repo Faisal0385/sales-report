@@ -3,6 +3,7 @@
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\PurchaseController;
 use App\Http\Controllers\SalesController;
+use App\Http\Controllers\SettingController;
 use Illuminate\Support\Facades\Route;
 
 // Route::get('/', function () {
@@ -34,6 +35,12 @@ Route::get('/dashboard', function () {
 // Route::get('/sales', function () {
 //     return view('client.sales-page.sales-page');
 // })->middleware(['auth', 'verified'])->name('sales.page');
+
+## Settings
+Route::get('/settings/page', [SettingController::class, 'index'])->middleware(['auth', 'verified'])->name('settings.page');
+Route::post('/settings/store', [SettingController::class, 'store'])->middleware(['auth', 'verified'])->name('settings.store');
+// Route::post('/settings/destroy/{id}', [SalesController::class, 'destroy'])->middleware(['auth', 'verified'])->name('settings.destroy');
+// Route::get('/settings/download', [SalesController::class, 'downloadCsv'])->name('settings.download');
 
 
 ## Sales

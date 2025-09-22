@@ -123,49 +123,21 @@
                             <div>
                                 <label for="confirm-password" class="text-sm font-medium text-gray-300">Confirm
                                 </label>
-                                <input type="password" name="confirm_password" id="confirm-password"
+                                <input type="password" name="password_confirmation" id="confirm-password"
                                     class="mt-1 block w-full bg-gray-700 border-gray-600 rounded-md shadow-sm py-2 px-3 text-base">
                             </div>
                             <div>
-                                <label for="purchase-download-month"
-                                    class="text-sm font-medium text-gray-300">Company</label>
-                                <select name="company" id="purchase-download-month" required
+                                <label for="phone-address" class="text-sm font-medium text-gray-300">Phone
+                                </label>
+                                <input type="phone" name="phone" id="phone-address"
                                     class="mt-1 block w-full bg-gray-700 border-gray-600 rounded-md shadow-sm py-2 px-3 text-base">
-
-                                    @php
-                                        $companies = ['TechPoint', 'TikTech', 'Restaurant'];
-                                    @endphp
-
-                                    @foreach ($companies as $key => $company)
-                                        <option value="{{ $company }}">
-                                            {{ $company }}
-                                        </option>
-                                    @endforeach
-
-                                </select>
                             </div>
+
                             <div>
-                                <label for="purchase-download-month"
-                                    class="text-sm font-medium text-gray-300">Branch</label>
-                                <select name="branch" id="purchase-download-month" required
+                                <label for="address" class="text-sm font-medium text-gray-300">Address
+                                </label>
+                                <input type="text" name="address" id="address"
                                     class="mt-1 block w-full bg-gray-700 border-gray-600 rounded-md shadow-sm py-2 px-3 text-base">
-
-                                    @php
-                                        $branches = [
-                                            '',
-                                            'TikTech-Hornchurch',
-                                            'TikTech-Upminister',
-                                            'TikTech-Billericay',
-                                        ];
-                                    @endphp
-
-                                    @foreach ($branches as $key => $branch)
-                                        <option value="{{ $branch }}">
-                                            {{ $branch }}
-                                        </option>
-                                    @endforeach
-
-                                </select>
                             </div>
                         </div>
                         <br>
@@ -176,6 +148,73 @@
                             Add User
                         </button>
                     </form>
+                </div>
+            </div>
+        </div>
+        <br>
+        <hr>
+        <br>
+
+        <!-- Recent Sales Entries Table -->
+        <div class="bg-gray-900 p-6 rounded-lg border border-gray-700">
+            <h2 class="text-lg font-semibold">Recent Sales Entries</h2>
+            <p class="text-sm text-gray-400 mt-1 mb-4">A list of sales records for the current month.
+            </p>
+            <div class="overflow-x-auto">
+                <table class="min-w-full text-sm text-left">
+                    <thead class="border-b border-gray-700 text-gray-400">
+                        <tr>
+                            <th class="py-2 px-3 font-medium">SL</th>
+                            <th class="py-2 px-3 font-medium">Name</th>
+                            <th class="py-2 px-3 font-medium">Email</th>
+                            <th class="py-2 px-3 font-medium">Phone</th>
+                            <th class="py-2 px-3 font-medium">Company</th>
+                            <th class="py-2 px-3 font-medium">Branch</th>
+                            <th class="py-2 px-3 font-medium text-right">Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody id="sales-entries-tbody">
+
+                        @forelse($users as $key => $user)
+                            <tr>
+                                <td class="py-3 px-3">{{ $key + 1 }}</td>
+                                <td class="py-3 px-3">{{ $user->name }}</td>
+                                <td class="py-3 px-3">{{ $user->email }}</td>
+                                <td class="py-3 px-3">{{ $user->phone }}</td>
+                                <td class="py-3 px-3">{{ $user->company }}</td>
+                                <td class="py-3 px-3">{{ $user->branch }}</td>
+                                <td class="py-3 px-3 text-right">
+                                    <form action="{{ route('sales.destroy', $user->id) }}" method="POST"
+                                        onsubmit="return confirm('Are you sure you want to delete this entry?');">
+                                        @csrf
+                                        <button type="submit"
+                                            class="text-gray-500 hover:text-red-400 p-1 rounded-full transition-colors"
+                                            title="Delete Sale">
+                                            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none"
+                                                viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                                                <path stroke-linecap="round" stroke-linejoin="round"
+                                                    d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
+                                            </svg>
+                                        </button>
+                                    </form>
+                                </td>
+                            </tr>
+                        @empty
+                            <tr>
+                                <td colspan="7" class="py-4 text-center text-gray-400">
+                                    <p id="no-sales-message" class="text-center text-gray-500 py-8">No
+                                        No Data Found</p>
+                                </td>
+                            </tr>
+                        @endforelse
+
+                    </tbody>
+                </table>
+
+
+                <!-- Pagination -->
+                <div class="mt-4">
+                    {{ $users->links() }}
                 </div>
             </div>
         </div>

@@ -1,0 +1,190 @@
+1. Introduction and Welcome: How to Get the Most out of the Course
+2. Install the Recommended Software
+3. Develop in the Web Server's Root Folder
+4. Configure the Web Server to Access the Code using a Virtual Host
+5. Addendum: Accessing the MySQL Console on the Command Line
+6. Create a Database in the Local Database Server
+7. Retrieve Data from the Database using Plain PHP
+8. Format the Data Using HTML
+9. The MVC Pattern: How it Can Help You to Write Better Web Applications
+10. Adapt Plain PHP Code to Fit the MVC Pattern: Create a Model Class
+11. Adapt Plain PHP Code to Fit the MVC Pattern: Create a View
+12. Adapt Plain PHP Code to Fit the MVC Pattern: Create a Controller Class
+13. Organise Controllers and Models into Folders
+14. Organise Views into their Own Folder
+15. Add Another Page: How NOT to Do it in an MVC Framework
+16. The Front Controller: Handle All Requests with One Script
+17. Add Another Controller and Select it in the Front Controller
+18. Remove Repetition by Dynamically Creating Objects and Running Methods
+19. How to have "Pretty" URLs
+20. Enable URL Rewriting and .htaccess Files
+21. Add an .htaccess File to Rewrite all URLs to index.php
+22. Get the Value of the URL Path in the Front Controller
+23. Remove the Query String and Get the Controller and Action from the URL Path
+24. Routes, Routing and the Router: Add a Router Class
+25. Add the Routing Table and Some Routes
+26. Match the Route Path to the Routes in the Routing Table
+27. Use the Controller and Action from the Matched Route
+28. Show a Message if no Route Matches
+29. Class Autoloading: Load Classes Automatically Without Having to Require Them
+30. Add an Autoload Function and Require the Router Class Automatically
+31. Try to Load the Controller Class Using the Autoloader
+32. Namespaces: What They Are and How to Use Them
+33. Organise Classes in Namespaces and Corresponding Folders
+34. Change the Autoloader to Include the Namespace
+35. Load the Controller in its Namespace
+36. The Root Namespace and Relativity: Load the Model in its Namespace
+37. Import a Class Into the Current Namespace With a Use Statement
+38. Introduction to Advanced Routing: More Flexible Routes Using Patterns
+39. How to do Complex String Comparisons: An Introduction to Regular Expressions
+40. Match the URL Path to a Regular Expression
+41. Using Special Characters in Regular Expressions: Matching the Start and End
+42. Matching Patterns: Character Sets in Regular Expressions
+43. Repetition in Regular Expressions
+44. Match the URL Path to a Pattern Instead of a Fixed String
+45. Get Segments from the Matched String using Capture Groups
+46. Use Named Capture Groups to Name the Captured Segments
+47. Pass the Captured Controller and Action to the Front Controller
+48. How to Have More Flexible Routing with Route Variables
+49. Add a Route with Variables and Make Parameters Optional when Adding a Route
+50. Process the Route Path One Segment at a Time
+51. Convert the Segment with a Variable into a Named Capture Group
+52. Complete the Route-Matching Regular Expression
+53. Use the Generated Regular Expression to Match the URL Path
+54. Enable Literal Segments in the Route Paths
+55. Add a Route with Another Variable
+56. Wildcards and Negated Character Classes in Regular Expressions
+57. Match Any Value in the URL Segment for a Route Variable
+58. Route Variable Patterns and Shorthand Character Classes in Regular Expressions
+59. Enable Optional Custom Regular Expressions for Route Variables
+60. Match the URL Path in a Case-insensitive Manner
+61. Match Unicode Characters in the URL Path
+62. Add General Routes After More Specific Ones
+63. Dispatching: Create a Dispatcher Class and Use it From the Front Controller
+64. Create a Dispatcher Method to Handle the Request
+65. Pass Route Variables to the Action Method as Arguments
+66. Use Reflection to Get the Action Method Argument Names
+67. Match the Action Method Argument Names to Parameter Values
+68. Pass the Argument Values to the Action Method
+69. Allow Multiple-word Controller Classes and Action Method Names
+70. Convert the Controller Parameter to StudlyCaps
+71. Convert the Action Parameter to camelCase
+72. Add a Namespaced Controllers Option
+73. An Introduction to Views: Create a Viewer Class
+74. Add a Render Method and Use it from the Controller
+75. Pass Optional Data to the View when Rendering it
+76. Use Output Buffering to Load the Contents of the Template
+77. Organise View Templates in Subfolders
+78. Add Shared View Templates for Common Code
+79. Add a Title Variable to the Shared Header Template
+80. An Introduction to Dependency Injection: Inject the Viewer into the Controller
+81. Inject a Model Object into the Controller
+82. Use Reflection to Get the Controller Constructor Arguments
+83. Autowiring: Create the Controller Dependencies from the Type Declarations
+84. Extract the Database Connection Code out into a Separate Class
+85. Add a Database Object as a Dependency to the Model
+86. Create All Dependencies in the Object Graph Using Recursion
+87. Remove the Hardcoded Database Connection Credentials
+88. Create a Container Class and Use it from the Dispatcher
+89. Add a Registry to the Container and Bind a Value for the Database Class
+90. Store Closures in the Service Container Instead of Objects
+91. Output a Message if a Class Cannot Be Created Automatically
+92. Validate the Type Declarations in the Service Container
+93. Find Potential Bugs More Easily by Enabling Strict Type Checking
+94. Throw an Exception Instead of Using an exit Statement
+95. Use Standard PHP Library (SPL) Exception Classes to Give More Detail
+96. Throw a Custom Exception if There is no Match for the URL Path
+97. Throw an Exception for a Malformed URL
+98. Toggle the Display of the Exception Details
+99. Display a Custom View When an Exception Occurs
+100. Write the Error Details to a Log File on the Server
+101. Define an Exception Handler to Handle All Exceptions
+102. Add an Error Handler to Convert Errors to Exceptions
+103. Return a 200, 404 or 500 HTTP Response Code
+104. Display a Custom View Template for a Page Not Found Error
+105. Move the Error Handler into a Separate Class
+106. Move the Exception Handler into a Separate Class
+107. Move the Routes to a Separate Configuration File
+108. Move the Services to a Separate Configuration File
+109. Options for Storing Configuration Settings that Change Between Servers
+110. Create a .env File and a Class to Read its Contents
+111. Replace Hardcoded Configuration Settings with Those from the .env File
+112. Add a Static File and Configure the Framework to Allow Access to It
+113. Add a "public" Folder and Move Browser-Accessible Files into It
+114. Make the "public" Folder the Root in the Web Server Configuration
+115. Add an .htaccess File to Remove "public" from the URL
+116. Adapt the Framework to Load the Code Outside of the "public" folder
+117. Load Custom Error Pages from the Correct Folder
+118. Display a Single Record Identified by the ID from the URL
+119. Throw a PageNotFound Exception if the Record isn't Found with the Specified ID
+120. Add a Base Model Class to Contain Common Functionality
+121. Add a Property to Replace the Hardcoded Table Name
+122. Default the Table Name to the Lowercase Model Class Name
+123. Add a Form for Creating a New Record
+124. Insert the New Record Into the Database Using the Model
+125. Generate the SQL Dynamically Based on the Name and Number of Columns
+126. Dynamically Bind Values to the Placeholders Based On Their Data Type
+127. Add a Validation Method to Prevent Empty Records from Being Inserted
+128. Add Specific Validation Error Messages for Each Field
+129. Redisplay the Form with the Error Messages for Invalid Data
+130. Extract out Common Code to the Framework Model Class
+131. Cache the Database Connection to get the ID of the New Record
+132. Redirect to the Show Page After Adding a New Record
+133. Create a Page for Editing an Existing Record
+134. Display the Form Containing the Record's Existing Attributes
+135. Process the Edit Form and Validate the Data
+136. Redisplay Previous Data when Redisplaying the Form
+137. Update the Data in the Database Using the Model
+138. Add a Method to the Controller to Get the Current Record
+139. Add a Confirmation Page for Deleting an Existing Record
+140. Add a Model Method to Delete a Record
+141. Add a Method Specific to a Child Model Class
+142. Add a Separate Method to Process the Delete Form Submission
+143. Replace the Generic Route with an ID with Specific Routes
+144. Include the HTTP Method When Matching the Route
+145. Create a Request Class to Encapsulate Global Request Data
+146. Use the Request Class in the Dispatcher
+147. Add Other Superglobals to the Request Class
+148. Inject the Request Object into the Controller and Use it Instead of Superglobals
+149. Add a Parent Controller Class for All Controllers to Extend
+150. Add a Property and Setter Method for the Viewer Dependency
+151. Create Multiple Viewer Classes to Render Different Types of View Templates
+152. Create an Interface for Viewer Classes
+153. Decouple the Dispatcher from the Viewer Class
+154. Add a Single Template to Render from the New Viewer Class
+155. Replace PHP Variables with the Alternative Variable Syntax
+156. Execute the Generated PHP Code and Output It
+157. Use Alternative Syntax for Control Structures
+158. Create a Base Template and Modify the Index Template to Extend It
+159. Load the Optional Base Template Identified in the Child Template
+160. Start to Extract the Block Data from the Child Template
+161. Match Newline Characters and Use Lazy Matching to Extract the Blocks
+162. Replace Yields in the Base Template with the Corresponding Block
+163. Change the show Template to Use the Alternative Syntax
+164. Provide a Default Value when Displaying null Values
+165. Modify the new and create Templates to Use the Alternative Syntax
+166. Convert the Shared Form Template to the Alternative Syntax
+167. Add Functionality to the Template Viewer to Process Included Files
+168. Change the edit, update and delete Methods to use the Alternative Syntax
+169. Add a Response Class and Inject a Response Object Into the Controller
+170. Add a Body Property to the Response Object and Output It
+171. Return a Response Object to the Dispatcher from the Controller
+172. Add a Method to Return a Response Containing a Rendered View
+173. Change the Other Action Methods to Return a Response
+174. Add a Method to Redirect from a Controller
+175. Add a Method to Set the HTTP Response Code
+176. An Introduction to Middleware
+177. Add a Middleware Class that Modifies the Response
+178. Define an Interface for Handling a Request
+179. Create a Class to Handle Controller Requests
+180. Chain the Middleware and the Controller Action Together
+181. Add a Class to Run the Middleware Pipeline
+182. Process Middleware Components in a Chain
+183. Add a Middleware Class that Modifies the Request
+184. Add a Configuration File to Assign Short Names to Middleware Classes
+185. Get the Specified Middleware from the Route
+186. Create the Middleware Objects in the Dispatcher
+187. Add a Middleware Interface
+188. Add a Middleware Class that Returns a Redirect Response
+189. Conclusion
+190. Bonus lecture

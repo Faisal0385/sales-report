@@ -14,11 +14,13 @@ class SalesController extends Controller
         $branch = Auth::user()->branch;
         $last_month = (int) date('m') - 1;
 
-        $sales = Sales::where('company', '=', $company)->where('branch', '=', $branch)->orderBy('id', 'desc')->paginate(10);
+        $sales = Sales::where('month', '=', date('m'))->where('company', '=', $company)->where('branch', '=', $branch)->orderBy('id', 'desc')->paginate(10);
         $daily_total = Sales::where('month', '=', date('m'))->where('company', '=', $company)->where('branch', '=', $branch)->sum('daily_total');
         $last_month = Sales::where('month', '=', $last_month)->where('company', '=', $company)->where('branch', '=', $branch)->sum('daily_total');
 
-        return view('client.sales-page.sales-page', compact('sales', 'daily_total', 'last_month'));
+        $target = $last_month + (($last_month * 15) / 100);
+
+        return view('client.sales-page.sales-page', compact('sales', 'daily_total', 'last_month', 'target'));
     }
 
     public function store(Request $request)
@@ -31,25 +33,36 @@ class SalesController extends Controller
 
         ## Validate incoming request
         $validated = $request->validate([
-            'sales_date'       => 'required|date',
-            'cash_sales'       => 'required|numeric|min:1',
-            'techpoint_sales'  => 'required|numeric|min:0',
+            'sales_date' => 'required|date',
+            'cash_sales' => 'numeric|min:0',
+            'techpoint_sales' => 'numeric|min:0',
+            'card_sales' => 'numeric|min:0',
         ]);
+
+        if (
+            $validated['cash_sales'] == 0 &&
+            $validated['card_sales'] == 0 &&
+            $validated['techpoint_sales'] == 0
+        ) {
+            return redirect()->back()->with('error', 'Payment field cannot be empty!');
+        }
+
 
 
         list($year, $month, $day) = explode('-', $validated['sales_date']);
 
         ## Store in database
         Sales::create([
-            'year'            => $year,
-            'month'           => $month,
-            'day'             => $day,
-            'sales_date'      => $validated['sales_date'],
-            'cash_sales'      => $validated['cash_sales'],
+            'year' => $year,
+            'month' => $month,
+            'day' => $day,
+            'sales_date' => $validated['sales_date'],
+            'cash_sales' => $validated['cash_sales'],
+            'card_sales' => $validated['card_sales'],
             'techpoint_sales' => $validated['techpoint_sales'],
-            'daily_total'     => $validated['cash_sales'] + $validated['techpoint_sales'],
-            'company'         => Auth::user()->company ?? null,
-            'branch'          => Auth::user()->branch ?? null,
+            'daily_total' => $validated['cash_sales'] + $validated['techpoint_sales'] + $validated['card_sales'],
+            'company' => Auth::user()->company ?? null,
+            'branch' => Auth::user()->branch ?? null,
         ]);
 
         return redirect()->back()->with('success', 'Sales entry added successfully!');
@@ -101,7 +114,7 @@ class SalesController extends Controller
             $handle = fopen('php://output', 'w');
 
             // Add header row
-            fputcsv($handle, ['Sales Date', 'Cash Sales', 'Techpoint Sales', 'Daily Total']);
+            fputcsv($handle, ['Sales Date', 'Cash Sales', 'Techpoint Sales', 'Card Sales', 'Daily Total']);
 
             // Add data rows
             foreach ($sales as $purchase) {
@@ -109,6 +122,7 @@ class SalesController extends Controller
                     $purchase->sales_date,
                     $purchase->cash_sales,
                     $purchase->techpoint_sales,
+                    $purchase->card_sales,
                     $purchase->daily_total,
                 ]);
             }
@@ -148,7 +162,7 @@ class SalesController extends Controller
             $handle = fopen('php://output', 'w');
 
             // Add header row
-            fputcsv($handle, ['Sales Date', 'Cash Sales', 'Techpoint Sales', 'Daily Total']);
+            fputcsv($handle, ['Sales Date', 'Cash Sales', 'Techpoint Sales', 'Card Sales', 'Daily Total']);
 
             // Add data rows
             foreach ($sales as $purchase) {
@@ -156,6 +170,7 @@ class SalesController extends Controller
                     $purchase->sales_date,
                     $purchase->cash_sales,
                     $purchase->techpoint_sales,
+                    $purchase->card_sales,
                     $purchase->daily_total,
                 ]);
             }

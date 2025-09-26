@@ -15,6 +15,7 @@ class Sales extends Model
         'month',
         'year',
         'cash_sales',
+        'card_sales',
         'techpoint_sales',
         'daily_total',
         'company',

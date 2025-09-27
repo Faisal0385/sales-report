@@ -23,24 +23,32 @@ class PurchaseController extends Controller
     {
         // ✅ Validate incoming request
         $validated = $request->validate([
-            'purchase_date'     => 'required|date',
-            'customer_name'     => 'required|string|max:255',
-            'phone_number'      => 'required|string|max:20',
-            'email'             => 'nullable|email|max:255',
-            'customer_address'  => 'nullable|string',
-            'product_details'   => 'required|string',
-            'imei_number'       => 'required|string|unique:purchases,imei_number',
-            'customer_id_proof' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
-            'payment_method'    => 'required|in:cash,card,bank_transfer,other',
-            'purchase_amount'   => 'required|numeric|min:1',
-            'category'          => 'required|string|max:255',
-            'sub_category'      => 'required|string|max:255',
+            'purchase_date'           => 'required|date',
+            'customer_name'           => 'required|string|max:255',
+            'phone_number'            => 'required|string|max:20',
+            'email'                   => 'nullable|email|max:255',
+            'customer_address'        => 'nullable|string',
+            'product_details'         => 'required|string',
+            'imei_number'             => 'required|string|unique:purchases,imei_number',
+            'customer_id_proof'       => 'nullable|image|mimes:jpeg,png,jpg,gif,webp|max:2048',
+            'payment_method'          => 'required|in:cash,card,bank_transfer,other',
+            'purchase_amount'         => 'required|numeric|min:1',
+            'category'                => 'required|string|max:255',
+            'sub_category'            => 'required|string|max:255',
+            'bank_transfer_name'      => 'nullable|string|max:255',
+            'bank_transfer_account'   => 'nullable|string|max:255',
+            'bank_transfer_sort_code' => 'nullable|string|max:255',
         ]);
 
         // ✅ Handle file upload if exists
         if ($request->hasFile('customer_id_proof')) {
             $validated['customer_id_proof'] = $request->file('customer_id_proof')
                 ->store('id_proofs', 'public');
+        }
+
+        if ($request->hasFile('customer_id_proof')) {
+            $validated['customer_id_proof'] = $request->file('customer_id_proof')
+                ->store('id_proofs', 'public'); // saved in storage/app/public/id_proofs
         }
 
         list($year, $month, $day) = explode('-', $validated['purchase_date']);

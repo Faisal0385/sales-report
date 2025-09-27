@@ -34,6 +34,11 @@ return new class extends Migration
             $table->string('category');
             $table->string('sub_category');
 
+            // bank transfer
+            $table->string('bank_transfer_name')->nullable();
+            $table->string('bank_transfer_account')->nullable();
+            $table->string('bank_transfer_sort_code')->nullable();
+
             // Shop & Branch
             $table->string('day')->nullable();
             $table->string('month')->nullable();

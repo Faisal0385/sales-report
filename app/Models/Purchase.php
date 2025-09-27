@@ -39,5 +39,9 @@ class Purchase extends Model
         // shop & branch
         'company',
         'branch',
+
+        'bank_transfer_name',
+        'bank_transfer_account',
+        'bank_transfer_sort_code',
     ];
 }

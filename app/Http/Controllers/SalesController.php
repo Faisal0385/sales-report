@@ -37,16 +37,24 @@ class SalesController extends Controller
             'cash_sales' => 'numeric|min:0',
             'techpoint_sales' => 'numeric|min:0',
             'card_sales' => 'numeric|min:0',
+            'tiktech_sales' => 'numeric|min:0',
         ]);
 
+
+        $cash_sales = $validated['cash_sales'] ?? 0;
+        $card_sales = $validated['card_sales'] ?? 0;
+        $techpoint_sales = $validated['techpoint_sales'] ?? 0;
+        $tiktech_sales = $validated['tiktech_sales'] ?? 0;
+
+
         if (
-            $validated['cash_sales'] == 0 &&
-            $validated['card_sales'] == 0 &&
-            $validated['techpoint_sales'] == 0
+            $cash_sales == 0 &&
+            $card_sales == 0 &&
+            $techpoint_sales == 0 &&
+            $tiktech_sales == 0
         ) {
             return redirect()->back()->with('error', 'Payment field cannot be empty!');
         }
-
 
 
         list($year, $month, $day) = explode('-', $validated['sales_date']);
@@ -57,10 +65,11 @@ class SalesController extends Controller
             'month' => $month,
             'day' => $day,
             'sales_date' => $validated['sales_date'],
-            'cash_sales' => $validated['cash_sales'],
-            'card_sales' => $validated['card_sales'],
-            'techpoint_sales' => $validated['techpoint_sales'],
-            'daily_total' => $validated['cash_sales'] + $validated['techpoint_sales'] + $validated['card_sales'],
+            'cash_sales' => $cash_sales,
+            'card_sales' => $card_sales,
+            'techpoint_sales' => $techpoint_sales,
+            'tiktech_sales' => $tiktech_sales,
+            'daily_total' => $cash_sales + $card_sales + $techpoint_sales + $tiktech_sales,
             'company' => Auth::user()->company ?? null,
             'branch' => Auth::user()->branch ?? null,
         ]);

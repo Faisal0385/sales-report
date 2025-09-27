@@ -17,6 +17,7 @@ class Sales extends Model
         'cash_sales',
         'card_sales',
         'techpoint_sales',
+        'tiktech_sales',
         'daily_total',
         'company',
         'branch',

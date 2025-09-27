@@ -142,25 +142,46 @@
                                             oninput="updateDailyTotal()" value="0" step="any"
                                             class="mt-1 block w-full bg-gray-700 border-gray-600 rounded-md shadow-sm py-2 px-3 text-base">
                                     </div>
-                                    <div>
-                                        <label for="techpoint-sales" class="text-sm font-medium text-gray-300">TechPoint
-                                            Sales</label>
-                                        <input type="number" id="techpoint-sales" name="techpoint_sales"
-                                            oninput="updateDailyTotal()" value="0" step="any" min="0"
-                                            class="mt-1 block w-full bg-gray-700 border-gray-600 rounded-md shadow-sm py-2 px-3 text-base">
-                                    </div>
-                                    <div>
-                                        <label for="card-sales" class="text-sm font-medium text-gray-300">Card
-                                            Payment</label>
-                                        <input type="number" id="card-sales" name="card_sales"
-                                            oninput="updateDailyTotal()" value="0" step="any"
-                                            min="0"
-                                            class="mt-1 block w-full bg-gray-700 border-gray-600 rounded-md shadow-sm py-2 px-3 text-base">
-                                    </div>
+
+                                    @if (Auth::user()->company === 'TechPoint')
+                                        <div>
+                                            <label for="techpoint-sales"
+                                                class="text-sm font-medium text-gray-300">TechPoint
+                                                Sales</label>
+                                            <input type="number" id="techpoint-sales" name="techpoint_sales"
+                                                oninput="updateDailyTotal()" value="0" step="any"
+                                                min="0"
+                                                class="mt-1 block w-full bg-gray-700 border-gray-600 rounded-md shadow-sm py-2 px-3 text-base">
+                                        </div>
+                                    @endif
+
+                                    @if (Auth::user()->company === 'TikTech')
+                                        <div>
+                                            <label for="tiktech-sales" class="text-sm font-medium text-gray-300">TikTech
+                                                Sales</label>
+                                            <input type="number" id="tiktech-sales" name="tiktech_sales"
+                                                oninput="updateDailyTotal()" value="0" step="any"
+                                                min="0"
+                                                class="mt-1 block w-full bg-gray-700 border-gray-600 rounded-md shadow-sm py-2 px-3 text-base">
+                                        </div>
+                                    @endif
+
+                                    @if (Auth::user()->company === 'TikTech' || Auth::user()->company === 'Restaurant')
+                                        <div>
+                                            <label for="card-sales"
+                                                class="text-sm font-medium text-gray-300">PrintExpress
+                                                Sales</label>
+                                            <input type="number" id="card-sales" name="card_sales"
+                                                oninput="updateDailyTotal()" value="0" step="any"
+                                                min="0"
+                                                class="mt-1 block w-full bg-gray-700 border-gray-600 rounded-md shadow-sm py-2 px-3 text-base">
+                                        </div>
+                                    @endif
+
                                 </div>
                                 <div class="bg-gray-800 rounded-lg p-4 flex justify-between items-center mb-4">
                                     <span class="font-semibold">Daily Total:</span>
-                                    <span id="daily-total" class="text-2xl font-bold text-purple-400">£0.00</span>
+                                    <span id="daily-total" class="text-2xl font-bold text-purple-400">0.00</span>
                                 </div>
                                 <button type="submit"
                                     class="w-full flex justify-center py-3 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-purple-600 hover:bg-purple-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-purple-500 focus:ring-offset-gray-900 transition-colors">
@@ -302,7 +323,8 @@
                                         <th class="py-2 px-3 font-medium">Date</th>
                                         <th class="py-2 px-3 font-medium">Cash</th>
                                         <th class="py-2 px-3 font-medium">TechPoint</th>
-                                        <th class="py-2 px-3 font-medium">Card</th>
+                                        <th class="py-2 px-3 font-medium">TikTech</th>
+                                        <th class="py-2 px-3 font-medium">PrintExpress</th>
                                         <th class="py-2 px-3 font-medium">Daily Total</th>
                                         <th class="py-2 px-3 font-medium text-right">Actions</th>
                                     </tr>
@@ -315,6 +337,7 @@
                                             <td class="py-3 px-3">{{ $sale->sales_date }}</td>
                                             <td class="py-3 px-3">{{ $sale->cash_sales }}</td>
                                             <td class="py-3 px-3">{{ $sale->techpoint_sales }}</td>
+                                            <td class="py-3 px-3">{{ $sale->tiktech_sales }}</td>
                                             <td class="py-3 px-3">{{ $sale->card_sales }}</td>
                                             <td class="py-3 px-3 font-semibold">
                                                 £{{ number_format($sale->daily_total, 2) }}</td>
@@ -345,10 +368,8 @@
                                         </tr>
                                     @endforelse
 
-
                                 </tbody>
                             </table>
-
 
                             <!-- Pagination -->
                             <div class="mt-4">
@@ -461,6 +482,33 @@
 
 
     <script>
+        function updateDailyTotal() {
+
+            // FIX: Get elements fresh each time to avoid errors
+            const cashSalesInput = document.getElementById('cash-sales') ?? 0;
+            const cardSalesInput = document.getElementById('card-sales') ?? 0;
+            const techpointSalesInput = document.getElementById('techpoint-sales') ?? 0;
+            const tiktechSalesInput = document.getElementById('tiktech-sales') ?? 0;
+            const dailyTotalDisplay = document.getElementById('daily-total') ?? 0;
+
+            console.log(cashSalesInput);
+            console.log(cardSalesInput);
+            console.log(techpointSalesInput);
+            console.log(tiktechSalesInput);
+            console.log(dailyTotalDisplay);
+
+
+            // if (cashSalesInput && techpointSalesInput && dailyTotalDisplay) {
+                const cash = parseFloat(cashSalesInput.value) || 0;
+                const card = parseFloat(cardSalesInput.value) || 0;
+                const techpoint = parseFloat(techpointSalesInput.value) || 0;
+                const tiktechSales = parseFloat(tiktechSalesInput.value) || 0;
+                const total = cash + techpoint + card + tiktechSales;
+
+                dailyTotalDisplay.textContent = `£${total.toFixed(2)}`;
+            // }
+        }
+
         // target-progress-circle
         renderMonthlyTargetChart({{ ($daily_total - $last_month) / 100 }});
 
@@ -765,28 +813,28 @@
             modal.classList.add('hidden');
         }
 
-        document.getElementById('capture-btn').addEventListener('click', () => {
-            const canvas = document.getElementById('camera-canvas');
-            const video = document.getElementById('camera-stream');
-            const preview = document.getElementById('photo-preview');
+        // document.getElementById('capture-btn').addEventListener('click', () => {
+        //     const canvas = document.getElementById('camera-canvas');
+        //     const video = document.getElementById('camera-stream');
+        //     const preview = document.getElementById('photo-preview');
 
-            // Set canvas dimensions to match the video stream
-            canvas.width = video.videoWidth;
-            canvas.height = video.videoHeight;
+        //     // Set canvas dimensions to match the video stream
+        //     canvas.width = video.videoWidth;
+        //     canvas.height = video.videoHeight;
 
-            // Draw the current video frame onto the canvas
-            canvas.getContext('2d').drawImage(video, 0, 0, canvas.width, canvas.height);
+        //     // Draw the current video frame onto the canvas
+        //     canvas.getContext('2d').drawImage(video, 0, 0, canvas.width, canvas.height);
 
-            // Get the image data from the canvas
-            const imageDataUrl = canvas.toDataURL('image/jpeg');
+        //     // Get the image data from the canvas
+        //     const imageDataUrl = canvas.toDataURL('image/jpeg');
 
-            // Display the captured image as a preview on the form
-            preview.src = imageDataUrl;
-            preview.classList.remove('hidden');
+        //     // Display the captured image as a preview on the form
+        //     preview.src = imageDataUrl;
+        //     preview.classList.remove('hidden');
 
-            // Close the camera modal
-            closeCamera();
-        });
+        //     // Close the camera modal
+        //     closeCamera();
+        // });
 
 
         // --- Sales Report Page Logic (Simulated Backend) ---
@@ -904,23 +952,7 @@
             }
         }
 
-        // --- Helper & Static Functions ---
 
-        function updateDailyTotal() {
-            // FIX: Get elements fresh each time to avoid errors
-            const cashSalesInput = document.getElementById('cash-sales');
-            const cardSalesInput = document.getElementById('card-sales');
-            const techpointSalesInput = document.getElementById('techpoint-sales');
-            const dailyTotalDisplay = document.getElementById('daily-total');
-
-            if (cashSalesInput && techpointSalesInput && dailyTotalDisplay) {
-                const cash = parseFloat(cashSalesInput.value) || 0;
-                const techpoint = parseFloat(techpointSalesInput.value) || 0;
-                const card = parseFloat(cardSalesInput.value) || 0;
-                const total = cash + techpoint + card;
-                dailyTotalDisplay.textContent = `£${total.toFixed(2)}`;
-            }
-        }
 
         function populateDateDropdowns(yearSelectId, monthSelectId) {
             const yearSelect = document.getElementById(yearSelectId);

@@ -98,7 +98,8 @@
             <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
                 <!-- Left Column: Form -->
                 <div class="lg:col-span-2 bg-gray-800 p-6 rounded-lg border border-gray-700">
-                    <form method="POST" action="{{ route('purchase.store') }}" class="space-y-4">
+                    <form method="POST" action="{{ route('purchase.store') }}" class="space-y-4"
+                        enctype="multipart/form-data">
                         @csrf
                         <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
                             <div>
@@ -218,40 +219,63 @@
                             <textarea name="customer_address" id="customer-address" rows="3"
                                 class="mt-1 block w-full bg-gray-700 border-gray-600 rounded-md shadow-sm py-2 px-3 text-base"></textarea>
                         </div>
-                        <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 items-end">
-                            <div>
-                                <label for="customer-id-proof" class="text-sm font-medium text-gray-300">Customer ID
-                                    Proof (Optional)</label>
-                                <div class="mt-1 flex items-center space-x-2">
-                                    <input type="file" name="customer_id_proof" id="customer-id-proof"
-                                        class="block w-full text-sm text-gray-400 file:mr-4 file:py-2 file:px-4 file:rounded-md file:border-0 file:text-sm file:font-semibold file:bg-purple-600 file:text-white hover:file:bg-purple-700"
-                                        accept="image/*">
-                                    <button type="button" onclick="openCamera()"
-                                        class="p-2.5 bg-gray-600 rounded-md hover:bg-gray-500 transition-colors">
-                                        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20"
-                                            fill="currentColor">
-                                            <path
-                                                d="M2 4a1 1 0 011-1h1.5a1 1 0 01.98.804l1.32 4.62a1 1 0 01-.364 1.118l-1.132.85a12.182 12.182 0 005.37 5.37l.85-1.132a1 1 0 011.118-.364l4.62 1.32A1 1 0 0116 16.5V18a1 1 0 01-1 1H4a1 1 0 01-1-1V4z" />
-                                        </svg>
-                                    </button>
-                                </div>
-                                <img id="photo-preview" class="hidden mt-2 rounded-md max-h-24" />
+                        <div>
+                            <label for="customer-id-proof" class="text-sm font-medium text-gray-300">Customer ID
+                                Proof (Optional)</label>
+                            <div class="mt-1 flex items-center space-x-2">
+                                <input type="file" name="customer_id_proof" id="customer-id-proof"
+                                    class="block w-full text-sm text-gray-400 file:mr-4 file:py-2 file:px-4 file:rounded-md file:border-0 file:text-sm file:font-semibold file:bg-purple-600 file:text-white hover:file:bg-purple-700">
+                                <button type="button" onclick="openCamera()"
+                                    class="p-2.5 bg-gray-600 rounded-md hover:bg-gray-500 transition-colors">
+                                    <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20"
+                                        fill="currentColor">
+                                        <path
+                                            d="M2 4a1 1 0 011-1h1.5a1 1 0 01.98.804l1.32 4.62a1 1 0 01-.364 1.118l-1.132.85a12.182 12.182 0 005.37 5.37l.85-1.132a1 1 0 011.118-.364l4.62 1.32A1 1 0 0116 16.5V18a1 1 0 01-1 1H4a1 1 0 01-1-1V4z" />
+                                    </svg>
+                                </button>
                             </div>
-                            <div>
-                                <label class="text-sm font-medium text-gray-300">Payment Method</label>
-                                <div class="mt-2 flex space-x-4">
-                                    <label class="flex items-center">
-                                        <input type="radio" name="payment_method" value="cash" checked
-                                            class="h-4 w-4 text-purple-600 bg-gray-700 border-gray-600 focus:ring-purple-500"><span
-                                            class="ml-2 text-sm">Cash</span>
-                                    </label>
-                                    <label class="flex items-center"><input type="radio" name="payment_method"
-                                            value="bank_transfer"
-                                            class="h-4 w-4 text-purple-600 bg-gray-700 border-gray-600 focus:ring-purple-500"><span
-                                            class="ml-2 text-sm">Bank Transfer</span></label>
-                                </div>
+                            <img id="photo-preview" class="hidden mt-2 rounded-md max-h-24" />
+                        </div>
+                        <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 items-end">
+                            <label class="text-sm font-medium text-gray-300">Payment Method</label>
+                            <div class="mt-2 flex space-x-4">
+                                <label class="flex items-center">
+                                    <input type="radio" name="payment_method" value="cash" checked
+                                        class="h-4 w-4 text-purple-600 bg-gray-700 border-gray-600 focus:ring-purple-500"
+                                        id="cashRadio"><span class="ml-2 text-sm">Cash</span>
+                                </label>
+                                <label class="flex items-center">
+                                    <input type="radio" name="payment_method" value="bank_transfer"
+                                        class="h-4 w-4 text-purple-600 bg-gray-700 border-gray-600 focus:ring-purple-500"
+                                        id="bankTransferRadio">
+                                    <span class="ml-2 text-sm">Bank Transfer</span>
+                                </label>
                             </div>
                         </div>
+
+                        <div id="bankTransferFields" style="display: none; margin-top:10px;">
+                            <div>
+                                <label for="bank_transfer_name" class="text-sm font-medium text-gray-300">Name</label>
+                                <input type="text" name="bank_transfer_name" id="bank_transfer_name"
+                                    step="any" min="1"
+                                    class="mt-1 block w-full bg-gray-700 border-gray-600 rounded-md shadow-sm py-2 px-3 text-base">
+                            </div>
+                            <div>
+                                <label for="bank_transfer_sort_code" class="text-sm font-medium text-gray-300">Sort
+                                    Code</label>
+                                <input type="text" name="purchase_amount" id="bank_transfer_sort_code"
+                                    step="any" min="1"
+                                    class="mt-1 block w-full bg-gray-700 border-gray-600 rounded-md shadow-sm py-2 px-3 text-base">
+                            </div>
+                            <div>
+                                <label for="bank_transfer_account" class="text-sm font-medium text-gray-300">Account
+                                    Number</label>
+                                <input type="text" name="purchase_amount" id="bank_transfer_account"
+                                    step="any" min="1"
+                                    class="mt-1 block w-full bg-gray-700 border-gray-600 rounded-md shadow-sm py-2 px-3 text-base">
+                            </div>
+                        </div>
+
                         <div>
                             <label for="purchase-amount" class="text-sm font-medium text-gray-300">Purchase Amount
                                 (£)</label>
@@ -425,6 +449,23 @@
             </div>
         </div>
     </div>
+
+
+    <script>
+        document.getElementById('bankTransferRadio').addEventListener('change', function() {
+            const fields = document.getElementById('bankTransferFields');
+            if (this.checked) {
+                fields.style.display = 'block';
+            }
+        });
+
+        document.getElementById('cashRadio').addEventListener('change', function() {
+            const fields = document.getElementById('bankTransferFields');
+            if (this.checked) {
+                fields.style.display = 'none';
+            }
+        });
+    </script>
 </body>
 
 </html>

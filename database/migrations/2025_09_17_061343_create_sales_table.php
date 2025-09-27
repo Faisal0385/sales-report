@@ -16,9 +16,12 @@ return new class extends Migration {
             $table->string('day')->nullable();
             $table->string('month')->nullable();
             $table->string('year')->nullable();
+
             $table->decimal('cash_sales', 10, 2)->default(0);
-            $table->decimal('card_sales', 10, 2)->default(0);
             $table->decimal('techpoint_sales', 10, 2)->default(0);
+            $table->decimal('tiktech_sales', 10, 2)->default(0);
+            $table->decimal('card_sales', 10, 2)->default(0);
+
             $table->decimal('daily_total', 10, 2)->default(0);
             $table->string('company')->nullable();
             $table->string('branch')->nullable();

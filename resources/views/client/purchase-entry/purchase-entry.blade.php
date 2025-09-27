@@ -11,6 +11,7 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/quagga@0.12.1/dist/quagga.min.js"></script>
     <style>
         /* Using Inter as the default font */
         body {
@@ -132,9 +133,8 @@
                         </div>
                         <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
                             <div>
-                                <label for="purchase-download-month"
-                                    class="text-sm font-medium text-gray-300">Category</label>
-                                <select name="category" id="purchase-download-month" required
+                                <label for="category_item" class="text-sm font-medium text-gray-300">Category</label>
+                                <select name="category" id="category_item" required onchange="subCategory()"
                                     class="mt-1 block w-full bg-gray-700 border-gray-600 rounded-md shadow-sm py-2 px-3 text-base">
 
                                     @php
@@ -146,6 +146,9 @@
                                         ];
                                     @endphp
 
+                                    <option value="">
+                                        Select Category
+                                    </option>
                                     @foreach ($categories as $key => $category)
                                         <option value="{{ $category }}">
                                             {{ $category }}
@@ -155,32 +158,10 @@
                                 </select>
                             </div>
                             <div>
-                                <label for="purchase-download-month"
+                                <label for="sub_category_id"
                                     class="text-sm font-medium text-gray-300">SubCategory</label>
-                                <select name="sub_category" id="purchase-download-month" required
+                                <select name="sub_category" id="sub_category_id" required
                                     class="mt-1 block w-full bg-gray-700 border-gray-600 rounded-md shadow-sm py-2 px-3 text-base">
-
-                                    @php
-                                        $subCategories = [
-                                            'iPhone',
-                                            'Android Phone',
-                                            'iPad',
-                                            'Android Tablet',
-                                            'Laptop',
-                                            'Macbook',
-                                            'Windows PC',
-                                            'Mac',
-                                            'Accessories',
-                                        ];
-                                    @endphp
-
-                                    @foreach ($subCategories as $key => $subCategory)
-                                        <option value="{{ $subCategory }}">
-                                            {{ $subCategory }}
-                                        </option>
-                                    @endforeach
-
-
                                 </select>
                             </div>
 
@@ -191,7 +172,9 @@
                             <textarea name="product_details" id="product-details" rows="3" required
                                 class="mt-1 block w-full bg-gray-700 border-gray-600 rounded-md shadow-sm py-2 px-3 text-base"></textarea>
                         </div>
-                        <div class="relative">
+
+
+                        {{-- <div class="relative">
                             <label for="imei-number" class="text-sm font-medium text-gray-300">IMEI Number
                                 (Mandatory)</label>
                             <input type="text" name="imei_number" id="imei-number" required
@@ -212,7 +195,54 @@
                                             clip-rule="evenodd" />
                                     </svg></button>
                             </div>
+                        </div> --}}
+
+                        <div class="relative">
+                            <label for="imei-number" class="text-sm font-medium text-gray-300">IMEI Number
+                                (Mandatory)</label>
+                            <input type="text" name="imei_number" id="imei-number" required
+                                class="mt-1 block w-full bg-gray-700 border-gray-600 rounded-md shadow-sm py-2 px-3 text-base pr-20">
+
+                            <div class="absolute inset-y-0 right-0 top-6 flex items-center pr-3 space-x-2">
+                                <button type="button" id="start-scan" class="text-gray-400 hover:text-white">
+                                    <!-- barcode icon -->
+                                    <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20"
+                                        fill="currentColor">
+                                        <path fill-rule="evenodd"
+                                            d="M4.25 2A2.25 2.25 0 002 4.25v11.5A2.25 2.25 0 004.25 18h11.5A2.25 2.25 0 0018 15.75V4.25A2.25 2.25 0 0015.75 2H4.25zM6 7a1 1 0 011-1h6a1 1 0 110 2H7a1 1 0 01-1-1zm1 3a1 1 0 100 2h6a1 1 0 100-2H7z"
+                                            clip-rule="evenodd" />
+                                    </svg>
+                                </button>
+                            </div>
                         </div>
+
+                        <!-- Scanner container (hidden initially) -->
+                        <div id="scanner-container"
+                            style="display:none; position:fixed; top:0; left:0; width:100%; height:100%; background:rgba(0,0,0,0.8); z-index:1000; margin:0px">
+                            <div class="text-center" id="scanner" style="width:100%; height:100%;"></div>
+                            <button id="close-scanner"
+                                style="position:absolute;top:20px;right:20px;padding:10px;background:red;color:white;">Close</button>
+                        </div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
                         <div>
                             <label for="customer-address" class="text-sm font-medium text-gray-300">Customer Address
                                 (Optional)</label>
@@ -263,14 +293,14 @@
                             <div>
                                 <label for="bank_transfer_sort_code" class="text-sm font-medium text-gray-300">Sort
                                     Code</label>
-                                <input type="text" name="purchase_amount" id="bank_transfer_sort_code"
+                                <input type="text" name="bank_transfer_sort_code" id="bank_transfer_sort_code"
                                     step="any" min="1"
                                     class="mt-1 block w-full bg-gray-700 border-gray-600 rounded-md shadow-sm py-2 px-3 text-base">
                             </div>
                             <div>
                                 <label for="bank_transfer_account" class="text-sm font-medium text-gray-300">Account
                                     Number</label>
-                                <input type="text" name="purchase_amount" id="bank_transfer_account"
+                                <input type="text" name="bank_transfer_account" id="bank_transfer_account"
                                     step="any" min="1"
                                     class="mt-1 block w-full bg-gray-700 border-gray-600 rounded-md shadow-sm py-2 px-3 text-base">
                             </div>
@@ -451,6 +481,9 @@
     </div>
 
 
+    <!-- Include html5-qrcode from CDN -->
+
+
     <script>
         document.getElementById('bankTransferRadio').addEventListener('change', function() {
             const fields = document.getElementById('bankTransferFields');
@@ -465,7 +498,74 @@
                 fields.style.display = 'none';
             }
         });
+
+        const subCategories = {
+            'Mobile Phones': ['iPhone', 'Android Phone'],
+            'Tablets': ['iPad', 'Android Tablet'],
+            'Laptops/Macbooks': ['Laptop', 'Macbook'],
+            'PC and accessories': ['Windows PC', 'Mac', 'Accessories'],
+        };
+
+
+        function subCategory() {
+            let category_item = document.getElementById('category_item').value;
+            let select = document.getElementById('sub_category_id');
+
+            // Clear old options
+            select.innerHTML = "";
+
+            // Fill with new options
+            subCategories[category_item].forEach(element => {
+                let option = document.createElement("option");
+                option.value = element;
+                option.text = element;
+                select.appendChild(option);
+            });
+        }
     </script>
+
+    <script src="https://cdn.jsdelivr.net/npm/quagga@0.12.1/dist/quagga.min.js"></script>
+    <script>
+        document.getElementById("start-scan").addEventListener("click", function() {
+            document.getElementById("scanner-container").style.display = "block";
+
+            Quagga.init({
+                inputStream: {
+                    type: "LiveStream",
+                    target: document.querySelector('#scanner'),
+                    constraints: {
+                        facingMode: "environment" // use back camera
+                    }
+                },
+                decoder: {
+                    readers: ["code_128_reader", "ean_reader", "upc_reader"]
+                }
+            }, function(err) {
+                if (err) {
+                    console.error(err);
+                    alert("Camera initialization failed.");
+                    return;
+                }
+                Quagga.start();
+            });
+
+            Quagga.onDetected(function(result) {
+                console.log("Scanned Code:", result.codeResult.code);
+                document.getElementById("imei-number").value = result.codeResult.code;
+
+                // Stop scanning
+                Quagga.stop();
+                document.getElementById("scanner-container").style.display = "none";
+            });
+        });
+
+        document.getElementById("close-scanner").addEventListener("click", function() {
+            Quagga.stop();
+            document.getElementById("scanner-container").style.display = "none";
+        });
+    </script>
+
+
 </body>
 
 </html>

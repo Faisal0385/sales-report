@@ -21,6 +21,7 @@ return new class extends Migration {
             $table->decimal('techpoint_sales', 10, 2)->default(0);
             $table->decimal('tiktech_sales', 10, 2)->default(0);
             $table->decimal('card_sales', 10, 2)->default(0);
+            $table->decimal('print_express_sales', 10, 2)->default(0);
 
             $table->decimal('daily_total', 10, 2)->default(0);
             $table->string('company')->nullable();

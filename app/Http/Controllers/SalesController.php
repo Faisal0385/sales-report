@@ -38,6 +38,7 @@ class SalesController extends Controller
             'techpoint_sales' => 'numeric|min:0',
             'card_sales' => 'numeric|min:0',
             'tiktech_sales' => 'numeric|min:0',
+            'print_express_sales' => 'numeric|min:0',
         ]);
 
 
@@ -45,13 +46,16 @@ class SalesController extends Controller
         $card_sales = $validated['card_sales'] ?? 0;
         $techpoint_sales = $validated['techpoint_sales'] ?? 0;
         $tiktech_sales = $validated['tiktech_sales'] ?? 0;
+        $tiktech_sales = $validated['tiktech_sales'] ?? 0;
+        $print_express_sales = $validated['print_express_sales'] ?? 0;
 
 
         if (
             $cash_sales == 0 &&
             $card_sales == 0 &&
             $techpoint_sales == 0 &&
-            $tiktech_sales == 0
+            $tiktech_sales == 0 &&
+            $print_express_sales == 0
         ) {
             return redirect()->back()->with('error', 'Payment field cannot be empty!');
         }
@@ -69,7 +73,8 @@ class SalesController extends Controller
             'card_sales' => $card_sales,
             'techpoint_sales' => $techpoint_sales,
             'tiktech_sales' => $tiktech_sales,
-            'daily_total' => $cash_sales + $card_sales + $techpoint_sales + $tiktech_sales,
+            'print_express_sales' => $print_express_sales,
+            'daily_total' => $cash_sales + $card_sales + $techpoint_sales + $tiktech_sales + $print_express_sales,
             'company' => Auth::user()->company ?? null,
             'branch' => Auth::user()->branch ?? null,
         ]);
@@ -123,15 +128,17 @@ class SalesController extends Controller
             $handle = fopen('php://output', 'w');
 
             // Add header row
-            fputcsv($handle, ['Sales Date', 'Cash Sales', 'Techpoint Sales', 'Card Sales', 'Daily Total']);
+            fputcsv($handle, ['Sales Date', 'Cash Sales', 'Card Sales', 'Techpoint Sales', 'TikTech Sales', 'PrintExpress Sales', 'Daily Total']);
 
             // Add data rows
             foreach ($sales as $purchase) {
                 fputcsv($handle, [
                     $purchase->sales_date,
                     $purchase->cash_sales,
-                    $purchase->techpoint_sales,
                     $purchase->card_sales,
+                    $purchase->techpoint_sales,
+                    $purchase->tiktech_sales,
+                    $purchase->print_express_sales,
                     $purchase->daily_total,
                 ]);
             }
@@ -171,15 +178,17 @@ class SalesController extends Controller
             $handle = fopen('php://output', 'w');
 
             // Add header row
-            fputcsv($handle, ['Sales Date', 'Cash Sales', 'Techpoint Sales', 'Card Sales', 'Daily Total']);
+            fputcsv($handle, ['Sales Date', 'Cash Sales', 'Card Sales', 'Techpoint Sales', 'TikTech Sales', 'PrintExpress Sales', 'Daily Total']);
 
             // Add data rows
             foreach ($sales as $purchase) {
                 fputcsv($handle, [
                     $purchase->sales_date,
                     $purchase->cash_sales,
-                    $purchase->techpoint_sales,
                     $purchase->card_sales,
+                    $purchase->techpoint_sales,
+                    $purchase->tiktech_sales,
+                    $purchase->print_express_sales,
                     $purchase->daily_total,
                 ]);
             }

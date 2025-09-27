@@ -21,5 +21,6 @@ class Sales extends Model
         'daily_total',
         'company',
         'branch',
+        'print_express_sales',
     ];
 }

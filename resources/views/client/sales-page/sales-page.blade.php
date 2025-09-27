@@ -166,10 +166,9 @@
                                         </div>
                                     @endif
 
-                                    @if (Auth::user()->company === 'TikTech' || Auth::user()->company === 'Restaurant')
+                                    @if (Auth::user()->company === 'Restaurant')
                                         <div>
-                                            <label for="card-sales"
-                                                class="text-sm font-medium text-gray-300">PrintExpress
+                                            <label for="card-sales" class="text-sm font-medium text-gray-300">Card
                                                 Sales</label>
                                             <input type="number" id="card-sales" name="card_sales"
                                                 oninput="updateDailyTotal()" value="0" step="any"
@@ -178,9 +177,22 @@
                                         </div>
                                     @endif
 
+                                    @if (Auth::user()->company === 'TikTech')
+                                        <div>
+                                            <label for="print-express-sales"
+                                                class="text-sm font-medium text-gray-300">PrintExpress
+                                                Sales</label>
+                                            <input type="number" id="print-express-sales" name="print_express_sales"
+                                                oninput="updateDailyTotal()" value="0" step="any"
+                                                min="0"
+                                                class="mt-1 block w-full bg-gray-700 border-gray-600 rounded-md shadow-sm py-2 px-3 text-base">
+                                        </div>
+                                    @endif
+
+
                                 </div>
                                 <div class="bg-gray-800 rounded-lg p-4 flex justify-between items-center mb-4">
-                                    <span class="font-semibold">Daily Total:</span>
+                                    <span class="font-semibold">Daily Total ( £ ):</span>
                                     <span id="daily-total" class="text-2xl font-bold text-purple-400">0.00</span>
                                 </div>
                                 <button type="submit"
@@ -322,11 +334,20 @@
                                         <th class="py-2 px-3 font-medium">SL</th>
                                         <th class="py-2 px-3 font-medium">Date</th>
                                         <th class="py-2 px-3 font-medium">Cash</th>
-                                        <th class="py-2 px-3 font-medium">TechPoint</th>
-                                        <th class="py-2 px-3 font-medium">TikTech</th>
-                                        <th class="py-2 px-3 font-medium">PrintExpress</th>
+                                        @if (Auth::user()->company === 'Restaurant')
+                                            <th class="py-2 px-3 font-medium">Card</th>
+                                        @endif
+                                        @if (Auth::user()->company === 'TechPoint')
+                                            <th class="py-2 px-3 font-medium">TechPoint</th>
+                                        @endif
+                                        @if (Auth::user()->company === 'TikTech')
+                                            <th class="py-2 px-3 font-medium">TikTech</th>
+                                        @endif
+                                        @if (Auth::user()->company === 'TikTech')
+                                            <th class="py-2 px-3 font-medium">PrintExpress</th>
+                                        @endif
                                         <th class="py-2 px-3 font-medium">Daily Total</th>
-                                        <th class="py-2 px-3 font-medium text-right">Actions</th>
+                                        <th class="py-2 px-3 font-medium">Actions</th>
                                     </tr>
                                 </thead>
                                 <tbody id="sales-entries-tbody">
@@ -336,12 +357,26 @@
                                             <td class="py-3 px-3">{{ $key + 1 }}</td>
                                             <td class="py-3 px-3">{{ $sale->sales_date }}</td>
                                             <td class="py-3 px-3">{{ $sale->cash_sales }}</td>
-                                            <td class="py-3 px-3">{{ $sale->techpoint_sales }}</td>
-                                            <td class="py-3 px-3">{{ $sale->tiktech_sales }}</td>
-                                            <td class="py-3 px-3">{{ $sale->card_sales }}</td>
+
+                                            @if (Auth::user()->company === 'Restaurant')
+                                                <td class="py-3 px-3">{{ $sale->card_sales }}</td>
+                                            @endif
+
+                                            @if (Auth::user()->company === 'TechPoint')
+                                                <td class="py-3 px-3">{{ $sale->techpoint_sales }}</td>
+                                            @endif
+
+                                            @if (Auth::user()->company === 'TikTech')
+                                                <td class="py-3 px-3">{{ $sale->tiktech_sales }}</td>
+                                            @endif
+
+                                            @if (Auth::user()->company === 'TikTech')
+                                                <td class="py-3 px-3">{{ $sale->print_express_sales }}</td>
+                                            @endif
+
                                             <td class="py-3 px-3 font-semibold">
                                                 £{{ number_format($sale->daily_total, 2) }}</td>
-                                            <td class="py-3 px-3 text-right">
+                                            <td class="py-3 px-3">
                                                 <form action="{{ route('sales.destroy', $sale->id) }}" method="POST"
                                                     onsubmit="return confirm('Are you sure you want to delete this entry?');">
                                                     @csrf
@@ -489,23 +524,28 @@
             const cardSalesInput = document.getElementById('card-sales') ?? 0;
             const techpointSalesInput = document.getElementById('techpoint-sales') ?? 0;
             const tiktechSalesInput = document.getElementById('tiktech-sales') ?? 0;
+            const printExpressInput = document.getElementById('print-express-sales') ?? 0;
             const dailyTotalDisplay = document.getElementById('daily-total') ?? 0;
+
+
 
             console.log(cashSalesInput);
             console.log(cardSalesInput);
             console.log(techpointSalesInput);
             console.log(tiktechSalesInput);
+            console.log(printExpressInput);
             console.log(dailyTotalDisplay);
 
 
             // if (cashSalesInput && techpointSalesInput && dailyTotalDisplay) {
-                const cash = parseFloat(cashSalesInput.value) || 0;
-                const card = parseFloat(cardSalesInput.value) || 0;
-                const techpoint = parseFloat(techpointSalesInput.value) || 0;
-                const tiktechSales = parseFloat(tiktechSalesInput.value) || 0;
-                const total = cash + techpoint + card + tiktechSales;
+            const cash = parseFloat(cashSalesInput.value) || 0;
+            const card = parseFloat(cardSalesInput.value) || 0;
+            const techpoint = parseFloat(techpointSalesInput.value) || 0;
+            const tiktechSales = parseFloat(tiktechSalesInput.value) || 0;
+            const printExpress = parseFloat(printExpressInput.value) || 0;
+            const total = cash + techpoint + card + tiktechSales + printExpress;
 
-                dailyTotalDisplay.textContent = `£${total.toFixed(2)}`;
+            dailyTotalDisplay.textContent = `£${total.toFixed(2)}`;
             // }
         }
 

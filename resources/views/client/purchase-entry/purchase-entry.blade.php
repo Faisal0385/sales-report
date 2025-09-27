@@ -11,7 +11,6 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
-    <script src="https://cdn.jsdelivr.net/npm/quagga@0.12.1/dist/quagga.min.js"></script>
     <style>
         /* Using Inter as the default font */
         body {
@@ -213,6 +212,15 @@
                                             clip-rule="evenodd" />
                                     </svg>
                                 </button>
+                                <button type="button" onclick="startQRScanner()"
+                                    class="text-gray-400 hover:text-white">
+                                    <!-- qrcode icon -->
+                                    <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 24 24"
+                                        fill="currentColor">
+                                        <path
+                                            d="M3 3h8v8H3V3zm2 2v4h4V5H5zm10-2h6v6h-6V3zm2 2v2h2V5h-2zM3 13h8v8H3v-8zm2 2v4h4v-4H5zm10 0h2v2h-2v-2zm4 0h2v6h-6v-2h4v-4zm-4 4h2v2h-2v-2zm-4 2h2v2h-2v-2zm8 0h2v2h-2v-2z" />
+                                    </svg>
+                                </button>
                             </div>
                         </div>
 
@@ -223,25 +231,6 @@
                             <button id="close-scanner"
                                 style="position:absolute;top:20px;right:20px;padding:10px;background:red;color:white;">Close</button>
                         </div>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
                         <div>
                             <label for="customer-address" class="text-sm font-medium text-gray-300">Customer Address
@@ -255,6 +244,7 @@
                             <div class="mt-1 flex items-center space-x-2">
                                 <input type="file" name="customer_id_proof" id="customer-id-proof"
                                     class="block w-full text-sm text-gray-400 file:mr-4 file:py-2 file:px-4 file:rounded-md file:border-0 file:text-sm file:font-semibold file:bg-purple-600 file:text-white hover:file:bg-purple-700">
+                                <!-- Camera Button -->
                                 <button type="button" onclick="openCamera()"
                                     class="p-2.5 bg-gray-600 rounded-md hover:bg-gray-500 transition-colors">
                                     <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20"
@@ -264,7 +254,25 @@
                                     </svg>
                                 </button>
                             </div>
+                            <!-- Captured Photo Preview -->
                             <img id="photo-preview" class="hidden mt-2 rounded-md max-h-24" />
+
+                            <!-- Camera Modal -->
+                            <div id="camera-container"
+                                style="display:none; text-align:center; background:rgba(0,0,0,0.8); position:fixed; top:0; left:0; width:100%; height:100%; z-index:1000; padding-top:50px;">
+                                <div style="background:white; padding:20px; border-radius:10px; display:inline-block;">
+                                    <h2>Webcam Capture</h2>
+                                    <video id="video" width="400" height="300" autoplay></video>
+                                    <br>
+                                    <button id="capture">📸 Capture</button>
+                                    <button onclick="closeCamera()">❌ Close</button>
+                                    <canvas id="canvas" width="400" height="300"
+                                        style="display:none;"></canvas>
+                                </div>
+                            </div>
+
+
+
                         </div>
                         <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 items-end">
                             <label class="text-sm font-medium text-gray-300">Payment Method</label>
@@ -525,6 +533,8 @@
     </script>
 
     <script src="https://cdn.jsdelivr.net/npm/quagga@0.12.1/dist/quagga.min.js"></script>
+    <script src="https://unpkg.com/html5-qrcode" type="text/javascript"></script>
+
     <script>
         document.getElementById("start-scan").addEventListener("click", function() {
             document.getElementById("scanner-container").style.display = "block";
@@ -562,6 +572,72 @@
         document.getElementById("close-scanner").addEventListener("click", function() {
             Quagga.stop();
             document.getElementById("scanner-container").style.display = "none";
+        });
+    </script>
+
+    <script>
+        function startQRScanner() {
+            const html5QrCode = new Html5Qrcode("scanner");
+            html5QrCode.start({
+                    facingMode: "environment"
+                }, {
+                    fps: 10,
+                    qrbox: 250
+                },
+                (decodedText) => {
+                    console.log("QR Code:", decodedText);
+                    document.getElementById("imei-number").value = decodedText;
+                    html5QrCode.stop();
+                    document.getElementById("scanner-container").style.display = "none";
+                }
+            ).catch(err => {
+                console.error("QR Scan Error:", err);
+            });
+        }
+
+
+        const video = document.getElementById('video');
+        const canvas = document.getElementById('canvas');
+        const outputImg = document.getElementById('photo-preview');
+        const context = canvas.getContext('2d');
+        let stream;
+
+        // Open camera
+        function openCamera() {
+            document.getElementById('camera-container').style.display = 'block';
+
+            navigator.mediaDevices.getUserMedia({
+                    video: true
+                })
+                .then(s => {
+                    stream = s;
+                    video.srcObject = stream;
+                })
+                .catch(err => {
+                    console.error("Error accessing webcam:", err);
+                    alert("Could not access camera.");
+                });
+        }
+
+        // Close camera
+        function closeCamera() {
+            document.getElementById('camera-container').style.display = 'none';
+            if (stream) {
+                let tracks = stream.getTracks();
+                tracks.forEach(track => track.stop());
+            }
+        }
+
+        // Capture photo
+        document.getElementById('capture').addEventListener('click', () => {
+            context.drawImage(video, 0, 0, canvas.width, canvas.height);
+            const imageData = canvas.toDataURL('image/png');
+
+            // Show preview
+            outputImg.src = imageData;
+            outputImg.classList.remove('hidden');
+
+            closeCamera();
         });
     </script>
 

@@ -272,6 +272,20 @@
                             </div>
 
 
+                            <div id="qr-container"
+                                style="display:none; text-align:center; background:rgba(0,0,0,0.8); position:fixed; top:0; left:0; width:100%; height:100%; z-index:1000; padding-top:50px;">
+                                <div style="background:white; padding:20px; border-radius:10px; display:inline-block;">
+                                    <h2>Webcam Capture</h2>
+                                    <video id="video" width="400" height="300" autoplay></video>
+                                    <br>
+                                    <button id="capture">📸 Capture</button>
+                                    <button onclick="closeCamera()">❌ Close</button>
+                                    <canvas id="canvas" width="400" height="300"
+                                        style="display:none;"></canvas>
+                                </div>
+                            </div>
+
+
 
                         </div>
                         <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 items-end">
@@ -473,7 +487,7 @@
         </div>
 
         <!-- Camera Modal -->
-        <div id="camera-modal" class="hidden fixed inset-0 z-50 flex items-center justify-center">
+        {{-- <div id="camera-modal" class="hidden fixed inset-0 z-50 flex items-center justify-center">
             <div class="bg-gray-800 rounded-lg p-4 max-w-lg w-full relative">
                 <video id="camera-stream" class="w-full rounded-md" autoplay playsinline></video>
                 <canvas id="camera-canvas" class="hidden"></canvas>
@@ -485,7 +499,7 @@
                         class="bg-gray-600 text-white px-6 py-2 rounded-md hover:bg-gray-500">Cancel</button>
                 </div>
             </div>
-        </div>
+        </div> --}}
     </div>
 
 

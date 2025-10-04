@@ -73,11 +73,11 @@
                     <p class="text-sm text-gray-400 mt-1">View Reports</p>
                 </a>
             </div>
-            <form action="/logout" method="Post">
-                @csrf
-                <button type="submit" class="mt-8 text-sm text-gray-400 hover:text-white transition">&larr;
-                    Logout</button>
-            </form>
+
+            <div class="p-3 m-3">
+                <a href="{{ route('dashboard') }}" class="mt-8 text-sm text-gray-400 hover:text-white transition">&larr;
+                    Back</a>
+            </div>
         </div>
     </div>
 </body>

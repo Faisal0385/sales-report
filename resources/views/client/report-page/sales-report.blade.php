@@ -180,7 +180,7 @@
                                     ];
                                 @endphp
 
-                                <h3 class="font-semibold text-gray-300">Monthly Total Sales(Hornchurch)</h3>
+                                <h3 class="font-semibold text-gray-300">Monthly Total Sales(TikTech-Hornchurch)</h3>
                                 <p class="text-sm text-gray-400">Total sales for {{ $months[date('m')] }}</p>
                             </div>
                             <div class="text-right">
@@ -211,7 +211,7 @@
                                     ];
                                 @endphp
 
-                                <h3 class="font-semibold text-gray-300">Monthly Total Sales(Upminister)</h3>
+                                <h3 class="font-semibold text-gray-300">Monthly Total Sales(TikTech-Upminister)</h3>
                                 <p class="text-sm text-gray-400">Total sales for {{ $months[date('m')] }}</p>
                             </div>
                             <div class="text-right">
@@ -242,7 +242,7 @@
                                     ];
                                 @endphp
 
-                                <h3 class="font-semibold text-gray-300">Monthly Total Sales(Billericay)</h3>
+                                <h3 class="font-semibold text-gray-300">Monthly Total Sales(TikTech-Billericay)</h3>
                                 <p class="text-sm text-gray-400">Total sales for {{ $months[date('m')] }}</p>
                             </div>
                             <div class="text-right">
@@ -251,99 +251,6 @@
                         </div>
                     </div>
                 </div>
-
-                {{-- <div class="mt-3">
-                    <!-- Recent Sales Entries Table -->
-                    <div class="bg-gray-900 p-6 rounded-lg border border-gray-700">
-                        <h2 class="text-lg font-semibold">Recent Sales Entries</h2>
-                        <p class="text-sm text-gray-400 mt-1 mb-4">A list of sales records for the current month.
-                        </p>
-                        <div class="overflow-x-auto">
-                            <table class="min-w-full text-sm text-left">
-                                <thead class="border-b border-gray-700 text-gray-400">
-                                    <tr>
-                                        <th class="py-2 px-3 font-medium">SL</th>
-                                        <th class="py-2 px-3 font-medium">Date</th>
-                                        <th class="py-2 px-3 font-medium">Cash</th>
-                                        @if (Auth::user()->company === 'Restaurant')
-                                            <th class="py-2 px-3 font-medium">Card</th>
-                                        @endif
-                                        @if (Auth::user()->company === 'TechPoint')
-                                            <th class="py-2 px-3 font-medium">TechPoint</th>
-                                        @endif
-                                        @if (Auth::user()->company === 'TikTech')
-                                            <th class="py-2 px-3 font-medium">TikTech</th>
-                                        @endif
-                                        @if (Auth::user()->company === 'TikTech')
-                                            <th class="py-2 px-3 font-medium">PrintExpress</th>
-                                        @endif
-                                        <th class="py-2 px-3 font-medium">Daily Total</th>
-                                        <th class="py-2 px-3 font-medium">Actions</th>
-                                    </tr>
-                                </thead>
-                                <tbody id="sales-entries-tbody">
-
-                                    @forelse($TechpointSales as $key => $sale)
-                                        <tr>
-                                            <td class="py-3 px-3">{{ $key + 1 }}</td>
-                                            <td class="py-3 px-3">{{ $sale->sales_date }}</td>
-                                            <td class="py-3 px-3">{{ $sale->cash_sales }}</td>
-
-                                            @if (Auth::user()->company === 'Restaurant')
-                                                <td class="py-3 px-3">{{ $sale->card_sales }}</td>
-                                            @endif
-
-                                            @if (Auth::user()->company === 'TechPoint')
-                                                <td class="py-3 px-3">{{ $sale->techpoint_sales }}</td>
-                                            @endif
-
-                                            @if (Auth::user()->company === 'TikTech')
-                                                <td class="py-3 px-3">{{ $sale->tiktech_sales }}</td>
-                                            @endif
-
-                                            @if (Auth::user()->company === 'TikTech')
-                                                <td class="py-3 px-3">{{ $sale->print_express_sales }}</td>
-                                            @endif
-
-                                            <td class="py-3 px-3 font-semibold">
-                                                £{{ number_format($sale->daily_total, 2) }}</td>
-                                            <td class="py-3 px-3">
-                                                <form action="{{ route('sales.destroy', $sale->id) }}" method="POST"
-                                                    onsubmit="return confirm('Are you sure you want to delete this entry?');">
-                                                    @csrf
-                                                    <button type="submit"
-                                                        class="text-gray-500 hover:text-red-400 p-1 rounded-full transition-colors"
-                                                        title="Delete Sale">
-                                                        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5"
-                                                            fill="none" viewBox="0 0 24 24" stroke="currentColor"
-                                                            stroke-width="2">
-                                                            <path stroke-linecap="round" stroke-linejoin="round"
-                                                                d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
-                                                        </svg>
-                                                    </button>
-                                                </form>
-                                            </td>
-                                        </tr>
-                                    @empty
-                                        <tr>
-                                            <td colspan="7" class="py-4 text-center text-gray-400">
-                                                <p id="no-sales-message" class="text-center text-gray-500 py-8">No
-                                                    sales entries for
-                                                    this month yet.</p>
-                                            </td>
-                                        </tr>
-                                    @endforelse
-
-                                </tbody>
-                            </table>
-
-                            <!-- Pagination -->
-                            <div class="mt-4">
-                                {{ $TechpointSales->links() }}
-                            </div>
-                        </div>
-                    </div>
-                </div> --}}
 
                 <div class="mt-3 lg:col-span-2 space-y-6">
                     <!-- Download Monthly Report -->
@@ -442,47 +349,7 @@
                             </button>
                         </form>
 
-
                     </div>
-
-                    <!-- Download Yearly Report -->
-                    {{-- <div class="bg-gray-900 p-6 rounded-lg border border-gray-700">
-                        <h2 class="text-lg font-semibold">Download Yearly Report</h2>
-                        <p class="text-sm text-gray-400 mt-1 mb-4">Select a year to export all its sales data to a
-                            CSV file.</p>
-
-                        <form action="{{ route('sales.year.download') }}" method="GET">
-                            <div class="mb-4">
-                                <label for="download-yearly-year"
-                                    class="text-sm font-medium text-gray-300">Year</label>
-                                <select id="download-yearly-year" name="year"
-                                    class="mt-1 block w-full bg-gray-800 border-gray-700 rounded-md shadow-sm py-2 px-3 text-base focus:outline-none focus:ring-purple-500 focus:border-purple-500">
-
-                                    @php
-                                        $years = ['2024', '2025', '2026', '2027', '2028', '2029', '2030'];
-                                    @endphp
-
-                                    @foreach ($years as $key => $year)
-                                        <option value="{{ $year }}"
-                                            {{ $year == date('Y') ? 'selected' : '' }}>
-                                            {{ $year }}
-                                        </option>
-                                    @endforeach
-
-                                </select>
-                            </div>
-                            <button type="submit"
-                                class="w-full flex items-center justify-center py-3 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-purple-600 hover:bg-purple-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-purple-500 focus:ring-offset-gray-900 transition-colors">
-                                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-2" fill="none"
-                                    viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
-                                    <path stroke-linecap="round" stroke-linejoin="round"
-                                        d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4" />
-                                </svg>
-                                Download Yearly Report (CSV)
-                            </button>
-                        </form>
-
-                    </div> --}}
                 </div>
             </div>
         </div>

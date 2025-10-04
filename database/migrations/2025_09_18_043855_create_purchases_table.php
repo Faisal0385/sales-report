@@ -24,7 +24,8 @@ return new class extends Migration
             $table->date('purchase_date');
             $table->text('product_details');
             $table->string('imei_number')->unique(); // mandatory + unique
-            $table->string('customer_id_proof')->nullable(); // image path
+            $table->string('customer_id_proof')->nullable();
+            $table->string('captured_photo')->nullable();
 
             // Payment information
             $table->enum('payment_method', ['cash', 'card', 'bank_transfer', 'other']);

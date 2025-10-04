@@ -27,6 +27,7 @@ class Purchase extends Model
         'product_details',
         'imei_number',
         'customer_id_proof',
+        'captured_photo',   
 
         // Payment information
         'payment_method',

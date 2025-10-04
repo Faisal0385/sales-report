@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Purchase;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Storage;
 
 class PurchaseController extends Controller
 {
@@ -13,7 +14,7 @@ class PurchaseController extends Controller
         $company = Auth::user()->company;
         $branch = Auth::user()->branch;
 
-        $purchases = Purchase::where('company', '=', $company)->where('branch', '=', $branch)->orderBy('id', 'desc')->paginate(10);
+        $purchases = Purchase::where('month', '=', date('m'))->where('company', '=', $company)->where('branch', '=', $branch)->orderBy('id', 'desc')->paginate(10);
         $purchase_amount = Purchase::where('month', '=', date('m'))->where('company', '=', $company)->where('branch', '=', $branch)->sum('purchase_amount');
 
         return view('client.purchase-entry.purchase-entry', compact('purchases', 'purchase_amount'));
@@ -31,6 +32,7 @@ class PurchaseController extends Controller
             'product_details'         => 'required|string',
             'imei_number'             => 'required|string|unique:purchases,imei_number',
             'customer_id_proof'       => 'nullable|image|mimes:jpeg,png,jpg,gif,webp|max:2048',
+            'captured_photo'          => 'nullable|string',
             'payment_method'          => 'required|in:cash,card,bank_transfer,other',
             'purchase_amount'         => 'required|numeric|min:1',
             'category'                => 'required|string|max:255',
@@ -40,15 +42,28 @@ class PurchaseController extends Controller
             'bank_transfer_sort_code' => 'nullable|string|max:255',
         ]);
 
+
         // ✅ Handle file upload if exists
         if ($request->hasFile('customer_id_proof')) {
             $validated['customer_id_proof'] = $request->file('customer_id_proof')
                 ->store('id_proofs', 'public');
         }
 
-        if ($request->hasFile('customer_id_proof')) {
-            $validated['customer_id_proof'] = $request->file('customer_id_proof')
-                ->store('id_proofs', 'public'); // saved in storage/app/public/id_proofs
+        if ($request->captured_photo) {
+            // Get base64 string
+            $image = $request->captured_photo;
+
+            // Remove base64 prefix
+            $image = str_replace('data:image/png;base64,', '', $image);
+            $image = str_replace(' ', '+', $image);
+
+            // Decode and save
+            $imageName = time() . '.png';
+            Storage::disk('public')->put('captured_photo/' . $imageName, base64_decode($image));
+
+            // Store path in $validated
+            $validated['captured_photo'] = 'captured_photo/' . $imageName;
+            // dd($validated['captured_photo']);
         }
 
         list($year, $month, $day) = explode('-', $validated['purchase_date']);

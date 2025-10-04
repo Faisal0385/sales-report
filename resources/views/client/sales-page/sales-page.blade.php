@@ -527,16 +527,6 @@
             const printExpressInput = document.getElementById('print-express-sales') ?? 0;
             const dailyTotalDisplay = document.getElementById('daily-total') ?? 0;
 
-
-
-            console.log(cashSalesInput);
-            console.log(cardSalesInput);
-            console.log(techpointSalesInput);
-            console.log(tiktechSalesInput);
-            console.log(printExpressInput);
-            console.log(dailyTotalDisplay);
-
-
             // if (cashSalesInput && techpointSalesInput && dailyTotalDisplay) {
             const cash = parseFloat(cashSalesInput.value) || 0;
             const card = parseFloat(cardSalesInput.value) || 0;

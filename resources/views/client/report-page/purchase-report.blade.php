@@ -47,7 +47,7 @@
             <!-- Page Header -->
             <div class="bg-gray-800 border-b border-gray-700 rounded-t-lg p-4 flex justify-between items-center">
                 <div class="flex items-center">
-                    <a href="{{ route('dashboard') }}"
+                    <a href="{{ route('report.page') }}"
                         class="text-gray-400 hover:text-white transition mr-4 p-1 rounded-full hover:bg-gray-700">
                         <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24"
                             stroke="currentColor" stroke-width="2">
@@ -62,17 +62,8 @@
                                 d="M15 3a.5.5 0 01.5.5v1.5a.5.5 0 01-1 0V4a.5.5 0 01.5-.5zM6 3a.5.5 0 01.5.5v1.5a.5.5 0 01-1 0V4a.5.5 0 01.5-.5zm3.5 11.5a.5.5 0 00-1 0V16a.5.5 0 00.5.5h1.5a.5.5 0 000-1H10v-1.5a.5.5 0 00-.5-.5z" />
                         </svg>
                     </div>
-                    <h1 class="text-xl font-bold">{{ Auth::user()->company ?? '' }} - Sales Report</h1>
+                    <h1 class="text-xl font-bold">Purchase Report</h1>
                 </div>
-                {{-- <div class="flex items-center space-x-4">
-                    <button class="text-gray-400 hover:text-white transition">
-                        <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24"
-                            stroke="currentColor" stroke-width="2">
-                            <path stroke-linecap="round" stroke-linejoin="round"
-                                d="M15.75 6a3.75 3.75 0 11-7.5 0 3.75 3.75 0 017.5 0zM4.501 20.118a7.5 7.5 0 0114.998 0A17.933 17.933 0 0112 21.75c-2.676 0-5.216-.584-7.499-1.632z" />
-                        </svg>
-                    </button>
-                </div> --}}
             </div>
 
             @if ($errors->any())
@@ -102,153 +93,9 @@
 
             <!-- Main Content Area -->
             <div class="p-6 bg-gray-800 rounded-b-lg">
-                <div class="grid grid-cols-1 lg:grid-cols-5 gap-6">
-                    <!-- Left Column -->
-                    <div class="lg:col-span-3 space-y-6">
-                        <!-- New Sales Entry Form -->
-                        <div class="bg-gray-900 p-6 rounded-lg border border-gray-700">
-                            <h2 class="text-lg font-semibold flex items-center">
-                                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor"
-                                    class="w-5 h-5 mr-2 text-purple-400">
-                                    <path
-                                        d="M10.75 4.75a.75.75 0 00-1.5 0v4.5h-4.5a.75.75 0 000 1.5h4.5v4.5a.75.75 0 001.5 0v-4.5h4.5a.75.75 0 000-1.5h-4.5v-4.5z" />
-                                </svg>
-                                New Sales Entry
-                            </h2>
-                            <p class="text-sm text-gray-400 mt-1 mb-4">Fill in the sales figures for today. The daily
-                                total will be calculated automatically.</p>
-
-                            <form id="sales-entry-form" method="POST" action="{{ route('sales.store') }}">
-                                @csrf
-                                <div class="mb-4 relative">
-                                    <label for="sales-date" class="text-sm font-medium text-gray-300">Date</label>
-                                    <span class="absolute left-3 top-9 text-gray-400 pointer-events-none">
-                                        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20"
-                                            fill="currentColor">
-                                            <path fill-rule="evenodd"
-                                                d="M6 2a1 1 0 00-1 1v1H4a2 2 0 00-2 2v10a2 2 0 002 2h12a2 2 0 002-2V6a2 2 0 00-2-2h-1V3a1 1 0 10-2 0v1H7V3a1 1 0 00-1-1zm0 5a1 1 0 000 2h8a1 1 0 100-2H6z"
-                                                clip-rule="evenodd" />
-                                        </svg>
-                                    </span>
-                                    <input type="date" id="sales-date" name="sales_date"
-                                        value="{{ old('sales_date', \Carbon\Carbon::today()->toDateString()) }}"
-                                        class="pl-10 mt-1 block w-full bg-gray-800 border-gray-700 rounded-md shadow-sm py-2 px-3 text-base appearance-none focus:outline-none focus:ring-purple-500 focus:border-purple-500">
-                                </div>
-                                <div class="grid grid-cols-1 md:grid-cols-3 gap-4 mb-4">
-                                    <div>
-                                        <label for="cash-sales" class="text-sm font-medium text-gray-300">Cash
-                                            Sales</label>
-                                        <input type="number" id="cash-sales" name="cash_sales" min="0"
-                                            oninput="updateDailyTotal()" value="0" step="any"
-                                            class="mt-1 block w-full bg-gray-700 border-gray-600 rounded-md shadow-sm py-2 px-3 text-base">
-                                    </div>
-
-                                    @if (Auth::user()->company === 'TechPoint')
-                                        <div>
-                                            <label for="techpoint-sales"
-                                                class="text-sm font-medium text-gray-300">TechPoint
-                                                Sales</label>
-                                            <input type="number" id="techpoint-sales" name="techpoint_sales"
-                                                oninput="updateDailyTotal()" value="0" step="any"
-                                                min="0"
-                                                class="mt-1 block w-full bg-gray-700 border-gray-600 rounded-md shadow-sm py-2 px-3 text-base">
-                                        </div>
-                                    @endif
-
-                                    @if (Auth::user()->company === 'TikTech')
-                                        <div>
-                                            <label for="tiktech-sales" class="text-sm font-medium text-gray-300">TikTech
-                                                Sales</label>
-                                            <input type="number" id="tiktech-sales" name="tiktech_sales"
-                                                oninput="updateDailyTotal()" value="0" step="any"
-                                                min="0"
-                                                class="mt-1 block w-full bg-gray-700 border-gray-600 rounded-md shadow-sm py-2 px-3 text-base">
-                                        </div>
-                                    @endif
-
-                                    @if (Auth::user()->company === 'Restaurant')
-                                        <div>
-                                            <label for="card-sales" class="text-sm font-medium text-gray-300">Card
-                                                Sales</label>
-                                            <input type="number" id="card-sales" name="card_sales"
-                                                oninput="updateDailyTotal()" value="0" step="any"
-                                                min="0"
-                                                class="mt-1 block w-full bg-gray-700 border-gray-600 rounded-md shadow-sm py-2 px-3 text-base">
-                                        </div>
-                                    @endif
-
-                                    @if (Auth::user()->company === 'TikTech')
-                                        <div>
-                                            <label for="print-express-sales"
-                                                class="text-sm font-medium text-gray-300">PrintExpress
-                                                Sales</label>
-                                            <input type="number" id="print-express-sales" name="print_express_sales"
-                                                oninput="updateDailyTotal()" value="0" step="any"
-                                                min="0"
-                                                class="mt-1 block w-full bg-gray-700 border-gray-600 rounded-md shadow-sm py-2 px-3 text-base">
-                                        </div>
-                                    @endif
-
-
-                                </div>
-                                <div class="bg-gray-800 rounded-lg p-4 flex justify-between items-center mb-4">
-                                    <span class="font-semibold">Daily Total ( £ ):</span>
-                                    <span id="daily-total" class="text-2xl font-bold text-purple-400">0.00</span>
-                                </div>
-                                <button type="submit"
-                                    class="w-full flex justify-center py-3 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-purple-600 hover:bg-purple-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-purple-500 focus:ring-offset-gray-900 transition-colors">
-                                    Add Daily Entry
-                                </button>
-                            </form>
-                        </div>
-                    </div>
-
-
+                <div class="grid grid-cols-2 lg:grid-cols-2 gap-6">
                     <!-- Right Column -->
                     <div class="lg:col-span-2 space-y-6">
-                        <!-- Monthly Target Card -->
-                        <div class="bg-gray-900 p-6 rounded-lg border border-gray-700">
-                            <h2 class="text-lg font-semibold flex items-center justify-between">
-                                This Month Target
-                                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
-                                    stroke-width="1.5" stroke="currentColor" class="w-5 h-5 text-gray-400">
-                                    <path stroke-linecap="round" stroke-linejoin="round"
-                                        d="M11.25 11.25l.041-.02a.75.75 0 011.063.852l-.708 2.836a.75.75 0 001.063.853l.041-.021M21 12a9 9 0 11-18 0 9 9 0 0118 0zm-9-3.75h.008v.008H12V8.25z" />
-                                </svg>
-                            </h2>
-                            <p class="text-gray-400 text-3xl font-bold mt-4">£
-                                {{ $target }}</p>
-                            {{-- <p class="text-gray-400 text-3xl font-bold mt-4">£
-                                {{ $last_month + ($last_month * 15) / 100 }}</p> --}}
-                            {{-- <p class="text-sm text-gray-500">No data from last year to set a target.</p> --}}
-                            {{-- <div class="relative w-48 h-48 mx-auto my-6">
-                                <svg class="w-full h-full" viewBox="0 0 100 100">
-                                    <!-- Background circle -->
-                                    <circle class="text-gray-700" stroke-width="10" cx="50" cy="50"
-                                        r="40" fill="transparent" stroke="currentColor"></circle>
-                                    <!-- Progress circle -->
-                                    <circle id="target-progress-circle"
-                                        class="{{ $daily_total - $last_month > 0 ? 'text-purple-500' : 'text-red-500' }}"
-                                        stroke-width="10" cx="50" cy="50" r="40" fill="transparent"
-                                        stroke="currentColor" stroke-linecap="round"
-                                        style="transform: rotate(-90deg); transform-origin: 50% 50%;"
-                                        stroke-dasharray="251.2" stroke-dashoffset="251.2"></circle>
-                                </svg>
-                            </div> --}}
-                            <div class="text-start mt-4">
-                                <p
-                                    class="{{ $daily_total - $last_month > 0 ? 'text-green-400' : 'text-red-400' }} font-semibold flex items-start justify-start">
-                                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
-                                        stroke-width="2" stroke="currentColor" class="w-5 h-5 mr-1">
-                                        <path stroke-linecap="round" stroke-linejoin="round"
-                                            d="M2.25 18L9 11.25l4.306 4.307a11.95 11.95 0 015.814-5.519l2.74-1.22m0 0l-5.94-2.28m5.94 2.28l-2.28 5.941" />
-                                    </svg>
-                                    You are £ {{ $daily_total - $target }}
-                                    {{ $daily_total - $last_month > 0 ? 'over' : 'under' }} the target.
-                                </p>
-                            </div>
-                        </div>
-
                         <!-- Monthly Total -->
                         <div
                             class="bg-gray-900 p-6 rounded-lg border border-gray-700 flex justify-between items-center">
@@ -271,144 +118,135 @@
                                     ];
                                 @endphp
 
-                                <h3 class="font-semibold text-gray-300">Monthly Total</h3>
-                                <p class="text-sm text-gray-400">Total sales for {{ $months[date('m')] }}</p>
+                                <h3 class="font-semibold text-gray-300">Monthly Total Purchase (Techpoint)</h3>
+                                <p class="text-sm text-gray-400">Total purchase for {{ $months[date('m')] }}</p>
                             </div>
                             <div class="text-right">
-                                <p class="font-bold" style="font-size: 20px;">£ {{ $daily_total }}</p>
+                                <p class="font-bold" style="font-size: 20px;">£ {{ $techpoint_daily_total }}</p>
                             </div>
                         </div>
-
-                        <!-- Add Monthly Total Sale -->
-                        {{-- <div class="bg-gray-900 p-6 rounded-lg border border-gray-700">
-                            <h2 class="text-lg font-semibold flex items-center">
-                                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
-                                    stroke-width="1.5" stroke="currentColor" class="w-5 h-5 mr-2 text-purple-400">
-                                    <path stroke-linecap="round" stroke-linejoin="round"
-                                        d="M12 6v6h4.5m4.5 0a9 9 0 11-18 0 9 9 0 0118 0z" />
-                                </svg>
-                                Add Monthly Total Sale
-                            </h2>
-                            <p class="text-sm text-gray-400 mt-1 mb-4">Manually enter a total sales amount for a past
-                                month or year for historical tracking.</p>
-                            <form onsubmit="handleAddMonthlyTotal(event)">
-                                <div class="grid grid-cols-2 gap-4 mb-4">
-                                    <div>
-                                        <label for="monthly-total-year"
-                                            class="text-sm font-medium text-gray-300">Year</label>
-                                        <select id="monthly-total-year"
-                                            class="mt-1 block w-full bg-gray-800 border-gray-700 rounded-md shadow-sm py-2 px-3 text-base focus:outline-none focus:ring-purple-500 focus:border-purple-500"></select>
-                                    </div>
-                                    <div>
-                                        <label for="monthly-total-month"
-                                            class="text-sm font-medium text-gray-300">Month</label>
-                                        <select id="monthly-total-month"
-                                            class="mt-1 block w-full bg-gray-800 border-gray-700 rounded-md shadow-sm py-2 px-3 text-base focus:outline-none focus:ring-purple-500 focus:border-purple-500"></select>
-                                    </div>
-                                </div>
-                                <div class="mb-4">
-                                    <label for="monthly-total-amount" class="text-sm font-medium text-gray-300">Total
-                                        Sale Amount (£)</label>
-                                    <input type="number" id="monthly-total-amount" value="0" step="any"
-                                        class="mt-1 block w-full bg-gray-700 border-gray-600 rounded-md shadow-sm py-2 px-3 text-base">
-                                </div>
-                                <button type="submit"
-                                    class="w-full flex justify-center py-3 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-purple-600 hover:bg-purple-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-purple-500 focus:ring-offset-gray-900 transition-colors">
-                                    Add Monthly Total
-                                </button>
-                            </form>
-                        </div> --}}
                     </div>
-                </div>
+                    <div class="lg:col-span-2 space-y-6">
+                        <!-- Monthly Total -->
+                        <div
+                            class="bg-gray-900 p-6 rounded-lg border border-gray-700 flex justify-between items-center">
+                            <div>
 
-                <div class="mt-3">
-                    <!-- Recent Sales Entries Table -->
-                    <div class="bg-gray-900 p-6 rounded-lg border border-gray-700">
-                        <h2 class="text-lg font-semibold">Recent Sales Entries</h2>
-                        <p class="text-sm text-gray-400 mt-1 mb-4">A list of sales records for the current month.
-                        </p>
-                        <div class="overflow-x-auto">
-                            <table class="min-w-full text-sm text-left">
-                                <thead class="border-b border-gray-700 text-gray-400">
-                                    <tr>
-                                        <th class="py-2 px-3 font-medium">SL</th>
-                                        <th class="py-2 px-3 font-medium">Date</th>
-                                        <th class="py-2 px-3 font-medium">Cash</th>
-                                        @if (Auth::user()->company === 'Restaurant')
-                                            <th class="py-2 px-3 font-medium">Card</th>
-                                        @endif
-                                        @if (Auth::user()->company === 'TechPoint')
-                                            <th class="py-2 px-3 font-medium">TechPoint</th>
-                                        @endif
-                                        @if (Auth::user()->company === 'TikTech')
-                                            <th class="py-2 px-3 font-medium">TikTech</th>
-                                        @endif
-                                        @if (Auth::user()->company === 'TikTech')
-                                            <th class="py-2 px-3 font-medium">PrintExpress</th>
-                                        @endif
-                                        <th class="py-2 px-3 font-medium">Daily Total</th>
-                                        <th class="py-2 px-3 font-medium">Actions</th>
-                                    </tr>
-                                </thead>
-                                <tbody id="sales-entries-tbody">
+                                @php
+                                    $months = [
+                                        '01' => 'January',
+                                        '02' => 'February',
+                                        '03' => 'March',
+                                        '04' => 'April',
+                                        '05' => 'May',
+                                        '06' => 'June',
+                                        '07' => 'July',
+                                        '08' => 'August',
+                                        '09' => 'September',
+                                        '10' => 'October',
+                                        '11' => 'November',
+                                        '12' => 'December',
+                                    ];
+                                @endphp
 
-                                    @forelse($sales as $key => $sale)
-                                        <tr>
-                                            <td class="py-3 px-3">{{ $key + 1 }}</td>
-                                            <td class="py-3 px-3">{{ $sale->sales_date }}</td>
-                                            <td class="py-3 px-3">{{ $sale->cash_sales }}</td>
+                                <h3 class="font-semibold text-gray-300">Monthly Total Purchase (Restaurant)</h3>
+                                <p class="text-sm text-gray-400">Total purchase for {{ $months[date('m')] }}</p>
+                            </div>
+                            <div class="text-right">
+                                <p class="font-bold" style="font-size: 20px;">£ {{ $restaurant_daily_total }}</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="lg:col-span-2 space-y-6">
+                        <!-- Monthly Total -->
+                        <div
+                            class="bg-gray-900 p-6 rounded-lg border border-gray-700 flex justify-between items-center">
+                            <div>
 
-                                            @if (Auth::user()->company === 'Restaurant')
-                                                <td class="py-3 px-3">{{ $sale->card_sales }}</td>
-                                            @endif
+                                @php
+                                    $months = [
+                                        '01' => 'January',
+                                        '02' => 'February',
+                                        '03' => 'March',
+                                        '04' => 'April',
+                                        '05' => 'May',
+                                        '06' => 'June',
+                                        '07' => 'July',
+                                        '08' => 'August',
+                                        '09' => 'September',
+                                        '10' => 'October',
+                                        '11' => 'November',
+                                        '12' => 'December',
+                                    ];
+                                @endphp
 
-                                            @if (Auth::user()->company === 'TechPoint')
-                                                <td class="py-3 px-3">{{ $sale->techpoint_sales }}</td>
-                                            @endif
+                                <h3 class="font-semibold text-gray-300">Monthly Total Purchase (TikTech-Hornchurch)</h3>
+                                <p class="text-sm text-gray-400">Total purchase for {{ $months[date('m')] }}</p>
+                            </div>
+                            <div class="text-right">
+                                <p class="font-bold" style="font-size: 20px;">£ {{ $hornchurch_daily_total }}</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="lg:col-span-2 space-y-6">
+                        <!-- Monthly Total -->
+                        <div
+                            class="bg-gray-900 p-6 rounded-lg border border-gray-700 flex justify-between items-center">
+                            <div>
 
-                                            @if (Auth::user()->company === 'TikTech')
-                                                <td class="py-3 px-3">{{ $sale->tiktech_sales }}</td>
-                                            @endif
+                                @php
+                                    $months = [
+                                        '01' => 'January',
+                                        '02' => 'February',
+                                        '03' => 'March',
+                                        '04' => 'April',
+                                        '05' => 'May',
+                                        '06' => 'June',
+                                        '07' => 'July',
+                                        '08' => 'August',
+                                        '09' => 'September',
+                                        '10' => 'October',
+                                        '11' => 'November',
+                                        '12' => 'December',
+                                    ];
+                                @endphp
 
-                                            @if (Auth::user()->company === 'TikTech')
-                                                <td class="py-3 px-3">{{ $sale->print_express_sales }}</td>
-                                            @endif
+                                <h3 class="font-semibold text-gray-300">Monthly Total Purchase (TikTech-Upminister)</h3>
+                                <p class="text-sm text-gray-400">Total purchase for {{ $months[date('m')] }}</p>
+                            </div>
+                            <div class="text-right">
+                                <p class="font-bold" style="font-size: 20px;">£ {{ $upminister_daily_total }}</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="lg:col-span-2 space-y-6">
+                        <!-- Monthly Total -->
+                        <div
+                            class="bg-gray-900 p-6 rounded-lg border border-gray-700 flex justify-between items-center">
+                            <div>
 
-                                            <td class="py-3 px-3 font-semibold">
-                                                £{{ number_format($sale->daily_total, 2) }}</td>
-                                            <td class="py-3 px-3">
-                                                <form action="{{ route('sales.destroy', $sale->id) }}" method="POST"
-                                                    onsubmit="return confirm('Are you sure you want to delete this entry?');">
-                                                    @csrf
-                                                    <button type="submit"
-                                                        class="text-gray-500 hover:text-red-400 p-1 rounded-full transition-colors"
-                                                        title="Delete Sale">
-                                                        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5"
-                                                            fill="none" viewBox="0 0 24 24" stroke="currentColor"
-                                                            stroke-width="2">
-                                                            <path stroke-linecap="round" stroke-linejoin="round"
-                                                                d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
-                                                        </svg>
-                                                    </button>
-                                                </form>
-                                            </td>
-                                        </tr>
-                                    @empty
-                                        <tr>
-                                            <td colspan="7" class="py-4 text-center text-gray-400">
-                                                <p id="no-sales-message" class="text-center text-gray-500 py-8">No
-                                                    sales entries for
-                                                    this month yet.</p>
-                                            </td>
-                                        </tr>
-                                    @endforelse
+                                @php
+                                    $months = [
+                                        '01' => 'January',
+                                        '02' => 'February',
+                                        '03' => 'March',
+                                        '04' => 'April',
+                                        '05' => 'May',
+                                        '06' => 'June',
+                                        '07' => 'July',
+                                        '08' => 'August',
+                                        '09' => 'September',
+                                        '10' => 'October',
+                                        '11' => 'November',
+                                        '12' => 'December',
+                                    ];
+                                @endphp
 
-                                </tbody>
-                            </table>
-
-                            <!-- Pagination -->
-                            <div class="mt-4">
-                                {{ $sales->links() }}
+                                <h3 class="font-semibold text-gray-300">Monthly Total Purchase (TikTech-Billericay)</h3>
+                                <p class="text-sm text-gray-400">Total purchase for {{ $months[date('m')] }}</p>
+                            </div>
+                            <div class="text-right">
+                                <p class="font-bold" style="font-size: 20px;">£ {{ $billericay_daily_total }}</p>
                             </div>
                         </div>
                     </div>
@@ -422,8 +260,50 @@
                             a CSV file.</p>
 
 
-                        <form action="{{ route('sales.download') }}" method="GET">
+                        <form action="{{ route('purchase.report.download') }}" method="GET">
                             <div class="grid grid-cols-2 gap-4 mb-4">
+                                <div>
+                                    <label for="download-monthly-company"
+                                        class="text-sm font-medium text-gray-300">Company</label>
+                                    <select id="download-monthly-company" name="company"
+                                        class="mt-1 block w-full bg-gray-800 border-gray-700 rounded-md shadow-sm py-2 px-3 text-base focus:outline-none focus:ring-purple-500 focus:border-purple-500">
+
+                                        @php
+
+                                            $companies = ['Techpoint', 'Restaurant', 'TikTech'];
+
+                                        @endphp
+
+                                        @foreach ($companies as $key => $company)
+                                            <option value="{{ $company }}">
+                                                {{ $company }}
+                                            </option>
+                                        @endforeach
+
+                                    </select>
+                                </div>
+                                <div>
+                                    <label for="download-monthly-year"
+                                        class="text-sm font-medium text-gray-300">Branch</label>
+                                    <select id="download-monthly-year" name="year"
+                                        class="mt-1 block w-full bg-gray-800 border-gray-700 rounded-md shadow-sm py-2 px-3 text-base focus:outline-none focus:ring-purple-500 focus:border-purple-500">
+
+                                        @php
+
+                                            $branches = ['Hornchurch', 'Upminister', 'Billericay'];
+
+                                        @endphp
+                                        <option value="">
+                                            Select Branch
+                                        </option>
+                                        @foreach ($branches as $key => $branch)
+                                            <option value="{{ $branch }}">
+                                                {{ $branch }}
+                                            </option>
+                                        @endforeach
+
+                                    </select>
+                                </div>
                                 <div>
                                     <label for="download-monthly-year"
                                         class="text-sm font-medium text-gray-300">Year</label>
@@ -468,47 +348,6 @@
                                 Download Monthly Report (CSV)
                             </button>
                         </form>
-
-
-                    </div>
-
-                    <!-- Download Yearly Report -->
-                    <div class="bg-gray-900 p-6 rounded-lg border border-gray-700">
-                        <h2 class="text-lg font-semibold">Download Yearly Report</h2>
-                        <p class="text-sm text-gray-400 mt-1 mb-4">Select a year to export all its sales data to a
-                            CSV file.</p>
-
-                        <form action="{{ route('sales.year.download') }}" method="GET">
-                            <div class="mb-4">
-                                <label for="download-yearly-year"
-                                    class="text-sm font-medium text-gray-300">Year</label>
-                                <select id="download-yearly-year" name="year"
-                                    class="mt-1 block w-full bg-gray-800 border-gray-700 rounded-md shadow-sm py-2 px-3 text-base focus:outline-none focus:ring-purple-500 focus:border-purple-500">
-
-                                    @php
-                                        $years = ['2024', '2025', '2026', '2027', '2028', '2029', '2030'];
-                                    @endphp
-
-                                    @foreach ($years as $key => $year)
-                                        <option value="{{ $year }}"
-                                            {{ $year == date('Y') ? 'selected' : '' }}>
-                                            {{ $year }}
-                                        </option>
-                                    @endforeach
-
-                                </select>
-                            </div>
-                            <button type="submit"
-                                class="w-full flex items-center justify-center py-3 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-purple-600 hover:bg-purple-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-purple-500 focus:ring-offset-gray-900 transition-colors">
-                                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-2" fill="none"
-                                    viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
-                                    <path stroke-linecap="round" stroke-linejoin="round"
-                                        d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4" />
-                                </svg>
-                                Download Yearly Report (CSV)
-                            </button>
-                        </form>
-
                     </div>
                 </div>
             </div>
@@ -539,20 +378,6 @@
             // }
         }
 
-        // target-progress-circle
-        renderMonthlyTargetChart({{ ($daily_total - $last_month) / 100 }});
-
-        function renderMonthlyTargetChart(percentage) {
-            const circle = document.getElementById('target-progress-circle');
-            if (!circle) return; // Safety check
-            const radius = circle.r.baseVal.value;
-            const circumference = 2 * Math.PI * radius;
-
-            const offset = circumference - (percentage / 100) * circumference;
-
-            circle.style.strokeDasharray = `${circumference} ${circumference}`;
-            circle.style.strokeDashoffset = offset;
-        }
 
         // Store references to the page elements
         const pages = {

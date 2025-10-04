@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\PurchaseController;
+use App\Http\Controllers\ReportController;
 use App\Http\Controllers\SalesController;
 use App\Http\Controllers\SettingController;
 use Illuminate\Support\Facades\Route;
@@ -48,6 +49,7 @@ Route::get('/sales/page', [SalesController::class, 'index'])->middleware(['auth'
 Route::post('/sales/store', [SalesController::class, 'store'])->middleware(['auth', 'verified'])->name('sales.store');
 Route::post('/sales/destroy/{id}', [SalesController::class, 'destroy'])->middleware(['auth', 'verified'])->name('sales.destroy');
 Route::get('/sales/download', [SalesController::class, 'downloadCsv'])->name('sales.download');
+Route::get('/sales/report/download', [SalesController::class, 'downloadReportCsv'])->name('sales.report.download');
 Route::get('/sales/year/download', [SalesController::class, 'downloadYearCsv'])->name('sales.year.download');
 
 ## Purchase
@@ -55,3 +57,10 @@ Route::get('/purchase/page', [PurchaseController::class, 'index'])->middleware([
 Route::post('/purchase/store', [PurchaseController::class, 'store'])->middleware(['auth', 'verified'])->name('purchase.store');
 Route::post('/purchase/destroy/{id}', [PurchaseController::class, 'destroy'])->middleware(['auth', 'verified'])->name('purchase.destroy');
 Route::get('/purchases/download', [PurchaseController::class, 'downloadCsv'])->name('purchase.download');
+Route::get('/purchases/report/download', [PurchaseController::class, 'downloadReportCsv'])->name('purchase.report.download');
+
+
+## Report
+Route::get('/report/page', [ReportController::class, 'index'])->middleware(['auth', 'verified'])->name('report.page');
+Route::get('/sale/report/page', [ReportController::class, 'saleReport'])->middleware(['auth', 'verified'])->name('sale.report.page');
+Route::get('/purchase/report/page', [ReportController::class, 'puchaseReport'])->middleware(['auth', 'verified'])->name('purchase.report.page');

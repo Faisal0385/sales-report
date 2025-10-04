@@ -147,4 +147,56 @@ class PurchaseController extends Controller
 
         return response()->stream($callback, 200, $headers);
     }
+
+
+    public function downloadReportCsv(Request $request)
+    {
+        $company = $request->input('company');
+        $branch = $request->input('branch');
+
+        $year = $request->input('year');
+        $month = $request->input('month');
+
+        // ✅ Filter purchases by year and month
+        $purchases = Purchase::whereYear('purchase_date', $year)
+            ->whereMonth('purchase_date', $month)
+            ->where('company', '=', $company)
+            ->where('branch', '=', $branch)
+            ->get();
+
+        // ✅ CSV file name
+        $fileName = "purchases_{$year}_{$month}.csv";
+
+        // ✅ Create CSV headers
+        $headers = [
+            'Content-Type' => 'text/csv',
+            'Content-Disposition' => "attachment; filename=\"$fileName\"",
+        ];
+
+        // ✅ Stream CSV response
+        $callback = function () use ($purchases) {
+            $handle = fopen('php://output', 'w');
+
+            // Add header row
+            fputcsv($handle, ['Purchase Date', 'Customer Name', 'Phone', 'Email', 'Address', 'IMEI Number', 'Product Details', 'Total Amount']);
+
+            // Add data rows
+            foreach ($purchases as $purchase) {
+                fputcsv($handle, [
+                    $purchase->purchase_date,
+                    $purchase->customer_name,
+                    $purchase->phone_number,
+                    $purchase->email,
+                    $purchase->customer_address,
+                    $purchase->imei_number,
+                    $purchase->product_details,
+                    $purchase->purchase_amount,
+                ]);
+            }
+
+            fclose($handle);
+        };
+
+        return response()->stream($callback, 200, $headers);
+    }
 }

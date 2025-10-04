@@ -198,4 +198,56 @@ class SalesController extends Controller
 
         return response()->stream($callback, 200, $headers);
     }
+
+
+        // Download Report CSV
+    public function downloadReportCsv(Request $request)
+    {
+        $company = $request->input('company');
+        $branch = $request->input('branch');
+
+        $year = $request->input('year');
+        $month = $request->input('month');
+
+        // ✅ Filter sales by year and month
+        $sales = Sales::whereYear('sales_date', $year)
+            ->whereMonth('sales_date', $month)
+            ->where('company', '=', $company)
+            ->where('branch', '=', $branch)
+            ->get();
+
+        // ✅ CSV file name
+        $fileName = "sales_{$year}_{$month}.csv";
+
+        // ✅ Create CSV headers
+        $headers = [
+            'Content-Type' => 'text/csv',
+            'Content-Disposition' => "attachment; filename=\"$fileName\"",
+        ];
+
+        // ✅ Stream CSV response
+        $callback = function () use ($sales) {
+            $handle = fopen('php://output', 'w');
+
+            // Add header row
+            fputcsv($handle, ['Sales Date', 'Cash Sales', 'Card Sales', 'Techpoint Sales', 'TikTech Sales', 'PrintExpress Sales', 'Daily Total']);
+
+            // Add data rows
+            foreach ($sales as $purchase) {
+                fputcsv($handle, [
+                    $purchase->sales_date,
+                    $purchase->cash_sales,
+                    $purchase->card_sales,
+                    $purchase->techpoint_sales,
+                    $purchase->tiktech_sales,
+                    $purchase->print_express_sales,
+                    $purchase->daily_total,
+                ]);
+            }
+
+            fclose($handle);
+        };
+
+        return response()->stream($callback, 200, $headers);
+    }
 }

@@ -1,0 +1,39 @@
+
+'name'     => Techpoint User,
+'email'    => admin@techpoint.com,
+'password' => password1,
+'company'  => TechPoint,
+
+
+'name'     => Restaurant User,
+'email'    => admin@restaurant.com,
+'password' => password2,
+'company'  => Restaurant,
+
+
+'name'     => Hornchurch User,
+'email'    => hc@tiktech.com,
+'password' => password3,
+'company'  => TikTech,
+'branch'   => Hornchurch,
+
+
+'name'     => Upminister User,
+'email'    => up@tiktech.com,
+'password' => password4,
+'company'  => TikTech,
+'branch'   => Upminister,
+
+
+'name'     => Billericay User,
+'email'    => br@tiktech.com,
+'password' => password5,
+'company'  => TikTech,
+'branch'   => Billericay,
+
+
+'name'     => Admin User,
+'email'    => super@gmail.com,
+'password' => password#,
+'role'     => superadmin,
+'company'  => TechPoint,

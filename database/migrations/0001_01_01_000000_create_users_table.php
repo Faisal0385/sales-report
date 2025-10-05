@@ -19,8 +19,9 @@ return new class extends Migration
             $table->string('password');
             $table->string('phone')->nullable();
             $table->string('address')->nullable();
+            $table->string('role')->nullable();
             $table->enum('company', ['TechPoint', 'TikTech', 'Restaurant'])->nullable();
-            $table->enum('branch', ['TikTech-Hornchurch', 'TikTech-Upminister', 'TikTech-Billericay'])->nullable();
+            $table->enum('branch', ['Hornchurch', 'Upminister', 'Billericay'])->nullable();
             $table->rememberToken();
             $table->timestamps();
         });

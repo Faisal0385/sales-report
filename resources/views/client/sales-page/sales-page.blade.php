@@ -216,25 +216,7 @@
                                         d="M11.25 11.25l.041-.02a.75.75 0 011.063.852l-.708 2.836a.75.75 0 001.063.853l.041-.021M21 12a9 9 0 11-18 0 9 9 0 0118 0zm-9-3.75h.008v.008H12V8.25z" />
                                 </svg>
                             </h2>
-                            <p class="text-gray-400 text-3xl font-bold mt-4">£
-                                {{ $target }}</p>
-                            {{-- <p class="text-gray-400 text-3xl font-bold mt-4">£
-                                {{ $last_month + ($last_month * 15) / 100 }}</p> --}}
-                            {{-- <p class="text-sm text-gray-500">No data from last year to set a target.</p> --}}
-                            {{-- <div class="relative w-48 h-48 mx-auto my-6">
-                                <svg class="w-full h-full" viewBox="0 0 100 100">
-                                    <!-- Background circle -->
-                                    <circle class="text-gray-700" stroke-width="10" cx="50" cy="50"
-                                        r="40" fill="transparent" stroke="currentColor"></circle>
-                                    <!-- Progress circle -->
-                                    <circle id="target-progress-circle"
-                                        class="{{ $daily_total - $last_month > 0 ? 'text-purple-500' : 'text-red-500' }}"
-                                        stroke-width="10" cx="50" cy="50" r="40" fill="transparent"
-                                        stroke="currentColor" stroke-linecap="round"
-                                        style="transform: rotate(-90deg); transform-origin: 50% 50%;"
-                                        stroke-dasharray="251.2" stroke-dashoffset="251.2"></circle>
-                                </svg>
-                            </div> --}}
+                            <p class="text-gray-400 text-3xl font-bold mt-4">£ {{ $target }} </p>
                             <div class="text-start mt-4">
                                 <p
                                     class="{{ $daily_total - $last_month > 0 ? 'text-green-400' : 'text-red-400' }} font-semibold flex items-start justify-start">

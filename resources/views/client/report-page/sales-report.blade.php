@@ -118,7 +118,7 @@
                                     ];
                                 @endphp
 
-                                <h3 class="font-semibold text-gray-300">Monthly Total Sales(Techpoint)</h3>
+                                <h3 class="font-semibold text-gray-300">Monthly Total Sales (Techpoint)</h3>
                                 <p class="text-sm text-gray-400">Total sales for {{ $months[date('m')] }}</p>
                             </div>
                             <div class="text-right">
@@ -149,7 +149,7 @@
                                     ];
                                 @endphp
 
-                                <h3 class="font-semibold text-gray-300">Monthly Total Sales(Restaurant)</h3>
+                                <h3 class="font-semibold text-gray-300">Monthly Total Sales (Restaurant)</h3>
                                 <p class="text-sm text-gray-400">Total sales for {{ $months[date('m')] }}</p>
                             </div>
                             <div class="text-right">
@@ -180,7 +180,7 @@
                                     ];
                                 @endphp
 
-                                <h3 class="font-semibold text-gray-300">Monthly Total Sales(TikTech-Hornchurch)</h3>
+                                <h3 class="font-semibold text-gray-300">Monthly Total Sales (TikTech-Hornchurch)</h3>
                                 <p class="text-sm text-gray-400">Total sales for {{ $months[date('m')] }}</p>
                             </div>
                             <div class="text-right">
@@ -211,7 +211,7 @@
                                     ];
                                 @endphp
 
-                                <h3 class="font-semibold text-gray-300">Monthly Total Sales(TikTech-Upminister)</h3>
+                                <h3 class="font-semibold text-gray-300">Monthly Total Sales (TikTech-Upminister)</h3>
                                 <p class="text-sm text-gray-400">Total sales for {{ $months[date('m')] }}</p>
                             </div>
                             <div class="text-right">
@@ -242,7 +242,7 @@
                                     ];
                                 @endphp
 
-                                <h3 class="font-semibold text-gray-300">Monthly Total Sales(TikTech-Billericay)</h3>
+                                <h3 class="font-semibold text-gray-300">Monthly Total Sales (TikTech-Billericay)</h3>
                                 <p class="text-sm text-gray-400">Total sales for {{ $months[date('m')] }}</p>
                             </div>
                             <div class="text-right">

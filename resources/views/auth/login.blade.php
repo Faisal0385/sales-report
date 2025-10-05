@@ -28,10 +28,10 @@
             <div class="container-fluid">
                 <div class="row row-cols-1 row-cols-lg-2 row-cols-xl-3">
                     <div class="col mx-auto">
-                        <div class="mb-4 text-center">
+                        {{-- <div class="mb-4 text-center">
                             <img src="{{ asset('/admin/assets/images/circle-logo.png') }}" width="100"
                                 alt="company logo" />
-                        </div>
+                        </div> --}}
                         <div class="card">
                             <div class="card-body">
                                 <div class="border p-2 mb-3 rounded">

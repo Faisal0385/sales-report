@@ -5,6 +5,7 @@ use App\Http\Controllers\PurchaseController;
 use App\Http\Controllers\ReportController;
 use App\Http\Controllers\SalesController;
 use App\Http\Controllers\SettingController;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 
 // Route::get('/', function () {
@@ -30,7 +31,13 @@ Route::get('/', function () {
 });
 
 Route::get('/dashboard', function () {
-    return view('client.dashboard.dashboard');
+
+    if (Auth::user()->role == 'superadmin') {
+        return view('client.report-page.report-page');
+    }else{
+        return view('client.dashboard.dashboard');
+    }
+
 })->middleware(['auth', 'verified'])->name('dashboard');
 
 // Route::get('/sales', function () {

@@ -47,7 +47,7 @@
                 <h1 class="text-3xl font-bold">All Reports</h1>
                 <p class="text-gray-400 mt-2">Select an option to get started.</p>
             </div>
-            <div class="mt-8 grid grid-cols-1 sm:grid-cols-2 gap-4">
+            <div class="mt-8 grid grid-cols-1 sm:grid-cols-3 gap-4">
                 <!-- Sales Report Card -->
                 <a href="{{ route('sale.report.page') }}"
                     class="bg-gray-800 p-6 rounded-lg border border-gray-700 hover:bg-gray-700 hover:border-purple-500 cursor-pointer transition-all duration-300">
@@ -72,12 +72,29 @@
                     <h3 class="font-semibold mt-4 text-lg">Purchase Report</h3>
                     <p class="text-sm text-gray-400 mt-1">View Reports</p>
                 </a>
+                <a href="{{ route('settings.page') }}"
+                    class="bg-gray-800 p-6 rounded-lg border border-gray-700 hover:bg-gray-700 hover:border-purple-500 cursor-pointer transition-all duration-300">
+                    <!-- Icon: Cart -->
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-12 w-12 text-purple-400 mx-auto" fill="none"
+                        viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.5">
+                        <path stroke-linecap="round" stroke-linejoin="round"
+                            d="M15.75 6a3.75 3.75 0 11-7.5 0 3.75 3.75 0 017.5 0zM4.5 20.25a8.25 8.25 0 0115 0v.75H4.5v-.75z" />
+                    </svg>
+
+                    <h3 class="font-semibold mt-4 text-lg">Settings</h3>
+                    <p class="text-sm text-gray-400 mt-1">Record products bought from customers.</p>
+                </a>
             </div>
 
-            <div class="p-3 m-3">
+            {{-- <div class="p-3 m-3">
                 <a href="{{ route('dashboard') }}" class="mt-8 text-sm text-gray-400 hover:text-white transition">&larr;
                     Back</a>
-            </div>
+            </div> --}}
+             <form action="logout" method="Post">
+                @csrf
+                <button type="submit" class="mt-8 text-sm text-gray-400 hover:text-white transition">&larr;
+                    Logout</button>
+            </form>
         </div>
     </div>
 </body>

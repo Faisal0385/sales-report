@@ -15,15 +15,24 @@ class SalesController extends Controller
     {
         $company = Auth::user()->company;
         $branch = Auth::user()->branch;
-        $last_month = (int) date('m') - 1;
 
-        $sales = Sales::where('month', '=', date('m'))->where('company', '=', $company)->where('branch', '=', $branch)->orderBy('id', 'desc')->paginate(10);
-        $daily_total = Sales::where('month', '=', date('m'))->where('company', '=', $company)->where('branch', '=', $branch)->sum('daily_total');
-        $last_month = Sales::where('month', '=', $last_month)->where('company', '=', $company)->where('branch', '=', $branch)->sum('daily_total');
+        // $last_month = (int) date('m') - 1;
+        // $last_month = Sales::where('month', '=', $last_month)->where('company', '=', $company)->where('branch', '=', $branch)->sum('daily_total');
+        // $target = $last_month + (($last_month * 15) / 100);
+        // dd($daily_total);
+        // dd($last_year_this_month + (($last_year_this_month * 15) / 100));
 
-        $target = $last_month + (($last_month * 15) / 100);
 
-        return view('client.sales-page.sales-page', compact('sales', 'daily_total', 'last_month', 'target'));
+        $this_month = (int) date('m');
+        $last_year = (int) date('Y') - 1;
+        $last_year_this_month = Sales::where('month', '=', $this_month)->where('year', '=', $last_year)->where('company', '=', $company)->where('branch', '=', $branch)->sum('daily_total');
+        $new_target = $last_year_this_month + (($last_year_this_month * 15) / 100);
+
+        $daily_total = Sales::where('month', '=', date('m'))->where('year', '=', date('Y'))->where('company', '=', $company)->where('branch', '=', $branch)->sum('daily_total');
+        $sales = Sales::where('month', '=', date('m'))->where('year', '=', date('Y'))->where('company', '=', $company)->where('branch', '=', $branch)->orderBy('id', 'desc')->paginate(10);
+
+
+        return view('client.sales-page.sales-page', compact('sales', 'daily_total', 'new_target', 'last_year_this_month'));
     }
 
     public function store(Request $request)
@@ -85,7 +94,6 @@ class SalesController extends Controller
         return redirect()->back()->with('success', 'Sales entry added successfully!');
     }
 
-
     public function destroy($id)
     {
         // Find the sale by ID
@@ -100,7 +108,6 @@ class SalesController extends Controller
 
         return redirect()->back()->with('success', 'Sale entry deleted successfully!');
     }
-
 
     public function downloadCsv(Request $request)
     {
@@ -152,8 +159,48 @@ class SalesController extends Controller
         return response()->stream($callback, 200, $headers);
     }
 
+    public function salesMonthView(Request $request)
+    {
+        $company = Auth::user()->company ?? null;
+        $branch = Auth::user()->branch ?? null;
 
-    // 
+        $year = $request->input('year');
+        $month = $request->input('month');
+
+        // ✅ Filter sales by year and month
+        $sales = Sales::whereYear('sales_date', $year)
+            ->whereMonth('sales_date', $month)
+            ->where('company', '=', $company)
+            ->where('branch', '=', $branch)
+            ->paginate(8);
+
+        return view('client.sales-page.sales-month-view', compact('sales', 'year', 'month'));
+    }
+
+
+    public function salesYearView(Request $request)
+    {
+        $company = Auth::user()->company ?? null;
+        $branch = Auth::user()->branch ?? null;
+
+        $year = $request->input('year');
+
+        // ✅ Filter sales by year and month
+        // $sales = Sales::whereYear('sales_date', $year)
+        //     ->where('company', '=', $company)
+        //     ->where('branch', '=', $branch)
+        //     ->paginate(8);
+
+        $sales = DB::table('sales')
+            ->select('month', DB::raw('SUM(daily_total) as total'))
+            ->where('year', (string) $year)
+            ->groupBy('month')
+            ->get();
+
+        return view('client.sales-page.sales-year-view', compact('sales', 'year'));
+    }
+
+
     public function downloadYearCsv(Request $request)
     {
         $company = Auth::user()->company ?? null;

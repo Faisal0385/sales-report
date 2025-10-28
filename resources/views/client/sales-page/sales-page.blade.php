@@ -145,12 +145,10 @@
 
                                     @if (Auth::user()->company === 'TechPoint')
                                         <div>
-                                            <label for="techpoint-sales"
-                                                class="text-sm font-medium text-gray-300">TechPoint
+                                            <label for="techpoint-sales" class="text-sm font-medium text-gray-300">TechPoint
                                                 Sales</label>
                                             <input type="number" id="techpoint-sales" name="techpoint_sales"
-                                                oninput="updateDailyTotal()" value="0" step="any"
-                                                min="0"
+                                                oninput="updateDailyTotal()" value="0" step="any" min="0"
                                                 class="mt-1 block w-full bg-gray-700 border-gray-600 rounded-md shadow-sm py-2 px-3 text-base">
                                         </div>
                                     @endif
@@ -160,8 +158,7 @@
                                             <label for="tiktech-sales" class="text-sm font-medium text-gray-300">TikTech
                                                 Sales</label>
                                             <input type="number" id="tiktech-sales" name="tiktech_sales"
-                                                oninput="updateDailyTotal()" value="0" step="any"
-                                                min="0"
+                                                oninput="updateDailyTotal()" value="0" step="any" min="0"
                                                 class="mt-1 block w-full bg-gray-700 border-gray-600 rounded-md shadow-sm py-2 px-3 text-base">
                                         </div>
                                     @endif
@@ -171,8 +168,7 @@
                                             <label for="card-sales" class="text-sm font-medium text-gray-300">Card
                                                 Sales</label>
                                             <input type="number" id="card-sales" name="card_sales"
-                                                oninput="updateDailyTotal()" value="0" step="any"
-                                                min="0"
+                                                oninput="updateDailyTotal()" value="0" step="any" min="0"
                                                 class="mt-1 block w-full bg-gray-700 border-gray-600 rounded-md shadow-sm py-2 px-3 text-base">
                                         </div>
                                     @endif
@@ -183,8 +179,7 @@
                                                 class="text-sm font-medium text-gray-300">PrintExpress
                                                 Sales</label>
                                             <input type="number" id="print-express-sales" name="print_express_sales"
-                                                oninput="updateDailyTotal()" value="0" step="any"
-                                                min="0"
+                                                oninput="updateDailyTotal()" value="0" step="any" min="0"
                                                 class="mt-1 block w-full bg-gray-700 border-gray-600 rounded-md shadow-sm py-2 px-3 text-base">
                                         </div>
                                     @endif
@@ -209,24 +204,24 @@
                         <!-- Monthly Target Card -->
                         <div class="bg-gray-900 p-6 rounded-lg border border-gray-700">
                             <h2 class="text-lg font-semibold flex items-center justify-between">
-                                This Month Target
+                                Last Year Sales
                                 <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
                                     stroke-width="1.5" stroke="currentColor" class="w-5 h-5 text-gray-400">
                                     <path stroke-linecap="round" stroke-linejoin="round"
                                         d="M11.25 11.25l.041-.02a.75.75 0 011.063.852l-.708 2.836a.75.75 0 001.063.853l.041-.021M21 12a9 9 0 11-18 0 9 9 0 0118 0zm-9-3.75h.008v.008H12V8.25z" />
                                 </svg>
                             </h2>
-                            <p class="text-gray-400 text-3xl font-bold mt-4">£ {{ $target }} </p>
+                            <p class="text-gray-400 text-3xl font-bold mt-4">£ {{ $last_year_this_month }} </p>
                             <div class="text-start mt-4">
                                 <p
-                                    class="{{ $daily_total - $last_month > 0 ? 'text-green-400' : 'text-red-400' }} font-semibold flex items-start justify-start">
+                                    class="{{ $daily_total - $new_target > 0 ? 'text-green-400' : 'text-red-400' }} font-semibold flex items-start justify-start">
                                     <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
                                         stroke-width="2" stroke="currentColor" class="w-5 h-5 mr-1">
                                         <path stroke-linecap="round" stroke-linejoin="round"
                                             d="M2.25 18L9 11.25l4.306 4.307a11.95 11.95 0 015.814-5.519l2.74-1.22m0 0l-5.94-2.28m5.94 2.28l-2.28 5.941" />
                                     </svg>
-                                    You are £ {{ $daily_total - $target }}
-                                    {{ $daily_total - $last_month > 0 ? 'over' : 'under' }} the target.
+                                    Your this month target £ {{ $new_target }}
+                                    {{-- {{ $daily_total - $new_target > 0 ? 'over' : 'under' }} the target. --}}
                                 </p>
                             </div>
                         </div>
@@ -365,9 +360,8 @@
                                                     <button type="submit"
                                                         class="text-gray-500 hover:text-red-400 p-1 rounded-full transition-colors"
                                                         title="Delete Sale">
-                                                        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5"
-                                                            fill="none" viewBox="0 0 24 24" stroke="currentColor"
-                                                            stroke-width="2">
+                                                        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none"
+                                                            viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
                                                             <path stroke-linecap="round" stroke-linejoin="round"
                                                                 d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
                                                         </svg>
@@ -403,8 +397,8 @@
                         <p class="text-sm text-gray-400 mt-1 mb-4">Select a year and month to export sales data to
                             a CSV file.</p>
 
-
-                        <form action="{{ route('sales.download') }}" method="GET">
+                        <form action="{{ route('sales.month.view') }}" method="POST">
+                            @csrf
                             <div class="grid grid-cols-2 gap-4 mb-4">
                                 <div>
                                     <label for="download-monthly-year"
@@ -419,8 +413,7 @@
                                         @endphp
 
                                         @foreach ($years as $key => $year)
-                                            <option value="{{ $year }}"
-                                                {{ $year == date('Y') ? 'selected' : '' }}>
+                                            <option value="{{ $year }}" {{ $year == date('Y') ? 'selected' : '' }}>
                                                 {{ $year }}
                                             </option>
                                         @endforeach
@@ -441,16 +434,15 @@
                                 </div>
                             </div>
                             <button type="submit"
-                                class="w-full flex items-center justify-center py-3 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-purple-600 hover:bg-purple-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-purple-500 focus:ring-offset-gray-900 transition-colors">
+                                class="w-full flex items-center justify-center mt-1 py-3 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-purple-600 hover:bg-purple-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-purple-500 focus:ring-offset-gray-900 transition-colors">
                                 <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-2" fill="none"
                                     viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
                                     <path stroke-linecap="round" stroke-linejoin="round"
                                         d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4" />
                                 </svg>
-                                Download Monthly Report (CSV)
+                                View
                             </button>
                         </form>
-
 
                     </div>
 
@@ -460,22 +452,20 @@
                         <p class="text-sm text-gray-400 mt-1 mb-4">Select a year to export all its sales data to a
                             CSV file.</p>
 
-                        <form action="{{ route('sales.year.download') }}" method="GET">
+                        {{-- <form action="{{ route('sales.year.download') }}" method="GET">
                             <div class="mb-4">
-                                <label for="download-yearly-year"
-                                    class="text-sm font-medium text-gray-300">Year</label>
+                                <label for="download-yearly-year" class="text-sm font-medium text-gray-300">Year</label>
                                 <select id="download-yearly-year" name="year"
                                     class="mt-1 block w-full bg-gray-800 border-gray-700 rounded-md shadow-sm py-2 px-3 text-base focus:outline-none focus:ring-purple-500 focus:border-purple-500">
 
                                     @php
-                                        $years = ['2024', '2025', '2026', '2027', '2028', '2029', '2030'];
+                                    $years = ['2024', '2025', '2026', '2027', '2028', '2029', '2030'];
                                     @endphp
 
                                     @foreach ($years as $key => $year)
-                                        <option value="{{ $year }}"
-                                            {{ $year == date('Y') ? 'selected' : '' }}>
-                                            {{ $year }}
-                                        </option>
+                                    <option value="{{ $year }}" {{ $year==date('Y') ? 'selected' : '' }}>
+                                        {{ $year }}
+                                    </option>
                                     @endforeach
 
                                 </select>
@@ -488,6 +478,36 @@
                                         d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4" />
                                 </svg>
                                 Download Yearly Report (CSV)
+                            </button>
+                        </form> --}}
+
+                        <form action="{{ route('sales.year.view') }}" method="POST">
+                            @csrf
+                            <div class="mb-4">
+                                <label for="download-yearly-year" class="text-sm font-medium text-gray-300">Year</label>
+                                <select id="download-yearly-year" name="year"
+                                    class="mt-1 block w-full bg-gray-800 border-gray-700 rounded-md shadow-sm py-2 px-3 text-base focus:outline-none focus:ring-purple-500 focus:border-purple-500">
+
+                                    @php
+                                        $years = ['2024', '2025', '2026', '2027', '2028', '2029', '2030'];
+                                    @endphp
+
+                                    @foreach ($years as $key => $year)
+                                        <option value="{{ $year }}" {{ $year == date('Y') ? 'selected' : '' }}>
+                                            {{ $year }}
+                                        </option>
+                                    @endforeach
+
+                                </select>
+                            </div>
+                            <button type="submit"
+                                class="w-full flex items-center justify-center mt-1 py-3 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-purple-600 hover:bg-purple-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-purple-500 focus:ring-offset-gray-900 transition-colors">
+                                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-2" fill="none"
+                                    viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                                    <path stroke-linecap="round" stroke-linejoin="round"
+                                        d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4" />
+                                </svg>
+                                View
                             </button>
                         </form>
 
@@ -522,7 +542,7 @@
         }
 
         // target-progress-circle
-        renderMonthlyTargetChart({{ ($daily_total - $last_month) / 100 }});
+        renderMonthlyTargetChart({{ ($daily_total - $new_target) / 100 }});
 
         function renderMonthlyTargetChart(percentage) {
             const circle = document.getElementById('target-progress-circle');
@@ -865,17 +885,17 @@
             // Populate the "database" with initial data if it's empty
             if (salesData.length === 0) {
                 salesData = [{
-                        id: 1,
-                        date: '2025-09-09',
-                        cash: 250.00,
-                        techpoint: 125.50
-                    },
-                    {
-                        id: 2,
-                        date: '2025-09-08',
-                        cash: 180.25,
-                        techpoint: 90.00
-                    },
+                    id: 1,
+                    date: '2025-09-09',
+                    cash: 250.00,
+                    techpoint: 125.50
+                },
+                {
+                    id: 2,
+                    date: '2025-09-08',
+                    cash: 180.25,
+                    techpoint: 90.00
+                },
                 ];
                 nextId = 3;
             }

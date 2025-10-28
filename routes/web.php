@@ -34,7 +34,7 @@ Route::get('/dashboard', function () {
 
     if (Auth::user()->role == 'superadmin') {
         return view('client.report-page.report-page');
-    }else{
+    } else {
         return view('client.dashboard.dashboard');
     }
 
@@ -59,6 +59,8 @@ Route::get('/sales/download', [SalesController::class, 'downloadCsv'])->name('sa
 Route::get('/sales/report/download', [SalesController::class, 'downloadReportCsv'])->name('sales.report.download');
 // Route::get('/sales/year/download', [SalesController::class, 'downloadYearCsv'])->name('sales.year.download');
 Route::get('/sales/year/download', [SalesController::class, 'exportYearlyReport'])->name('sales.year.download');
+Route::post('/sales/month/view', [SalesController::class, 'salesMonthView'])->name('sales.month.view');
+Route::post('/sales/year/view', [SalesController::class, 'salesYearView'])->name('sales.year.view');
 
 ## Purchase
 Route::get('/purchase/page', [PurchaseController::class, 'index'])->middleware(['auth', 'verified'])->name('purchase.page');

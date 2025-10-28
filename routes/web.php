@@ -70,6 +70,8 @@ Route::get('/purchases/download', [PurchaseController::class, 'downloadCsv'])->n
 Route::get('/purchases/report/download', [PurchaseController::class, 'downloadReportCsv'])->name('purchase.report.download');
 
 
+Route::get('/purchase/details/{id}', [PurchaseController::class, 'view'])->middleware(['auth', 'verified'])->name('purchase.details.page');
+
 ## Report
 Route::get('/report/page', [ReportController::class, 'index'])->middleware(['auth', 'verified'])->name('report.page');
 Route::get('/sale/report/page', [ReportController::class, 'saleReport'])->middleware(['auth', 'verified'])->name('sale.report.page');

@@ -14,31 +14,38 @@ class PurchaseController extends Controller
         $company = Auth::user()->company;
         $branch = Auth::user()->branch;
 
-        $purchases = Purchase::where('month', '=', date('m'))->where('company', '=', $company)->where('branch', '=', $branch)->orderBy('id', 'desc')->paginate(10);
+        $purchases = Purchase::where('month', '=', date('m'))->where('year', '=', date('Y'))->where('company', '=', $company)->where('branch', '=', $branch)->orderBy('id', 'desc')->paginate(10);
         $purchase_amount = Purchase::where('month', '=', date('m'))->where('company', '=', $company)->where('branch', '=', $branch)->sum('purchase_amount');
 
         return view('client.purchase-entry.purchase-entry', compact('purchases', 'purchase_amount'));
+    }
+
+    public function view($id)
+    {
+
+        $purchaseDetail = Purchase::findOrFail($id);
+        return view('client.purchase-entry.detail-view-purchases', compact('purchaseDetail'));
     }
 
     public function store(Request $request)
     {
         // ✅ Validate incoming request
         $validated = $request->validate([
-            'purchase_date'           => 'required|date',
-            'customer_name'           => 'required|string|max:255',
-            'phone_number'            => 'required|string|max:20',
-            'email'                   => 'nullable|email|max:255',
-            'customer_address'        => 'nullable|string',
-            'product_details'         => 'required|string',
-            'imei_number'             => 'required|string|unique:purchases,imei_number',
-            'customer_id_proof'       => 'nullable|image|mimes:jpeg,png,jpg,gif,webp|max:2048',
-            'captured_photo'          => 'nullable|string',
-            'payment_method'          => 'required|in:cash,card,bank_transfer,other',
-            'purchase_amount'         => 'required|numeric|min:1',
-            'category'                => 'required|string|max:255',
-            'sub_category'            => 'required|string|max:255',
-            'bank_transfer_name'      => 'nullable|string|max:255',
-            'bank_transfer_account'   => 'nullable|string|max:255',
+            'purchase_date' => 'required|date',
+            'customer_name' => 'required|string|max:255',
+            'phone_number' => 'required|string|max:20',
+            'email' => 'nullable|email|max:255',
+            'customer_address' => 'nullable|string',
+            'product_details' => 'required|string',
+            'imei_number' => 'required|string|unique:purchases,imei_number',
+            'customer_id_proof' => 'nullable|image|mimes:jpeg,png,jpg,gif,webp|max:2048',
+            'captured_photo' => 'nullable|string',
+            'payment_method' => 'required|in:cash,card,bank_transfer,other',
+            'purchase_amount' => 'required|numeric|min:1',
+            'category' => 'required|string|max:255',
+            'sub_category' => 'required|string|max:255',
+            'bank_transfer_name' => 'nullable|string|max:255',
+            'bank_transfer_account' => 'nullable|string|max:255',
             'bank_transfer_sort_code' => 'nullable|string|max:255',
         ]);
 
@@ -74,7 +81,7 @@ class PurchaseController extends Controller
         $validated['day'] = $day;
 
         $validated['company'] = Auth::user()->company ?? null;
-        $validated['branch']  = Auth::user()->branch ?? null;
+        $validated['branch'] = Auth::user()->branch ?? null;
 
         // ✅ Save purchase
         Purchase::create($validated);

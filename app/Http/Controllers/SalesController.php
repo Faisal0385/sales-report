@@ -3,8 +3,11 @@
 namespace App\Http\Controllers;
 
 use App\Models\Sales;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Response;
 
 class SalesController extends Controller
 {
@@ -200,7 +203,74 @@ class SalesController extends Controller
     }
 
 
-        // Download Report CSV
+    public function exportYearlyReport(Request $request)
+    {
+        $year = $request->input('year', date('Y'));
+
+        // 🧮 Fetch totals grouped by month for the selected year
+        $data = DB::table('sales')
+            ->select('month', DB::raw('SUM(daily_total) as total'))
+            ->where('year', (string) $year)
+            ->groupBy('month')
+            ->get();
+
+        // 🗓️ Predefined month order
+        $monthOrder = [
+            1 => 'January',
+            2 => 'February',
+            3 => 'March',
+            4 => 'April',
+            5 => 'May',
+            6 => 'June',
+            7 => 'July',
+            8 => 'August',
+            9 => 'September',
+            10 => 'October',
+            11 => 'November',
+            12 => 'December'
+        ];
+
+        $reportData = [];
+
+        // ✅ Handle both numeric and text-based months
+        foreach ($monthOrder as $num => $name) {
+            $monthData = $data->first(function ($item) use ($num, $name) {
+                // Match if stored as number, string number, or full month name
+                return $item->month == $num ||
+                    $item->month == (string) $num ||
+                    strcasecmp($item->month, $name) === 0 ||
+                    strcasecmp($item->month, substr($name, 0, 3)) === 0; // e.g. "Jan"
+            });
+
+            $total = $monthData ? $monthData->total : 0;
+            $reportData[] = [$name, number_format($total, 2)];
+        }
+
+        // 📁 Define CSV filename
+        $fileName = "yearly_sales_report_{$year}.csv";
+
+        // 📤 Stream CSV response
+        $headers = [
+            'Content-Type' => 'text/csv',
+            'Content-Disposition' => "attachment; filename=\"$fileName\"",
+        ];
+
+        $callback = function () use ($reportData) {
+            $handle = fopen('php://output', 'w');
+            fputcsv($handle, ['Month', 'Total Sales']); // Header row
+
+            foreach ($reportData as $row) {
+                fputcsv($handle, $row);
+            }
+
+            fclose($handle);
+        };
+
+        return Response::stream($callback, 200, $headers);
+    }
+
+
+    // Download Report CSV
     public function downloadReportCsv(Request $request)
     {
         $company = $request->input('company');

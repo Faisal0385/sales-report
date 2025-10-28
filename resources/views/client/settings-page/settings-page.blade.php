@@ -66,7 +66,7 @@
                         <p id="purchase-entry-subtitle" class="text-sm text-gray-400"></p>
                     </div>
                 </div>
-                @if (Auth::user()->role === 'superadmin')
+                {{-- @if (Auth::user()->role === 'superadmin')
                     <div class="flex items-center space-x-4">
                         <a href="{{ route('report.page') }}" class="text-gray-400 hover:text-white transition">
                             <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24"
@@ -76,7 +76,7 @@
                             </svg>
                         </a>
                     </div>
-                @endif
+                @endif --}}
             </div>
 
             @if ($errors->any())

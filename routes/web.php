@@ -57,7 +57,8 @@ Route::post('/sales/store', [SalesController::class, 'store'])->middleware(['aut
 Route::post('/sales/destroy/{id}', [SalesController::class, 'destroy'])->middleware(['auth', 'verified'])->name('sales.destroy');
 Route::get('/sales/download', [SalesController::class, 'downloadCsv'])->name('sales.download');
 Route::get('/sales/report/download', [SalesController::class, 'downloadReportCsv'])->name('sales.report.download');
-Route::get('/sales/year/download', [SalesController::class, 'downloadYearCsv'])->name('sales.year.download');
+// Route::get('/sales/year/download', [SalesController::class, 'downloadYearCsv'])->name('sales.year.download');
+Route::get('/sales/year/download', [SalesController::class, 'exportYearlyReport'])->name('sales.year.download');
 
 ## Purchase
 Route::get('/purchase/page', [PurchaseController::class, 'index'])->middleware(['auth', 'verified'])->name('purchase.page');

@@ -125,7 +125,7 @@
 
                                         @foreach ($companies as $key => $company)
                                             <option value="{{ $company }}">
-                                                {{ $company }}
+                                                {{ ucfirst($company) }}
                                             </option>
                                         @endforeach
 
@@ -142,7 +142,7 @@
                                         </option>
                                         @foreach ($branches as $key => $branch)
                                             <option value="{{ $branch }}">
-                                                {{ $branch }}
+                                                {{ ucfirst($branch) }}
                                             </option>
                                         @endforeach
 
@@ -201,7 +201,7 @@
                         <div class="bg-gray-900 p-6 rounded-lg border border-gray-700">
                             <div class="flex justify-between items-center">
                                 <div>
-                                    <h3 class="font-semibold text-gray-300">Total Purchase ({{ $company }})</h3>
+                                    <h3 class="font-semibold text-gray-300">Total Purchase ({{ ucfirst($company) }})</h3>
                                     <p class="text-sm text-gray-400">Monthly breakdown for {{ $months[date('m')] }}</p>
                                 </div>
                             </div>
@@ -210,7 +210,7 @@
                             <div class="mt-4 space-y-2">
                                 @foreach($branches as $branch => $total)
                                     <div class="flex justify-between items-center bg-gray-800 p-2 rounded">
-                                        <span class="text-gray-300">{{ $branch }}</span>
+                                        <span class="text-gray-300">{{ ucfirst($branch) }}</span>
                                         <span class="font-bold text-gray-100">£ {{ number_format($total, 2) }}</span>
                                     </div>
                                 @endforeach

@@ -161,7 +161,7 @@
                         <tr>
                             <th class="py-2 px-3 font-medium">Captured Photo</th>
                             <th class="py-2 px-3 font-medium">
-                                <img src="{{ !empty($purchaseDetail->customer_id_proof) ? asset($purchaseDetail->captured_photo) : asset("no_image.jpg")}}"
+                                <img src="{{ !empty($purchaseDetail->captured_photo) ? asset($purchaseDetail->captured_photo) : asset("no_image.jpg")}}"
                                     alt="image" style="width: 200px; height: 200px;">
                             </th>
                         </tr>

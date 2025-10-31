@@ -88,7 +88,7 @@ class PurchaseController extends Controller
 
         // ✅ Handle Selfie upload
         if (!empty($request->captured_photo)) {
-            $photoData = $request->selfie;
+            $photoData = $request->captured_photo;
 
             // Remove the part before base64 (like "data:image/png;base64,")
             $photo = str_replace('data:image/png;base64,', '', $photoData);

@@ -48,8 +48,8 @@ Route::get('/dashboard', function () {
 Route::get('/settings/page', [SettingController::class, 'index'])->middleware(['auth', 'check.status', 'verified'])->name('settings.page');
 Route::post('/settings/store', [SettingController::class, 'store'])->middleware(['auth', 'check.status', 'verified'])->name('settings.store');
 
-Route::get('/settings/edit/page/{id}', [SettingController::class, 'edit'])->middleware(['auth', 'check.status', 'verified'])->name('settings.edit');
-Route::post('/settings/update/page/{id}', [SettingController::class, 'update'])->middleware(['auth', 'check.status', 'verified'])->name('settings.edit.page');
+Route::get('/settings/edit/page/{id}', [SettingController::class, 'edit'])->middleware(['auth', 'check.status', 'verified'])->name('settings.edit.page');
+Route::post('/settings/update/page/{id}', [SettingController::class, 'update'])->middleware(['auth', 'check.status', 'verified'])->name('settings.edit');
 Route::get('/settings/status/{id}', [SettingController::class, 'status'])->middleware(['auth', 'check.status', 'verified'])->name('settings.status');
 Route::post('/settings/destroy/{id}', [SettingController::class, 'destroy'])->middleware(['auth', 'check.status', 'verified'])->name('settings.destroy');
 Route::post('/settings/change/password/{id}', [SettingController::class, 'changePassword'])->middleware(['auth', 'check.status', 'verified'])->name('settings.change.password');

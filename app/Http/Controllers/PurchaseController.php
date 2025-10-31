@@ -301,15 +301,12 @@ class PurchaseController extends Controller
 
         $year = $request->input('year');
 
-        // ✅ Filter sales by year and month
-        // $sales = Sales::whereYear('sales_date', $year)
-        //     ->where('company', '=', $company)
-        //     ->where('branch', '=', $branch)
-        //     ->paginate(8);
-
+        // ✅ Filter sales by year
         $sales = DB::table('purchases')
             ->select('month', DB::raw('SUM(purchase_amount) as total'))
             ->where('year', (string) $year)
+            ->where('company', '=', Auth::user()->company)
+            ->where('branch', '=', Auth::user()->branch)
             ->groupBy('month')
             ->get();
 

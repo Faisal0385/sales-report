@@ -47,7 +47,7 @@
                 <h1 class="text-3xl font-bold">Dashboard</h1>
                 <p class="text-gray-400 mt-2">Select an option to get started.</p>
             </div>
-            <div class="mt-8 grid grid-cols-1 sm:grid-cols-3 gap-4">
+            <div class="mt-8 grid grid-cols-1 sm:grid-cols-2 gap-4">
                 <!-- Sales Report Card -->
                 <a href="{{ route('sales.page') }}"
                     class="bg-gray-800 p-6 rounded-lg border border-gray-700 hover:bg-gray-700 hover:border-purple-500 cursor-pointer transition-all duration-300">
@@ -72,7 +72,7 @@
                     <h3 class="font-semibold mt-4 text-lg">Buy Products</h3>
                     <p class="text-sm text-gray-400 mt-1">Record products bought from customers.</p>
                 </a>
-                <a href="{{ route('settings.page') }}"
+                {{-- <a href="{{ route('settings.page') }}"
                     class="bg-gray-800 p-6 rounded-lg border border-gray-700 hover:bg-gray-700 hover:border-purple-500 cursor-pointer transition-all duration-300">
                     <!-- Icon: Cart -->
                     <svg xmlns="http://www.w3.org/2000/svg" class="h-12 w-12 text-purple-400 mx-auto" fill="none"
@@ -83,9 +83,9 @@
 
                     <h3 class="font-semibold mt-4 text-lg">Settings</h3>
                     <p class="text-sm text-gray-400 mt-1">Record products bought from customers.</p>
-                </a>
+                </a> --}}
             </div>
-            <form action="logout" method="Post">
+            <form action="/logout" method="Post">
                 @csrf
                 <button type="submit" class="mt-8 text-sm text-gray-400 hover:text-white transition">&larr;
                     Logout</button>

@@ -143,7 +143,7 @@
                                             class="mt-1 block w-full bg-gray-700 border-gray-600 rounded-md shadow-sm py-2 px-3 text-base">
                                     </div>
 
-                                    @if (Auth::user()->company === 'TechPoint')
+                                    @if (Auth::user()->company === 'techpoint')
                                         <div>
                                             <label for="techpoint-sales" class="text-sm font-medium text-gray-300">TechPoint
                                                 Sales</label>
@@ -153,7 +153,7 @@
                                         </div>
                                     @endif
 
-                                    @if (Auth::user()->company === 'TikTech')
+                                    @if (Auth::user()->company === 'tiktech')
                                         <div>
                                             <label for="tiktech-sales" class="text-sm font-medium text-gray-300">TikTech
                                                 Sales</label>
@@ -163,7 +163,7 @@
                                         </div>
                                     @endif
 
-                                    @if (Auth::user()->company === 'Restaurant')
+                                    @if (Auth::user()->company === 'testaurant')
                                         <div>
                                             <label for="card-sales" class="text-sm font-medium text-gray-300">Card
                                                 Sales</label>
@@ -173,7 +173,7 @@
                                         </div>
                                     @endif
 
-                                    @if (Auth::user()->company === 'TikTech')
+                                    @if (Auth::user()->company === 'tiktech')
                                         <div>
                                             <label for="print-express-sales"
                                                 class="text-sm font-medium text-gray-300">PrintExpress
@@ -314,13 +314,13 @@
                                         @if (Auth::user()->company === 'Restaurant')
                                             <th class="py-2 px-3 font-medium">Card</th>
                                         @endif
-                                        @if (Auth::user()->company === 'TechPoint')
+                                        @if (Auth::user()->company === 'techpoint')
                                             <th class="py-2 px-3 font-medium">TechPoint</th>
                                         @endif
-                                        @if (Auth::user()->company === 'TikTech')
+                                        @if (Auth::user()->company === 'tiktech')
                                             <th class="py-2 px-3 font-medium">TikTech</th>
                                         @endif
-                                        @if (Auth::user()->company === 'TikTech')
+                                        @if (Auth::user()->company === 'tiktech')
                                             <th class="py-2 px-3 font-medium">PrintExpress</th>
                                         @endif
                                         <th class="py-2 px-3 font-medium">Daily Total</th>
@@ -335,19 +335,19 @@
                                             <td class="py-3 px-3">{{ $sale->sales_date }}</td>
                                             <td class="py-3 px-3">{{ $sale->cash_sales }}</td>
 
-                                            @if (Auth::user()->company === 'Restaurant')
+                                            @if (Auth::user()->company === 'restaurant')
                                                 <td class="py-3 px-3">{{ $sale->card_sales }}</td>
                                             @endif
 
-                                            @if (Auth::user()->company === 'TechPoint')
+                                            @if (Auth::user()->company === 'techpoint')
                                                 <td class="py-3 px-3">{{ $sale->techpoint_sales }}</td>
                                             @endif
 
-                                            @if (Auth::user()->company === 'TikTech')
+                                            @if (Auth::user()->company === 'tiktech')
                                                 <td class="py-3 px-3">{{ $sale->tiktech_sales }}</td>
                                             @endif
 
-                                            @if (Auth::user()->company === 'TikTech')
+                                            @if (Auth::user()->company === 'tiktech')
                                                 <td class="py-3 px-3">{{ $sale->print_express_sales }}</td>
                                             @endif
 
@@ -451,36 +451,7 @@
                         <h2 class="text-lg font-semibold">Download Yearly Report</h2>
                         <p class="text-sm text-gray-400 mt-1 mb-4">Select a year to export all its sales data to a
                             CSV file.</p>
-
-                        {{-- <form action="{{ route('sales.year.download') }}" method="GET">
-                            <div class="mb-4">
-                                <label for="download-yearly-year" class="text-sm font-medium text-gray-300">Year</label>
-                                <select id="download-yearly-year" name="year"
-                                    class="mt-1 block w-full bg-gray-800 border-gray-700 rounded-md shadow-sm py-2 px-3 text-base focus:outline-none focus:ring-purple-500 focus:border-purple-500">
-
-                                    @php
-                                    $years = ['2024', '2025', '2026', '2027', '2028', '2029', '2030'];
-                                    @endphp
-
-                                    @foreach ($years as $key => $year)
-                                    <option value="{{ $year }}" {{ $year==date('Y') ? 'selected' : '' }}>
-                                        {{ $year }}
-                                    </option>
-                                    @endforeach
-
-                                </select>
-                            </div>
-                            <button type="submit"
-                                class="w-full flex items-center justify-center py-3 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-purple-600 hover:bg-purple-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-purple-500 focus:ring-offset-gray-900 transition-colors">
-                                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-2" fill="none"
-                                    viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
-                                    <path stroke-linecap="round" stroke-linejoin="round"
-                                        d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4" />
-                                </svg>
-                                Download Yearly Report (CSV)
-                            </button>
-                        </form> --}}
-
+                            
                         <form action="{{ route('sales.year.view') }}" method="POST">
                             @csrf
                             <div class="mb-4">

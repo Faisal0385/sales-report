@@ -180,15 +180,12 @@ class SalesController extends Controller
 
         $year = $request->input('year');
 
-        // ✅ Filter sales by year and month
-        // $sales = Sales::whereYear('sales_date', $year)
-        //     ->where('company', '=', $company)
-        //     ->where('branch', '=', $branch)
-        //     ->paginate(8);
-
+        // ✅ Filter sales by year
         $sales = DB::table('sales')
             ->select('month', DB::raw('SUM(daily_total) as total'))
             ->where('year', (string) $year)
+            ->where('company', '=', $company)
+            ->where('branch', '=', $branch)
             ->groupBy('month')
             ->get();
 
@@ -255,6 +252,8 @@ class SalesController extends Controller
         $data = DB::table('sales')
             ->select('month', DB::raw('SUM(daily_total) as total'))
             ->where('year', (string) $year)
+            ->where('company', '=', Auth::user()->company)
+            ->where('branch', '=', Auth::user()->branch)
             ->groupBy('month')
             ->get();
 

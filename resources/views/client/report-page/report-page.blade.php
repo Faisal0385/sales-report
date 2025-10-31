@@ -90,7 +90,7 @@
                 <a href="{{ route('dashboard') }}" class="mt-8 text-sm text-gray-400 hover:text-white transition">&larr;
                     Back</a>
             </div> --}}
-             <form action="logout" method="Post">
+            <form action="/logout" method="Post">
                 @csrf
                 <button type="submit" class="mt-8 text-sm text-gray-400 hover:text-white transition">&larr;
                     Logout</button>

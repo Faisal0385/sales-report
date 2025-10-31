@@ -101,16 +101,16 @@
                                         <th class="py-2 px-3 font-medium">SL</th>
                                         <th class="py-2 px-3 font-medium">Date</th>
                                         <th class="py-2 px-3 font-medium">Cash</th>
-                                        @if (Auth::user()->company === 'Restaurant')
+                                        @if (Auth::user()->company === 'restaurant')
                                             <th class="py-2 px-3 font-medium">Card</th>
                                         @endif
-                                        @if (Auth::user()->company === 'TechPoint')
+                                        @if (Auth::user()->company === 'techpoint')
                                             <th class="py-2 px-3 font-medium">TechPoint</th>
                                         @endif
-                                        @if (Auth::user()->company === 'TikTech')
+                                        @if (Auth::user()->company === 'tiktech')
                                             <th class="py-2 px-3 font-medium">TikTech</th>
                                         @endif
-                                        @if (Auth::user()->company === 'TikTech')
+                                        @if (Auth::user()->company === 'tiktech')
                                             <th class="py-2 px-3 font-medium">PrintExpress</th>
                                         @endif
                                         <th class="py-2 px-3 font-medium">Daily Total</th>
@@ -124,19 +124,19 @@
                                             <td class="py-3 px-3">{{ $sale->sales_date }}</td>
                                             <td class="py-3 px-3">{{ $sale->cash_sales }}</td>
 
-                                            @if (Auth::user()->company === 'Restaurant')
+                                            @if (Auth::user()->company === 'restaurant')
                                                 <td class="py-3 px-3">{{ $sale->card_sales }}</td>
                                             @endif
 
-                                            @if (Auth::user()->company === 'TechPoint')
+                                            @if (Auth::user()->company === 'tiktech')
                                                 <td class="py-3 px-3">{{ $sale->techpoint_sales }}</td>
                                             @endif
 
-                                            @if (Auth::user()->company === 'TikTech')
+                                            @if (Auth::user()->company === 'tiktech')
                                                 <td class="py-3 px-3">{{ $sale->tiktech_sales }}</td>
                                             @endif
 
-                                            @if (Auth::user()->company === 'TikTech')
+                                            @if (Auth::user()->company === 'tiktech')
                                                 <td class="py-3 px-3">{{ $sale->print_express_sales }}</td>
                                             @endif
 

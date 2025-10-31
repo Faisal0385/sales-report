@@ -47,13 +47,13 @@
             <!-- Page Header -->
             <div class="bg-gray-800 border-b border-gray-700 rounded-t-lg p-4 flex justify-between items-center">
                 <div class="flex items-center">
-                    <a href="{{ route('dashboard') }}"
+                    {{-- <a href="{{ route('dashboard') }}"
                         class="text-gray-400 hover:text-white transition mr-4 p-1 rounded-full hover:bg-gray-700">
                         <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24"
                             stroke="currentColor" stroke-width="2">
                             <path stroke-linecap="round" stroke-linejoin="round" d="M10 19l-7-7m0 0l7-7m-7 7h18" />
                         </svg>
-                    </a>
+                    </a> --}}
                     <div class="bg-purple-600 p-2 rounded-lg mr-3">
                         <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
                             <path

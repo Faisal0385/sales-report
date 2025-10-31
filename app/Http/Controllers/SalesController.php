@@ -138,12 +138,14 @@ class SalesController extends Controller
             $handle = fopen('php://output', 'w');
 
             // Add header row
-            fputcsv($handle, ['Sales Date', 'Cash Sales', 'Card Sales', 'Techpoint Sales', 'TikTech Sales', 'PrintExpress Sales', 'Daily Total']);
+            fputcsv($handle, ['Sales Date', 'Company', 'Branch', 'Cash Sales', 'Card Sales', 'Techpoint Sales', 'TikTech Sales', 'PrintExpress Sales', 'Daily Total']);
 
             // Add data rows
             foreach ($sales as $purchase) {
                 fputcsv($handle, [
                     $purchase->sales_date,
+                    $purchase->company,
+                    $purchase->branch,
                     $purchase->cash_sales,
                     $purchase->card_sales,
                     $purchase->techpoint_sales,
@@ -228,18 +230,20 @@ class SalesController extends Controller
             $handle = fopen('php://output', 'w');
 
             // Add header row
-            fputcsv($handle, ['Sales Date', 'Cash Sales', 'Card Sales', 'Techpoint Sales', 'TikTech Sales', 'PrintExpress Sales', 'Daily Total']);
+            fputcsv($handle, ['Sales Date', 'Company', 'Branch', 'Cash Sales', 'Card Sales', 'Techpoint Sales', 'TikTech Sales', 'PrintExpress Sales', 'Daily Total']);
 
             // Add data rows
-            foreach ($sales as $purchase) {
+            foreach ($sales as $sale) {
                 fputcsv($handle, [
-                    $purchase->sales_date,
-                    $purchase->cash_sales,
-                    $purchase->card_sales,
-                    $purchase->techpoint_sales,
-                    $purchase->tiktech_sales,
-                    $purchase->print_express_sales,
-                    $purchase->daily_total,
+                    $sale->sales_date,
+                    $sale->company,
+                    $sale->branch,
+                    $sale->cash_sales,
+                    $sale->card_sales,
+                    $sale->techpoint_sales,
+                    $sale->tiktech_sales,
+                    $sale->print_express_sales,
+                    $sale->daily_total,
                 ]);
             }
 
@@ -347,12 +351,14 @@ class SalesController extends Controller
             $handle = fopen('php://output', 'w');
 
             // Add header row
-            fputcsv($handle, ['Sales Date', 'Cash Sales', 'Card Sales', 'Techpoint Sales', 'TikTech Sales', 'PrintExpress Sales', 'Daily Total']);
+            fputcsv($handle, ['Sales Date', 'Company', 'Branch', 'Cash Sales', 'Card Sales', 'Techpoint Sales', 'TikTech Sales', 'PrintExpress Sales', 'Daily Total']);
 
             // Add data rows
             foreach ($sales as $purchase) {
                 fputcsv($handle, [
                     $purchase->sales_date,
+                    $purchase->company,
+                    $purchase->branch,
                     $purchase->cash_sales,
                     $purchase->card_sales,
                     $purchase->techpoint_sales,

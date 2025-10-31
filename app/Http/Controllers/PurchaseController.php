@@ -322,6 +322,8 @@ class PurchaseController extends Controller
         $data = DB::table('purchases')
             ->select('month', DB::raw('SUM(purchase_amount) as total'))
             ->where('year', (string) $year)
+            ->where('company', '=', Auth::user()->company)
+            ->where('branch', '=', Auth::user()->branch)
             ->groupBy('month')
             ->get();
 

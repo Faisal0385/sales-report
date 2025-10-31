@@ -47,13 +47,13 @@
             <!-- Page Header -->
             <div class="bg-gray-800 border-b border-gray-700 rounded-t-lg p-4 flex justify-between items-center mb-6">
                 <div class="flex items-center">
-                    <a href="{{ route('dashboard') }}"
+                    {{-- <a href="{{ route('dashboard') }}"
                         class="text-gray-400 hover:text-white transition mr-4 p-1 rounded-full hover:bg-gray-700">
                         <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24"
                             stroke="currentColor" stroke-width="2">
                             <path stroke-linecap="round" stroke-linejoin="round" d="M10 19l-7-7m0 0l7-7m-7 7h18" />
                         </svg>
-                    </a>
+                    </a> --}}
                     <div>
                         <h1 class="text-xl font-bold flex items-center">
                             <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor"
@@ -98,6 +98,7 @@
             <div class="grid grid-cols-1 lg:grid-cols-1 gap-6">
                 <table class="min-w-full text-sm text-left">
                     <thead class="border-b border-gray-700 text-gray-400">
+
                         <tr>
                             <th class="py-2 px-3 font-medium">Date</th>
                             <th class="py-2 px-3 font-medium">{{ $purchaseDetail->purchase_date }}</th>
@@ -107,26 +108,63 @@
                             <th class="py-2 px-3 font-medium">{{ $purchaseDetail->customer_name }}</th>
                         </tr>
                         <tr>
-                            <th class="py-2 px-3 font-medium">Product</th>
-                            <th class="py-2 px-3 font-medium">{{ $purchaseDetail->product_details }}</th>
+                            <th class="py-2 px-3 font-medium">Phone</th>
+                            <th class="py-2 px-3 font-medium">{{ $purchaseDetail->phone_number }}</th>
+                        </tr>
+                        <tr>
+                            <th class="py-2 px-3 font-medium">Email</th>
+                            <th class="py-2 px-3 font-medium">{{ $purchaseDetail->email }}</th>
+                        </tr>
+                        <tr>
+                            <th class="py-2 px-3 font-medium">Category</th>
+                            <th class="py-2 px-3 font-medium">{{ $purchaseDetail->category }}</th>
+                        </tr>
+                        <tr>
+                            <th class="py-2 px-3 font-medium">Sub Category</th>
+                            <th class="py-2 px-3 font-medium">{{ $purchaseDetail->sub_category }}</th>
                         </tr>
                         <tr>
                             <th class="py-2 px-3 font-medium">IMEI/SN</th>
                             <th class="py-2 px-3 font-medium">{{ $purchaseDetail->imei_number }}</th>
                         </tr>
                         <tr>
-                            <th class="py-2 px-3 font-medium">Phone</th>
-                            <th class="py-2 px-3 font-medium">{{ $purchaseDetail->phone_number }}</th>
+                            <th class="py-2 px-3 font-medium">Product</th>
+                            <th class="py-2 px-3 font-medium">{{ $purchaseDetail->product_details }}</th>
                         </tr>
                         <tr>
                             <th class="py-2 px-3 font-medium">Payment Method</th>
-                            <th class="py-2 px-3 font-medium">{{ strtoupper($purchaseDetail->payment_method )}}</th>
+                            <th class="py-2 px-3 font-medium">{{ strtoupper($purchaseDetail->payment_method)}}</th>
                         </tr>
-                         <tr>
+                        <tr>
                             <th class="py-2 px-3 font-medium">Amount</th>
                             <th class="py-2 px-3 font-medium">{{ $purchaseDetail->purchase_amount }}</th>
                         </tr>
-
+                        <tr>
+                            <th class="py-2 px-3 font-medium">Bank Transfer Name</th>
+                            <th class="py-2 px-3 font-medium">{{ $purchaseDetail->bank_transfer_name ?? "-" }}</th>
+                        </tr>
+                        <tr>
+                            <th class="py-2 px-3 font-medium">Bank Transfer Account</th>
+                            <th class="py-2 px-3 font-medium">{{ $purchaseDetail->bank_transfer_account ?? "-" }}</th>
+                        </tr>
+                        <tr>
+                            <th class="py-2 px-3 font-medium">Bank Transfer Sort Code</th>
+                            <th class="py-2 px-3 font-medium">{{ $purchaseDetail->bank_transfer_sort_code ?? "-" }}</th>
+                        </tr>
+                        <tr>
+                            <th class="py-2 px-3 font-medium">Customer ID Proof</th>
+                            <th class="py-2 px-3 font-medium">
+                                <img src="{{ !empty($purchaseDetail->customer_id_proof) ? asset($purchaseDetail->customer_id_proof) : asset("no_image.jpg") }}"
+                                    alt="image" style="width: 200px; height: 200px;">
+                            </th>
+                        </tr>
+                        <tr>
+                            <th class="py-2 px-3 font-medium">Captured Photo</th>
+                            <th class="py-2 px-3 font-medium">
+                                <img src="{{ !empty($purchaseDetail->customer_id_proof) ? asset($purchaseDetail->captured_photo) : asset("no_image.jpg")}}"
+                                    alt="image" style="width: 200px; height: 200px;">
+                            </th>
+                        </tr>
                     </thead>
                 </table>
             </div>

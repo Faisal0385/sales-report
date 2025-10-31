@@ -68,6 +68,9 @@ Route::post('/purchase/store', [PurchaseController::class, 'store'])->middleware
 Route::post('/purchase/destroy/{id}', [PurchaseController::class, 'destroy'])->middleware(['auth', 'verified'])->name('purchase.destroy');
 Route::get('/purchases/download', [PurchaseController::class, 'downloadCsv'])->name('purchase.download');
 Route::get('/purchases/report/download', [PurchaseController::class, 'downloadReportCsv'])->name('purchase.report.download');
+Route::post('/purchases/month/view', [PurchaseController::class, 'purchaseMonthView'])->name('purchases.month.view');
+Route::post('/purchases/year/view', [PurchaseController::class, 'purchaseYearView'])->name('purchases.year.view');
+Route::get('/purchases/report/download', [PurchaseController::class, 'exportYearlyReport'])->name('purchases.report.download');
 
 
 Route::get('/purchase/details/{id}', [PurchaseController::class, 'view'])->middleware(['auth', 'verified'])->name('purchase.details.page');

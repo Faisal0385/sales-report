@@ -91,7 +91,7 @@
                             d="M3 3h8v8H3V3zm2 2v4h4V5H5zm10-2h6v6h-6V3zm2 2v2h2V5h-2zM3 13h8v8H3v-8zm2 2v4h4v-4H5zm10 0h2v2h-2v-2zm4 0h2v6h-6v-2h4v-4zm-4 4h2v2h-2v-2zm-4 2h2v2h-2v-2zm8 0h2v2h-2v-2z" />
                     </svg>
                 </button>
-                <a href="https://www.google.com/" target="_blank" class="text-gray-400 hover:text-white">
+                <a href="https://www.imei.info/" target="_blank" class="text-gray-400 hover:text-white">
                     <!-- search icon -->
                     <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 24 24" fill="currentColor">
                         <path fill-rule="evenodd"

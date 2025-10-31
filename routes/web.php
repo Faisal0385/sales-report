@@ -47,7 +47,11 @@ Route::get('/dashboard', function () {
 ## Settings
 Route::get('/settings/page', [SettingController::class, 'index'])->middleware(['auth', 'verified'])->name('settings.page');
 Route::post('/settings/store', [SettingController::class, 'store'])->middleware(['auth', 'verified'])->name('settings.store');
-// Route::post('/settings/destroy/{id}', [SalesController::class, 'destroy'])->middleware(['auth', 'verified'])->name('settings.destroy');
+
+Route::get('/settings/edit/page/{id}', [SettingController::class, 'edit'])->middleware(['auth', 'verified'])->name('settings.edit');
+Route::post('/settings/edit/page/{id}', [SettingController::class, 'update'])->middleware(['auth', 'verified'])->name('settings.edit.page');
+Route::get('/settings/status/{id}', [SettingController::class, 'status'])->middleware(['auth', 'verified'])->name('settings.status');
+Route::post('/settings/destroy/{id}', [SettingController::class, 'destroy'])->middleware(['auth', 'verified'])->name('settings.destroy');
 // Route::get('/settings/download', [SalesController::class, 'downloadCsv'])->name('settings.download');
 
 

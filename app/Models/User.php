@@ -24,6 +24,8 @@ class User extends Authenticatable
         'company',
         'branch',
         'phone',
+        'role',
+        'status',
         'address',
     ];
 

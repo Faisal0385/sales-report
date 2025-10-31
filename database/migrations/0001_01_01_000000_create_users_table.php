@@ -4,8 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-return new class extends Migration
-{
+return new class extends Migration {
     /**
      * Run the migrations.
      */
@@ -20,8 +19,11 @@ return new class extends Migration
             $table->string('phone')->nullable();
             $table->string('address')->nullable();
             $table->string('role')->nullable();
-            $table->enum('company', ['TechPoint', 'TikTech', 'Restaurant'])->nullable();
-            $table->enum('branch', ['Hornchurch', 'Upminister', 'Billericay'])->nullable();
+            $table->string('company')->nullable();
+            $table->string('branch')->nullable();
+            $table->integer('status')->default(1);
+            // $table->enum('company', ['TechPoint', 'TikTech', 'Restaurant'])->nullable();
+            // $table->enum('branch', ['Hornchurch', 'Upminister', 'Billericay'])->nullable();
             $table->rememberToken();
             $table->timestamps();
         });

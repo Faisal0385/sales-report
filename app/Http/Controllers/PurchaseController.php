@@ -236,18 +236,26 @@ class PurchaseController extends Controller
             $handle = fopen('php://output', 'w');
 
             // Add header row
-            fputcsv($handle, ['Purchase Date', 'Customer Name', 'Phone', 'Email', 'Address', 'IMEI Number', 'Product Details', 'Total Amount']);
+            fputcsv($handle, ['Purchase Date', 'Company', 'Branch', 'Customer Name', 'Phone', 'Email', 'Address', 'IMEI Number', 'Category', 'Sub Category', 'Product Details', 'Payment Method', 'Bank Transfer Name', 'Bank Transfer Account', 'Bank Transfer Sort Code', 'Total Amount']);
 
             // Add data rows
             foreach ($purchases as $purchase) {
                 fputcsv($handle, [
                     $purchase->purchase_date,
+                    $purchase->company,
+                    $purchase->branch,
                     $purchase->customer_name,
                     $purchase->phone_number,
                     $purchase->email,
                     $purchase->customer_address,
                     $purchase->imei_number,
+                    $purchase->category,
+                    $purchase->sub_category,
                     $purchase->product_details,
+                    $purchase->purchase_amount,
+                    $purchase->bank_transfer_name,
+                    $purchase->bank_transfer_account,
+                    $purchase->bank_transfer_sort_code,
                     $purchase->purchase_amount,
                 ]);
             }

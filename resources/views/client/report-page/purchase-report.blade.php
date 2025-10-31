@@ -91,175 +91,30 @@
                 </div>
             @endif
 
+            @php
+                $months = [
+                    '01' => 'January',
+                    '02' => 'February',
+                    '03' => 'March',
+                    '04' => 'April',
+                    '05' => 'May',
+                    '06' => 'June',
+                    '07' => 'July',
+                    '08' => 'August',
+                    '09' => 'September',
+                    '10' => 'October',
+                    '11' => 'November',
+                    '12' => 'December',
+                ];
+            @endphp
             <!-- Main Content Area -->
             <div class="p-6 bg-gray-800 rounded-b-lg">
-                <div class="grid grid-cols-2 lg:grid-cols-2 gap-6">
-                    <!-- Right Column -->
-                    <div class="lg:col-span-2 space-y-6">
-                        <!-- Monthly Total -->
-                        <div
-                            class="bg-gray-900 p-6 rounded-lg border border-gray-700 flex justify-between items-center">
-                            <div>
-
-                                @php
-                                    $months = [
-                                        '01' => 'January',
-                                        '02' => 'February',
-                                        '03' => 'March',
-                                        '04' => 'April',
-                                        '05' => 'May',
-                                        '06' => 'June',
-                                        '07' => 'July',
-                                        '08' => 'August',
-                                        '09' => 'September',
-                                        '10' => 'October',
-                                        '11' => 'November',
-                                        '12' => 'December',
-                                    ];
-                                @endphp
-
-                                <h3 class="font-semibold text-gray-300">Monthly Total Purchase (Techpoint)</h3>
-                                <p class="text-sm text-gray-400">Total purchase for {{ $months[date('m')] }}</p>
-                            </div>
-                            <div class="text-right">
-                                <p class="font-bold" style="font-size: 20px;">£ {{ $techpoint_daily_total }}</p>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="lg:col-span-2 space-y-6">
-                        <!-- Monthly Total -->
-                        <div
-                            class="bg-gray-900 p-6 rounded-lg border border-gray-700 flex justify-between items-center">
-                            <div>
-
-                                @php
-                                    $months = [
-                                        '01' => 'January',
-                                        '02' => 'February',
-                                        '03' => 'March',
-                                        '04' => 'April',
-                                        '05' => 'May',
-                                        '06' => 'June',
-                                        '07' => 'July',
-                                        '08' => 'August',
-                                        '09' => 'September',
-                                        '10' => 'October',
-                                        '11' => 'November',
-                                        '12' => 'December',
-                                    ];
-                                @endphp
-
-                                <h3 class="font-semibold text-gray-300">Monthly Total Purchase (Restaurant)</h3>
-                                <p class="text-sm text-gray-400">Total purchase for {{ $months[date('m')] }}</p>
-                            </div>
-                            <div class="text-right">
-                                <p class="font-bold" style="font-size: 20px;">£ {{ $restaurant_daily_total }}</p>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="lg:col-span-2 space-y-6">
-                        <!-- Monthly Total -->
-                        <div
-                            class="bg-gray-900 p-6 rounded-lg border border-gray-700 flex justify-between items-center">
-                            <div>
-
-                                @php
-                                    $months = [
-                                        '01' => 'January',
-                                        '02' => 'February',
-                                        '03' => 'March',
-                                        '04' => 'April',
-                                        '05' => 'May',
-                                        '06' => 'June',
-                                        '07' => 'July',
-                                        '08' => 'August',
-                                        '09' => 'September',
-                                        '10' => 'October',
-                                        '11' => 'November',
-                                        '12' => 'December',
-                                    ];
-                                @endphp
-
-                                <h3 class="font-semibold text-gray-300">Monthly Total Purchase (TikTech-Hornchurch)</h3>
-                                <p class="text-sm text-gray-400">Total purchase for {{ $months[date('m')] }}</p>
-                            </div>
-                            <div class="text-right">
-                                <p class="font-bold" style="font-size: 20px;">£ {{ $hornchurch_daily_total }}</p>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="lg:col-span-2 space-y-6">
-                        <!-- Monthly Total -->
-                        <div
-                            class="bg-gray-900 p-6 rounded-lg border border-gray-700 flex justify-between items-center">
-                            <div>
-
-                                @php
-                                    $months = [
-                                        '01' => 'January',
-                                        '02' => 'February',
-                                        '03' => 'March',
-                                        '04' => 'April',
-                                        '05' => 'May',
-                                        '06' => 'June',
-                                        '07' => 'July',
-                                        '08' => 'August',
-                                        '09' => 'September',
-                                        '10' => 'October',
-                                        '11' => 'November',
-                                        '12' => 'December',
-                                    ];
-                                @endphp
-
-                                <h3 class="font-semibold text-gray-300">Monthly Total Purchase (TikTech-Upminister)</h3>
-                                <p class="text-sm text-gray-400">Total purchase for {{ $months[date('m')] }}</p>
-                            </div>
-                            <div class="text-right">
-                                <p class="font-bold" style="font-size: 20px;">£ {{ $upminister_daily_total }}</p>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="lg:col-span-2 space-y-6">
-                        <!-- Monthly Total -->
-                        <div
-                            class="bg-gray-900 p-6 rounded-lg border border-gray-700 flex justify-between items-center">
-                            <div>
-
-                                @php
-                                    $months = [
-                                        '01' => 'January',
-                                        '02' => 'February',
-                                        '03' => 'March',
-                                        '04' => 'April',
-                                        '05' => 'May',
-                                        '06' => 'June',
-                                        '07' => 'July',
-                                        '08' => 'August',
-                                        '09' => 'September',
-                                        '10' => 'October',
-                                        '11' => 'November',
-                                        '12' => 'December',
-                                    ];
-                                @endphp
-
-                                <h3 class="font-semibold text-gray-300">Monthly Total Purchase (TikTech-Billericay)</h3>
-                                <p class="text-sm text-gray-400">Total purchase for {{ $months[date('m')] }}</p>
-                            </div>
-                            <div class="text-right">
-                                <p class="font-bold" style="font-size: 20px;">£ {{ $billericay_daily_total }}</p>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
                 <div class="mt-3 lg:col-span-2 space-y-6">
                     <!-- Download Monthly Report -->
                     <div class="bg-gray-900 p-6 rounded-lg border border-gray-700">
                         <h2 class="text-lg font-semibold">Download Monthly Report</h2>
                         <p class="text-sm text-gray-400 mt-1 mb-4">Select a year and month to export sales data to
                             a CSV file.</p>
-
-
                         <form action="{{ route('purchase.report.download') }}" method="GET">
                             <div class="grid grid-cols-2 gap-4 mb-4">
                                 <div>
@@ -267,12 +122,6 @@
                                         class="text-sm font-medium text-gray-300">Company</label>
                                     <select id="download-monthly-company" name="company"
                                         class="mt-1 block w-full bg-gray-800 border-gray-700 rounded-md shadow-sm py-2 px-3 text-base focus:outline-none focus:ring-purple-500 focus:border-purple-500">
-
-                                        @php
-
-                                            $companies = ['Techpoint', 'Restaurant', 'TikTech'];
-
-                                        @endphp
 
                                         @foreach ($companies as $key => $company)
                                             <option value="{{ $company }}">
@@ -288,11 +137,6 @@
                                     <select id="download-monthly-year" name="year"
                                         class="mt-1 block w-full bg-gray-800 border-gray-700 rounded-md shadow-sm py-2 px-3 text-base focus:outline-none focus:ring-purple-500 focus:border-purple-500">
 
-                                        @php
-
-                                            $branches = ['Hornchurch', 'Upminister', 'Billericay'];
-
-                                        @endphp
                                         <option value="">
                                             Select Branch
                                         </option>
@@ -317,8 +161,7 @@
                                         @endphp
 
                                         @foreach ($years as $key => $year)
-                                            <option value="{{ $year }}"
-                                                {{ $year == date('Y') ? 'selected' : '' }}>
+                                            <option value="{{ $year }}" {{ $year == date('Y') ? 'selected' : '' }}>
                                                 {{ $year }}
                                             </option>
                                         @endforeach
@@ -350,6 +193,33 @@
                         </form>
                     </div>
                 </div>
+                <br>
+                <hr>
+                <div class="lg:col-span-2 space-y-6 mt-5">
+                    @foreach($totals as $company => $branches)
+                        <!-- Company Card -->
+                        <div class="bg-gray-900 p-6 rounded-lg border border-gray-700">
+                            <div class="flex justify-between items-center">
+                                <div>
+                                    <h3 class="font-semibold text-gray-300">Total Purchase ({{ $company }})</h3>
+                                    <p class="text-sm text-gray-400">Monthly breakdown for {{ $months[date('m')] }}</p>
+                                </div>
+                            </div>
+
+                            <!-- Branches -->
+                            <div class="mt-4 space-y-2">
+                                @foreach($branches as $branch => $total)
+                                    <div class="flex justify-between items-center bg-gray-800 p-2 rounded">
+                                        <span class="text-gray-300">{{ $branch }}</span>
+                                        <span class="font-bold text-gray-100">£ {{ number_format($total, 2) }}</span>
+                                    </div>
+                                @endforeach
+                            </div>
+                        </div>
+                    @endforeach
+                </div>
+
+
             </div>
         </div>
     </div>
@@ -708,17 +578,17 @@
             // Populate the "database" with initial data if it's empty
             if (salesData.length === 0) {
                 salesData = [{
-                        id: 1,
-                        date: '2025-09-09',
-                        cash: 250.00,
-                        techpoint: 125.50
-                    },
-                    {
-                        id: 2,
-                        date: '2025-09-08',
-                        cash: 180.25,
-                        techpoint: 90.00
-                    },
+                    id: 1,
+                    date: '2025-09-09',
+                    cash: 250.00,
+                    techpoint: 125.50
+                },
+                {
+                    id: 2,
+                    date: '2025-09-08',
+                    cash: 180.25,
+                    techpoint: 90.00
+                },
                 ];
                 nextId = 3;
             }

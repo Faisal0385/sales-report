@@ -16,13 +16,6 @@ class SalesController extends Controller
         $company = Auth::user()->company;
         $branch = Auth::user()->branch;
 
-        // $last_month = (int) date('m') - 1;
-        // $last_month = Sales::where('month', '=', $last_month)->where('company', '=', $company)->where('branch', '=', $branch)->sum('daily_total');
-        // $target = $last_month + (($last_month * 15) / 100);
-        // dd($daily_total);
-        // dd($last_year_this_month + (($last_year_this_month * 15) / 100));
-
-
         $this_month = (int) date('m');
         $last_year = (int) date('Y') - 1;
         $last_year_this_month = Sales::where('month', '=', $this_month)->where('year', '=', $last_year)->where('company', '=', $company)->where('branch', '=', $branch)->sum('daily_total');

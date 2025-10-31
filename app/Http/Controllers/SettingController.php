@@ -108,4 +108,25 @@ class SettingController extends Controller
         // ✅ Redirect back with success message
         return redirect()->back()->with('success', 'User deleted successfully!');
     }
+
+
+
+    public function changePassword(Request $request, $id)
+    {
+        // ✅ Validate input
+        $request->validate([
+            'password' => 'required|string|min:8|confirmed', // 'confirmed' checks password_confirmation
+        ]);
+
+        // ✅ Find the user
+        $user = User::findOrFail($id);
+
+        // ✅ Update password
+        $user->update([
+            'password' => Hash::make($request->password),
+        ]);
+
+        // ✅ Redirect with success message
+        return redirect()->back()->with('success', 'Password changed successfully!');
+    }
 }

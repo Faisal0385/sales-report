@@ -157,6 +157,56 @@
                     </form>
                 </div>
             </div>
+
+
+            <div
+                class="bg-gray-800 border-b border-gray-700 rounded-t-lg p-4 flex justify-between items-center mb-6 mt-6">
+                <div class="flex items-center">
+                    <div>
+                        <h1 class="text-xl font-bold flex items-center">
+                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor"
+                                class="w-5 h-5 mr-2 text-purple-400">
+                                <path
+                                    d="M10.75 4.75a.75.75 0 00-1.5 0v4.5h-4.5a.75.75 0 000 1.5h4.5v4.5a.75.75 0 001.5 0v-4.5h4.5a.75.75 0 000-1.5h-4.5v-4.5z" />
+                            </svg>
+                            Change Password
+                        </h1>
+                        <p id="purchase-entry-subtitle" class="text-sm text-gray-400"></p>
+                    </div>
+                </div>
+            </div>
+
+
+            <!-- Main Content Grid -->
+            <div class="grid grid-cols-1 lg:grid-cols-1 gap-6">
+                <!-- Left Column: Form -->
+                <div class="lg:col-span-2 bg-gray-800 p-6 rounded-lg border border-gray-700">
+                    <form method="POST" action="{{ route('settings.change.password', $user->id) }}" class="space-y-4">
+                        @csrf
+                        <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                            <div>
+                                <label for="password" class="text-sm font-medium text-gray-300">Password</label>
+                                <input type="password" name="password" id="password" required
+                                    class="mt-1 block w-full bg-gray-700 border-gray-600 rounded-md shadow-sm py-2 px-3 text-base">
+                            </div>
+                            <div>
+                                <label for="confirm-password" class="text-sm font-medium text-gray-300">Confirm
+                                </label>
+                                <input type="password" name="password_confirmation" id="confirm-password"
+                                    class="mt-1 block w-full bg-gray-700 border-gray-600 rounded-md shadow-sm py-2 px-3 text-base">
+                            </div>
+                        </div>
+                        <br>
+                        <hr>
+
+                        <button type="submit"
+                            class="w-full flex justify-center py-3 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-purple-600 hover:bg-purple-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-purple-500 focus:ring-offset-gray-900 transition-colors">
+                            Change Password
+                        </button>
+                    </form>
+                </div>
+            </div>
+
         </div>
     </div>
 </body>

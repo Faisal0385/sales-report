@@ -23,7 +23,7 @@ class UserSeeder extends Seeder
             'phone' => null,
             'address' => 'UK',
             'role' => null,
-            'company' => 'techPoint',
+            'company' => 'techpoint',
             'branch' => null,
             'email_verified_at' => now(),
         ]);

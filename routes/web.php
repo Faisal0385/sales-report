@@ -8,14 +8,6 @@ use App\Http\Controllers\SettingController;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 
-// Route::get('/', function () {
-//     return view('client.company-page.company-page');
-// });
-
-// Route::get('/dashboard', function () {
-//     return view('dashboard');
-// })->middleware(['auth', 'verified'])->name('dashboard');
-
 Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
@@ -40,9 +32,6 @@ Route::get('/dashboard', function () {
 
 })->middleware(['auth', 'verified', 'check.status'])->name('dashboard');
 
-// Route::get('/sales', function () {
-//     return view('client.sales-page.sales-page');
-// })->middleware(['auth', 'verified'])->name('sales.page');
 
 ## Settings
 Route::get('/settings/page', [SettingController::class, 'index'])->middleware(['auth', 'check.status', 'verified'])->name('settings.page');
@@ -80,7 +69,12 @@ Route::get('/purchases/report', [PurchaseController::class, 'downloadReportCsv']
 
 Route::get('/purchase/details/{id}', [PurchaseController::class, 'view'])->middleware(['auth', 'check.status', 'verified'])->name('purchase.details.page');
 
-## Report
+
+
+## Admin Report View
+Route::post('/sales/report/view', [ReportController::class, 'salesReportView'])->name('sales.report.view');
+Route::post('/purchases/report/view', [ReportController::class, 'purchaseReportView'])->name('purchase.report.view');
+
 Route::get('/report/page', [ReportController::class, 'index'])->middleware(['auth', 'check.status', 'verified'])->name('report.page');
 Route::get('/sale/report/page', [ReportController::class, 'saleReport'])->middleware(['auth', 'check.status', 'verified'])->name('sale.report.page');
 Route::get('/purchase/report/page', [ReportController::class, 'puchaseReport'])->middleware(['auth', 'check.status', 'verified'])->name('purchase.report.page');

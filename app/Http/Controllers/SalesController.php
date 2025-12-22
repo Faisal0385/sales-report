@@ -3,7 +3,6 @@
 namespace App\Http\Controllers;
 
 use App\Models\Sales;
-use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
@@ -23,7 +22,6 @@ class SalesController extends Controller
 
         $daily_total = Sales::where('month', '=', date('m'))->where('year', '=', date('Y'))->where('company', '=', $company)->where('branch', '=', $branch)->sum('daily_total');
         $sales = Sales::where('month', '=', date('m'))->where('year', '=', date('Y'))->where('company', '=', $company)->where('branch', '=', $branch)->orderBy('id', 'desc')->paginate(10);
-
 
         return view('client.sales-page.sales-page', compact('sales', 'daily_total', 'new_target', 'last_year_this_month'));
     }
@@ -158,18 +156,33 @@ class SalesController extends Controller
     {
         $company = Auth::user()->company ?? null;
         $branch = Auth::user()->branch ?? null;
-
         $year = $request->input('year');
         $month = $request->input('month');
+        $last_year = $year - 1;
+
+        // ✅ Filter sales by year and month
+        $last_year_sales = Sales::whereYear('sales_date', $last_year)
+            ->whereMonth('sales_date', $month)
+            ->where('company', '=', $company)
+            ->where('branch', '=', $branch)
+            ->sum("daily_total");
+
+        // ✅ Filter sales by year and month
+        $this_year_sales = Sales::whereYear('sales_date', $year)
+            ->whereMonth('sales_date', $month)
+            ->where('company', '=', $company)
+            ->where('branch', '=', $branch)
+            ->sum("daily_total");
+
 
         // ✅ Filter sales by year and month
         $sales = Sales::whereYear('sales_date', $year)
             ->whereMonth('sales_date', $month)
             ->where('company', '=', $company)
             ->where('branch', '=', $branch)
-            ->paginate(8);
+            ->get();
 
-        return view('client.sales-page.sales-month-view', compact('sales', 'year', 'month'));
+        return view('client.sales-page.sales-month-view', compact('sales', 'last_year_sales', 'this_year_sales', 'year', 'month'));
     }
 
 
@@ -177,8 +190,21 @@ class SalesController extends Controller
     {
         $company = Auth::user()->company ?? null;
         $branch = Auth::user()->branch ?? null;
-
         $year = $request->input('year');
+        $last_year = $year - 1;
+
+        // ✅ Filter sales by year
+        $last_year_sales = DB::table('sales')
+            ->where('year', (string) $last_year)
+            ->where('company', '=', $company)
+            ->where('branch', '=', $branch)
+            ->sum('daily_total');
+
+        $this_year_sales = DB::table('sales')
+            ->where('year', (string) $year)
+            ->where('company', '=', $company)
+            ->where('branch', '=', $branch)
+            ->sum('daily_total');
 
         // ✅ Filter sales by year
         $sales = DB::table('sales')
@@ -189,7 +215,7 @@ class SalesController extends Controller
             ->groupBy('month')
             ->get();
 
-        return view('client.sales-page.sales-year-view', compact('sales', 'year'));
+        return view('client.sales-page.sales-year-view', compact('sales', 'year', 'last_year_sales', 'this_year_sales'));
     }
 
 

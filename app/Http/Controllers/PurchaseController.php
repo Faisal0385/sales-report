@@ -40,7 +40,8 @@ class PurchaseController extends Controller
             'customer_address' => 'nullable|string',
             'product_details' => 'required|string',
             'imei_number' => 'required|string|unique:purchases,imei_number',
-            'customer_id_proof' => 'nullable|image|mimes:jpeg,png,jpg,gif,webp|max:2048',
+            // 'customer_id_proof' => 'nullable|image|mimes:jpeg,png,jpg,gif,webp|max:1048576',
+            'customer_id_proof' => 'nullable|mimes:jpeg,png,jpg,gif,webp,pdf|max:1048576',
             'captured_photo' => 'nullable|string',
             'payment_method' => 'required|in:cash,card,bank_transfer,other',
             'purchase_amount' => 'required|numeric|min:1',
@@ -50,30 +51,6 @@ class PurchaseController extends Controller
             'bank_transfer_account' => 'nullable|string|max:255',
             'bank_transfer_sort_code' => 'nullable|string|max:255',
         ]);
-
-
-        // ✅ Handle file upload if exists
-        // if ($request->hasFile('customer_id_proof')) {
-        //     $validated['customer_id_proof'] = $request->file('customer_id_proof')
-        //         ->store('id_proofs', 'public');
-        // }
-
-        // if ($request->captured_photo) {
-        //     // Get base64 string
-        //     $image = $request->captured_photo;
-
-        //     // Remove base64 prefix
-        //     $image = str_replace('data:image/png;base64,', '', $image);
-        //     $image = str_replace(' ', '+', $image);
-
-        //     // Decode and save
-        //     $imageName = time() . '.png';
-        //     Storage::disk('public')->put('captured_photo/' . $imageName, base64_decode($image));
-
-        //     // Store path in $validated
-        //     $validated['captured_photo'] = 'captured_photo/' . $imageName;
-        //     // dd($validated['captured_photo']);
-        // }
 
         // ✅ Handle NID upload
         if ($request->hasFile('customer_id_proof')) {
@@ -205,8 +182,6 @@ class PurchaseController extends Controller
 
         return response()->stream($callback, 200, $headers);
     }
-
-
     public function downloadReportCsv(Request $request)
     {
         $company = $request->input('company');
@@ -279,18 +254,35 @@ class PurchaseController extends Controller
     {
         $company = Auth::user()->company ?? null;
         $branch = Auth::user()->branch ?? null;
-
         $year = $request->input('year');
         $month = $request->input('month');
 
-        // ✅ Filter sales by year and month
+        $last_year = $year - 1;
+
+        // ✅ Filter purchase by year and month
+        $last_year_purchase = Purchase::whereYear('purchase_date', $last_year)
+            ->whereMonth('purchase_date', $month)
+            ->where('company', '=', $company)
+            ->where('branch', '=', $branch)
+            ->sum("purchase_amount");
+
+
+        // ✅ Filter purchase by year and month
+        $this_year_purchase = Purchase::whereYear('purchase_date', $year)
+            ->whereMonth('purchase_date', $month)
+            ->where('company', '=', $company)
+            ->where('branch', '=', $branch)
+            ->sum("purchase_amount");
+
+
+        // ✅ Filter purchase by year and month
         $purchases = Purchase::whereYear('purchase_date', $year)
             ->whereMonth('purchase_date', $month)
             ->where('company', '=', $company)
             ->where('branch', '=', $branch)
             ->paginate(8);
 
-        return view('client.purchase-entry.purchase-month-view', compact('purchases', 'year', 'month'));
+        return view('client.purchase-entry.purchase-month-view', compact('purchases', 'year', 'month', 'last_year_purchase', 'this_year_purchase'));
     }
 
 
@@ -298,8 +290,22 @@ class PurchaseController extends Controller
     {
         $company = Auth::user()->company ?? null;
         $branch = Auth::user()->branch ?? null;
-
         $year = $request->input('year');
+        $last_year = $year - 1;
+
+        // ✅ Filter purchases by year
+        $last_year_purchase = DB::table('purchases')
+            ->where('year', (string) $last_year)
+            ->where('company', '=', $company)
+            ->where('branch', '=', $branch)
+            ->sum('purchase_amount');
+
+        $this_year_purchase = DB::table('purchases')
+            ->where('year', (string) $year)
+            ->where('company', '=', $company)
+            ->where('branch', '=', $branch)
+            ->sum('purchase_amount');
+
 
         // ✅ Filter sales by year
         $sales = DB::table('purchases')
@@ -310,7 +316,7 @@ class PurchaseController extends Controller
             ->groupBy('month')
             ->get();
 
-        return view('client.purchase-entry.purchase-year-view', compact('sales', 'year'));
+        return view('client.purchase-entry.purchase-year-view', compact('sales', 'year', 'last_year_purchase', 'this_year_purchase'));
     }
 
 

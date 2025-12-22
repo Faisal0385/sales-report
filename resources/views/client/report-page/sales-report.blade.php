@@ -62,7 +62,7 @@
                                 d="M15 3a.5.5 0 01.5.5v1.5a.5.5 0 01-1 0V4a.5.5 0 01.5-.5zM6 3a.5.5 0 01.5.5v1.5a.5.5 0 01-1 0V4a.5.5 0 01.5-.5zm3.5 11.5a.5.5 0 00-1 0V16a.5.5 0 00.5.5h1.5a.5.5 0 000-1H10v-1.5a.5.5 0 00-.5-.5z" />
                         </svg>
                     </div>
-                    <h1 class="text-xl font-bold">Sales Report</h1>
+                    <h1 class="text-xl font-bold">All Shop's Sales Report</h1>
                 </div>
             </div>
 
@@ -117,7 +117,8 @@
                         <p class="text-sm text-gray-400 mt-1 mb-4">Select a year and month to export sales data to
                             a CSV file.</p>
 
-                        <form action="{{ route('sales.report.download') }}" method="GET">
+                        <form action="{{ route('sales.report.view') }}" method="POST">
+                            @csrf
                             <div class="grid grid-cols-2 gap-4 mb-4">
                                 <div>
                                     <label for="download-monthly-company"

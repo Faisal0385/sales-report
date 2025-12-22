@@ -36,6 +36,25 @@
     </style>
 </head>
 
+@php
+    // 🗓️ Predefined month order
+    $monthOrder = [
+        "01" => 'January',
+        "02" => 'February',
+        "03" => 'March',
+        "04" => 'April',
+        "05" => 'May',
+        "06" => 'June',
+        "07" => 'July',
+        "08" => 'August',
+        "09" => 'September',
+        "10" => 'October',
+        "11" => 'November',
+        "12" => 'December'
+    ];
+@endphp
+
+
 <body class="bg-gray-900 text-white flex items-center justify-center min-h-screen">
 
     <div class="w-full max-w-5xl p-4">
@@ -62,28 +81,13 @@
                                 d="M15 3a.5.5 0 01.5.5v1.5a.5.5 0 01-1 0V4a.5.5 0 01.5-.5zM6 3a.5.5 0 01.5.5v1.5a.5.5 0 01-1 0V4a.5.5 0 01.5-.5zm3.5 11.5a.5.5 0 00-1 0V16a.5.5 0 00.5.5h1.5a.5.5 0 000-1H10v-1.5a.5.5 0 00-.5-.5z" />
                         </svg>
                     </div>
-                    <h1 class="text-xl font-bold">{{ Auth::user()->company ?? '' }} - Sales Report</h1>
+                    <h1 class="text-xl font-bold">{{ ucfirst(Auth::user()->company) ?? '' }} - Sales Report</h1>
+                </div>
+                <div>
+                    <h5>{{ $year - 1 }} - £ {{ $last_year_sales }}</h5>
+                    <h5>{{ $year }} - £ {{ $this_year_sales }}</h5>
                 </div>
             </div>
-
-            @php
-                // 🗓️ Predefined month order
-                $monthOrder = [
-                    "01" => 'January',
-                    "02" => 'February',
-                    "03" => 'March',
-                    "04" => 'April',
-                    "05" => 'May',
-                    "06" => 'June',
-                    "07" => 'July',
-                    "08" => 'August',
-                    "09" => 'September',
-                    "10" => 'October',
-                    "11" => 'November',
-                    "12" => 'December'
-                ];
-            @endphp
-
 
             <!-- Main Content Area -->
             <div class="p-6 bg-gray-800 rounded-b-lg">

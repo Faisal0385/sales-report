@@ -62,7 +62,7 @@
                                 d="M15 3a.5.5 0 01.5.5v1.5a.5.5 0 01-1 0V4a.5.5 0 01.5-.5zM6 3a.5.5 0 01.5.5v1.5a.5.5 0 01-1 0V4a.5.5 0 01.5-.5zm3.5 11.5a.5.5 0 00-1 0V16a.5.5 0 00.5.5h1.5a.5.5 0 000-1H10v-1.5a.5.5 0 00-.5-.5z" />
                         </svg>
                     </div>
-                    <h1 class="text-xl font-bold">Purchase Report</h1>
+                    <h1 class="text-xl font-bold">All Shop's Purchase Report</h1>
                 </div>
             </div>
 
@@ -109,6 +109,7 @@
             @endphp
             <!-- Main Content Area -->
             <div class="p-6 bg-gray-800 rounded-b-lg">
+
                 <div class="mt-3 lg:col-span-2 space-y-6">
                     <!-- Download Monthly Report -->
                     <div class="bg-gray-900 p-6 rounded-lg border border-gray-700">
@@ -134,7 +135,7 @@
                                 <div>
                                     <label for="download-monthly-year"
                                         class="text-sm font-medium text-gray-300">Branch</label>
-                                    <select id="download-monthly-year" name="year"
+                                    <select id="download-monthly-year" name="branch"
                                         class="mt-1 block w-full bg-gray-800 border-gray-700 rounded-md shadow-sm py-2 px-3 text-base focus:outline-none focus:ring-purple-500 focus:border-purple-500">
 
                                         <option value="">
@@ -218,7 +219,6 @@
                         </div>
                     @endforeach
                 </div>
-
 
             </div>
         </div>

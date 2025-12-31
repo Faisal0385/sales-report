@@ -182,58 +182,46 @@ class PurchaseController extends Controller
 
         return response()->stream($callback, 200, $headers);
     }
+
+    
     public function downloadReportCsv(Request $request)
     {
         $company = $request->input('company');
         $branch = $request->input('branch');
-
         $year = $request->input('year');
         $month = $request->input('month');
 
-        // ✅ Filter purchases by year and month
-        $purchases = Purchase::whereYear('purchase_date', $year)
-            ->whereMonth('purchase_date', $month)
-            ->where('company', '=', $company)
-            ->where('branch', '=', $branch)
-            ->get();
+        // ✅ Get total purchase amount
+        $totalAmount = Purchase::where('year', $year)
+            ->where('month', $month)
+            ->where('company', $company)
+            ->where('branch', $branch)
+            ->sum('purchase_amount');
 
         // ✅ CSV file name
         $fileName = "purchases_{$year}_{$month}.csv";
 
-        // ✅ Create CSV headers
+        // ✅ CSV headers
         $headers = [
             'Content-Type' => 'text/csv',
             'Content-Disposition' => "attachment; filename=\"$fileName\"",
         ];
 
-        // ✅ Stream CSV response
-        $callback = function () use ($purchases) {
+        // ✅ Stream CSV
+        $callback = function () use ($company, $branch, $year, $month, $totalAmount) {
             $handle = fopen('php://output', 'w');
 
-            // Add header row
-            fputcsv($handle, ['Purchase Date', 'Company', 'Branch', 'Customer Name', 'Phone', 'Email', 'Address', 'IMEI Number', 'Category', 'Sub Category', 'Product Details', 'Payment Method', 'Bank Transfer Name', 'Bank Transfer Account', 'Bank Transfer Sort Code', 'Total Amount']);
+            // Header row
+            fputcsv($handle, ['Company', 'Branch', 'Year', 'Month', 'Total Amount']);
 
-            // Add data rows
-            foreach ($purchases as $purchase) {
-                fputcsv($handle, [
-                    $purchase->purchase_date,
-                    $purchase->company,
-                    $purchase->branch,
-                    $purchase->customer_name,
-                    $purchase->phone_number,
-                    $purchase->email,
-                    $purchase->customer_address,
-                    $purchase->imei_number,
-                    $purchase->category,
-                    $purchase->sub_category,
-                    $purchase->product_details,
-                    $purchase->purchase_amount,
-                    $purchase->bank_transfer_name,
-                    $purchase->bank_transfer_account,
-                    $purchase->bank_transfer_sort_code,
-                    $purchase->purchase_amount,
-                ]);
-            }
+            // Data row
+            fputcsv($handle, [
+                $company,
+                $branch,
+                $year,
+                $month,
+                $totalAmount,
+            ]);
 
             fclose($handle);
         };

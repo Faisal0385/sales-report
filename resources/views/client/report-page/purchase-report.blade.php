@@ -116,7 +116,7 @@
                         <h2 class="text-lg font-semibold">Download Monthly Report</h2>
                         <p class="text-sm text-gray-400 mt-1 mb-4">Select a year and month to export sales data to
                             a CSV file.</p>
-                        <form action="{{ route('purchase.report.download') }}" method="GET">
+                        <form action="{{ route('purchase.report.view') }}" method="GET">
                             <div class="grid grid-cols-2 gap-4 mb-4">
                                 <div>
                                     <label for="download-monthly-company"

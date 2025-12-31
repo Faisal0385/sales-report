@@ -44,7 +44,7 @@ class ReportController extends Controller
             ->where('branch', '=', $branch)
             ->sum("daily_total");
 
-        return view('client.report-page.sales-report-view', compact('sale_total', 'last_year_sales', 'this_year_sales', 'year', 'month', 'company','branch'));
+        return view('client.report-page.sales-report-view', compact('sale_total', 'last_year_sales', 'this_year_sales', 'year', 'month', 'company', 'branch'));
 
     }
 
@@ -104,4 +104,38 @@ class ReportController extends Controller
             'totals'
         ));
     }
+
+    public function purchaseReportView(Request $request)
+    {
+        $company = $request->input('company');
+        $branch = $request->input('branch');
+        $year = $request->input('year');
+        $month = $request->input('month');
+        $last_year = $year - 1;
+
+        // ✅ Filter sales by year and month
+        $last_year_sales = Purchase::whereYear('purchase_date', $last_year)
+            ->whereMonth('purchase_date', $month)
+            ->where('company', '=', $company)
+            ->where('branch', '=', $branch)
+            ->sum("purchase_amount");
+
+        // ✅ Filter sales by year and month
+        $this_year_sales = Purchase::whereYear('purchase_date', $year)
+            ->whereMonth('purchase_date', $month)
+            ->where('company', '=', $company)
+            ->where('branch', '=', $branch)
+            ->sum("purchase_amount");
+
+
+        $purchase_total = Purchase::whereYear('purchase_date', $year)
+            ->whereMonth('purchase_date', $month)
+            ->where('company', '=', $company)
+            ->where('branch', '=', $branch)
+            ->sum("purchase_amount");
+
+        return view('client.report-page.purchase-report-view', compact('purchase_total', 'last_year_sales', 'this_year_sales', 'year', 'month', 'company', 'branch'));
+
+    }
+
 }

@@ -62,7 +62,7 @@
                                 d="M15 3a.5.5 0 01.5.5v1.5a.5.5 0 01-1 0V4a.5.5 0 01.5-.5zM6 3a.5.5 0 01.5.5v1.5a.5.5 0 01-1 0V4a.5.5 0 01.5-.5zm3.5 11.5a.5.5 0 00-1 0V16a.5.5 0 00.5.5h1.5a.5.5 0 000-1H10v-1.5a.5.5 0 00-.5-.5z" />
                         </svg>
                     </div>
-                    <h1 class="text-xl font-bold">Sales Report of {{ ucfirst($company) }}</h1>
+                    <h1 class="text-xl font-bold">Sales Report of {{ ucfirst($company) }} - {{ ucfirst($branch) ?? null }}</h1>
                 </div>
             </div>
 

@@ -73,7 +73,7 @@ Route::get('/purchase/details/{id}', [PurchaseController::class, 'view'])->middl
 
 ## Admin Report View
 Route::post('/sales/report/view', [ReportController::class, 'salesReportView'])->name('sales.report.view');
-Route::post('/purchases/report/view', [ReportController::class, 'purchaseReportView'])->name('purchase.report.view');
+Route::get('/purchases/report/view', [ReportController::class, 'purchaseReportView'])->name('purchase.report.view');
 
 Route::get('/report/page', [ReportController::class, 'index'])->middleware(['auth', 'check.status', 'verified'])->name('report.page');
 Route::get('/sale/report/page', [ReportController::class, 'saleReport'])->middleware(['auth', 'check.status', 'verified'])->name('sale.report.page');

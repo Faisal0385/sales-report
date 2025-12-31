@@ -102,18 +102,17 @@ class SalesController extends Controller
 
     public function downloadCsv(Request $request)
     {
-        $company = Auth::user()->company ?? null;
-        $branch = Auth::user()->branch ?? null;
-
+        $company = $request->input('company');
+        $branch = $request->input('branch');
         $year = $request->input('year');
         $month = $request->input('month');
 
         // ✅ Filter sales by year and month
-        $sales = Sales::whereYear('sales_date', $year)
+        $totalAmount = Sales::whereYear('sales_date', $year)
             ->whereMonth('sales_date', $month)
             ->where('company', '=', $company)
             ->where('branch', '=', $branch)
-            ->get();
+            ->sum("daily_total");
 
         // ✅ CSV file name
         $fileName = "sales_{$year}_{$month}.csv";
@@ -125,29 +124,24 @@ class SalesController extends Controller
         ];
 
         // ✅ Stream CSV response
-        $callback = function () use ($sales) {
+        $callback = function () use ($company, $branch, $year, $month, $totalAmount) {
             $handle = fopen('php://output', 'w');
 
-            // Add header row
-            fputcsv($handle, ['Sales Date', 'Company', 'Branch', 'Cash Sales', 'Card Sales', 'Techpoint Sales', 'TikTech Sales', 'PrintExpress Sales', 'Daily Total']);
+            // Header row
+            fputcsv($handle, ['Company', 'Branch', 'Year', 'Month', 'Total Amount']);
 
-            // Add data rows
-            foreach ($sales as $purchase) {
-                fputcsv($handle, [
-                    $purchase->sales_date,
-                    $purchase->company,
-                    $purchase->branch,
-                    $purchase->cash_sales,
-                    $purchase->card_sales,
-                    $purchase->techpoint_sales,
-                    $purchase->tiktech_sales,
-                    $purchase->print_express_sales,
-                    $purchase->daily_total,
-                ]);
-            }
+            // Data row
+            fputcsv($handle, [
+                $company,
+                $branch,
+                $year,
+                $month,
+                $totalAmount,
+            ]);
 
             fclose($handle);
         };
+
 
         return response()->stream($callback, 200, $headers);
     }

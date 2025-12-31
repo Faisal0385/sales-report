@@ -130,6 +130,8 @@
                     <form action="{{ route('sales.download') }}" method="GET">
                         <input type="hidden" name="year" value="{{ $year }}">
                         <input type="hidden" name="month" value="{{ $month }}">
+                        <input type="hidden" name="company" value="{{ $company }}">
+                        <input type="hidden" name="branch" value="{{ $branch }}">
                         <button type="submit"
                             class="w-full flex items-center justify-center py-3 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-purple-600 hover:bg-purple-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-purple-500 focus:ring-offset-gray-900 transition-colors">
                             <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-2" fill="none" viewBox="0 0 24 24"

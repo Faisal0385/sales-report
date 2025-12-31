@@ -44,7 +44,7 @@ class ReportController extends Controller
             ->where('branch', '=', $branch)
             ->sum("daily_total");
 
-        return view('client.report-page.sales-report-view', compact('sale_total', 'last_year_sales', 'this_year_sales', 'year', 'month', 'company'));
+        return view('client.report-page.sales-report-view', compact('sale_total', 'last_year_sales', 'this_year_sales', 'year', 'month', 'company','branch'));
 
     }
 
